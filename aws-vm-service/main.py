@@ -5,6 +5,8 @@ import json
 import configparser
 import requests
 
+from Models.VMModel import VMModel
+
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
 instancetypeURL = config.get('MicroServiceURL', 'aws-instancetype')
@@ -42,16 +44,30 @@ def startVM(instanceId):
 
 @app.route('/vm/', methods=['POST'])
 def createVM():
-    response = client.run_instances(
-        InstanceType="String",
-        KeyName="String",
-        SecurityGroups=[
-            'string'
-        ],
-        DryRun=False,
-        MaxCount=1,
-        MinCount=1
-    )
+    #get the provided json body
+    content = request.get_json()
+
+    try:
+        vm = VMModel(content['InstanceType'], content['KeyName'])
+    except KeyError:
+        return make_response(jsonify(groupId = None))
+
+    for securitygroup in content['SecurityGroups']:
+        vm.addSecurityGroup(securitygroup)
+        response = client.run_instances(
+            InstanceType=vm.instanceType,
+            KeyName=vm.keyname,
+            SecurityGroups=vm.securiyGroups,
+            DryRun=False,
+            MaxCount=1,
+            MinCount=1
+        )
+        if response['Instances']:
+            instanceId = response['Instances'][0]['InstanceId']
+            return make_response(jsonify(instanceId=instanceId))
+    return make_response(jsonify(instanceId=None))
+
+    return Instances
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
