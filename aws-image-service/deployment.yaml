@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-image
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  aws-image
+  template:
+    metadata:
+      labels:
+        app:  aws-image
+    spec:
+      containers:
+      - name:  aws-image
+        image: aws-image:latest
+        env:
+        - name: accessKey
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: awsaccessKey
+        - name: secretKey
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: awssecretKey
+        ports:
+        - containerPort: 8080 #Expose containerport to the pod
+        livenessProbe: #Check that pod is ready
+          httpGet:
+            path: / #path to check
+            port: 8080
+          initialDelaySeconds: 30 #start checking after 30 seconds
+          periodSeconds: 30 #check every 30 seconds
+        readinessProbe: #Check that pod is healthy
+          httpGet:
+            path: / #path to check
+            port: 8080 #port to check
+          initialDelaySeconds: 15 #start checking after 15 seconds
+          periodSeconds: 3 #check every 3 seconds
