@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-instancetype
+  labels:
+    app: aws-instancetype
+spec:
+  ports:
+  - port: 8080
+    name: aws-instancetype
+    nodePort: 32000
+  type: NodePort
+  selector:
+    app: aws-instancetype
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-securitygroup
+  labels:
+    app: aws-securitygroup
+spec:
+  ports:
+  - port: 8080
+    name: aws-securitygroup
+    nodePort: 32100
+  type: NodePort
+  selector:
+    app: aws-securitygroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-keypair
+  labels:
+    app: aws-keypair
+spec:
+  ports:
+  - port: 8080
+    name: aws-keypair
+    nodePort: 32200
+  type: NodePort
+  selector:
+    app: aws-keypair
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-vm
+  labels:
+    app: aws-vm
+spec:
+  ports:
+  - port: 8080
+    name: aws-vm
+    nodePort: 32300
+  type: NodePort
+  selector:
+    app: aws-vm
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: movie-info-service
+#  labels:
+#    app: movie-info
+#spec:
+#  clusterIP: "10.96.0.2" To Specify the ip address of the service
+#  ports:
+#  - port: 8082
+#    name: movie-info
+#  type: ClusterIP
+#  selector:
+#    app: movie-info

@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+metadata:
+  name: aws-keypair-service
+build:
+  artifacts:
+  - image: aws-keypair
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yaml

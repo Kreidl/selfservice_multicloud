@@ -1,0 +1,4 @@
+[MicroServiceURL]
+aws-instancetype = http://aws-instancetype:8080
+aws-keypair = http://aws-keypair:8080
+aws-securitygroup = http://aws-securitygroup:8080

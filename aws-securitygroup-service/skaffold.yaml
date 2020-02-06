@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+metadata:
+  name: aws-securitygroup
+build:
+  artifacts:
+  - image: aws-securitygroup
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yaml

@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "d4950697-60b6-4c83-9135-35cde8ced3ce",
+		"name": "SelfService_MultiCloud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AWS",
+			"item": [
+				{
+					"name": "AWSTypes",
+					"item": [
+						{
+							"name": "Get Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32000/awstypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"awstypes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "AWSSecurityGroup",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"groupName\" :\"test2\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-038b29af8bdb5f634\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n\t\t\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32100/securityGroup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32100",
+									"path": [
+										"securityGroup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get SecurityGroup",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32100/securityGroup/default",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32100",
+									"path": [
+										"securityGroup",
+										"default"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "AWSKeypair",
+					"item": [
+						{
+							"name": "Get Key Pair",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32200/keypair/test",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32200",
+									"path": [
+										"keypair",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"keypairName\" :\"test\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32200/keypair",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32200",
+									"path": [
+										"keypair"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "AWSVM",
+					"item": [
+						{
+							"name": "Get VM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/vm/idsflsdf",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"vm",
+										"idsflsdf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stop",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/vm/idsflsdf",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"vm",
+										"idsflsdf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start VM",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/vm/idsflsdf",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"vm",
+										"idsflsdf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VM",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,12 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+metadata:
+  name: aws-instance-type-service
+build:
+  artifacts:
+  - image: aws-instancetype
+    jib: {}
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yaml
