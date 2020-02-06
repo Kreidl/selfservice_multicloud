@@ -12,6 +12,7 @@ config.read_file(open(r'config.txt'))
 instancetypeURL = config.get('MicroServiceURL', 'aws-instancetype')
 keypairURL = config.get('MicroServiceURL', 'aws-keypair')
 securitygroupURL = config.get('MicroServiceURL', 'aws-securitygroup')
+imageURL = config.get('MicroServiceURl', 'aws-image')
 
 #requests.get(instancetypeURL).text call Service
 client = boto3.client(

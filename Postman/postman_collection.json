@@ -246,7 +246,59 @@
 									"raw": "{\r\n\t\"InstanceType\" :\"test\",\r\n\t\"KeyName\" : \"Test\",\r\n\t\"SecurityGroups\" : [\r\n\t\t\"sg-123434\",\r\n\t\t\"sg-234234\"\r\n\t\t]\r\n}"
 								},
 								"url": {
-									"raw": ""
+									"raw": "localhost:8080/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "AWS Images",
+					"item": [
+						{
+							"name": "Get Images",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/images",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"images"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get own Images",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/ownImages",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"ownImages"
+									]
 								}
 							},
 							"response": []
