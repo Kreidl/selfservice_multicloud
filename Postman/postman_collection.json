@@ -302,6 +302,26 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Image By Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32300/images/ubuntu",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"images",
+										"ubuntu"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},

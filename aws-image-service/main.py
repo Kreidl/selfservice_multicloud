@@ -33,6 +33,19 @@ def getOwnImages():
     return make_response(jsonify(images=images['Images']))
 
 
+@app.route('/images/<imageName>', methods=['GET'])
+def getImageByName(imageName):
+    if imageName:
+        images = client.describe_images(
+            Filters=[
+                dict(Name='name', Values=[imageName+'*']),
+                dict(Name='owner-id', Values=['099720109477'])
+            ]
+        )
+        return make_response(jsonify(images=images['Images']))
+    return make_response(jsonify(images=None))
+
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
     app.run('0.0.0.0', port = 8080, threaded=True)
