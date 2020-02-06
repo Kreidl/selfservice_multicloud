@@ -17,14 +17,34 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32000/awstypes",
+									"raw": "http://localhost:32000/types",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32000",
 									"path": [
-										"awstypes"
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Types Filtered",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32000/types/0.5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"types",
+										"0.5"
 									]
 								}
 							},
@@ -221,6 +241,10 @@
 										"type": "text"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"InstanceType\" :\"test\",\r\n\t\"KeyName\" : \"Test\",\r\n\t\"SecurityGroups\" : [\r\n\t\t\"sg-123434\",\r\n\t\t\"sg-234234\"\r\n\t\t]\r\n}"
+								},
 								"url": {
 									"raw": ""
 								}
