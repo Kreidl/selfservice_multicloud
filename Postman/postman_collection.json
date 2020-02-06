@@ -171,6 +171,105 @@
 					"name": "AWSVM",
 					"item": [
 						{
+							"name": "Create VM",
+							"item": [
+								{
+									"name": "Create VM",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"imageId\": \"ubuntu\",\r\n\t\"InstanceType\" :\"test\",\r\n\t\"KeyName\" : \"Test\",\r\n\t\"SecurityGroups\" : [\r\n\t\t\"sg-123434\",\r\n\t\t\"sg-234234\"\r\n\t\t]\r\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/vm",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load Image",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"imageName\": \"ubuntu\"\r\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/vm/image",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"image"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load or Create KeyPair",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"keypair\": \"bla\"\r\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/vm/keypair",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"keypair"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
 							"name": "Get VM",
 							"request": {
 								"method": "GET",
@@ -225,34 +324,6 @@
 									"path": [
 										"vm",
 										"idsflsdf"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create VM",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\t\"InstanceType\" :\"test\",\r\n\t\"KeyName\" : \"Test\",\r\n\t\"SecurityGroups\" : [\r\n\t\t\"sg-123434\",\r\n\t\t\"sg-234234\"\r\n\t\t]\r\n}"
-								},
-								"url": {
-									"raw": "localhost:8080/vm",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"vm"
 									]
 								}
 							},
