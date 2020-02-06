@@ -12,7 +12,7 @@ config.read_file(open(r'config.txt'))
 instancetypeURL = config.get('MicroServiceURL', 'aws-instancetype')
 keypairURL = config.get('MicroServiceURL', 'aws-keypair')
 securitygroupURL = config.get('MicroServiceURL', 'aws-securitygroup')
-imageURL = config.get('MicroServiceURl', 'aws-image')
+imageURL = config.get('MicroServiceURL', 'aws-image')
 
 #requests.get(instancetypeURL).text call Service
 client = boto3.client(
@@ -47,14 +47,16 @@ def startVM(instanceId):
 def createVM():
     #get the provided json body
     content = request.get_json()
-
+    pass
+    '''
     try:
-        vm = VMModel(content['InstanceType'], content['KeyName'])
+        vm = VMModel(content['InstanceType'], content['KeyName'], imageId)
     except KeyError:
-        return make_response(jsonify(groupId = None))
+        return make_response(jsonify(instanceId = None))
 
     for securitygroup in content['SecurityGroups']:
         vm.addSecurityGroup(securitygroup)
+
         response = client.run_instances(
             InstanceType=vm.instanceType,
             KeyName=vm.keyname,
@@ -67,8 +69,48 @@ def createVM():
             instanceId = response['Instances'][0]['InstanceId']
             return make_response(jsonify(instanceId=instanceId))
     return make_response(jsonify(instanceId=None))
+    '''
 
-    return Instances
+@app.route('/vm/image', methods=['GET'])
+def loadImages():
+    content = request.get_json()
+
+    if content:
+        if "imageId" in content:
+            imageId = content['imageId']
+        elif "imageName" in content:
+            # call Image Service to Filter the latest created Image, if nothing found or other error return null on method
+            try:
+                imageId = json.loads(requests.get(imageURL + '/images/' + content['imageName']).text)
+            except Exception:
+                return make_response(jsonify(instanceId = None))
+        else:
+            return make_response(jsonify(instanceId=None))
+    else:
+        return make_response(jsonify(instanceId=None))
+
+    return make_response(jsonify(instanceId=imageId))
+
+
+@app.route('/vm/keypair', methods=['GET'])
+def loadOrCreateKeyPair():
+    content = request.get_json()
+
+    if content:
+        if "keypair" in content:
+            keypair = content['keypair']
+            # call keypair Service to Filter the latest created Image, if nothing found or other error return null on method
+            try:
+                keypairId = json.loads(requests.post(keypairURL + '/keypair', json={"keypairName" : keypair}).text)
+            except Exception:
+                return make_response(jsonify(keypairId=None))
+        else:
+            return make_response(jsonify(keypairId=None))
+    else:
+        return make_response(jsonify(keypairId=None))
+
+    return make_response(jsonify(keypairId))
+
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
