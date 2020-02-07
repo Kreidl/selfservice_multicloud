@@ -19,7 +19,7 @@ app = Flask(__name__)
 def index():
     return "welcome at the aws keypair service"
 
-@app.route('/keypair/', methods=['POST'])
+@app.route('/keypair', methods=['POST'])
 def createKeyPair():
     #get the provided json body
     content = request.get_json()

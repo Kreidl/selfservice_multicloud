@@ -22,7 +22,7 @@ app = Flask(__name__)
 def index():
     return "welcome at the aws security group service"
 
-@app.route('/securityGroup/', methods=['POST'])
+@app.route('/securityGroup', methods=['POST'])
 def createSecurityGroup():
     #get the provided json body
     content = request.get_json()
@@ -35,33 +35,33 @@ def createSecurityGroup():
 
     #check if the SecurityGroup not exists
     resp = json.loads(searchSecurityGroup(config.groupName).data)
-    if not resp['groupId']:
-        for authorization in content['authorizeConfiguration']:
-            config.addAuthorize(authorization)
+    if resp['groupId']:
+        return make_response(jsonify(groupId=resp['groupId']))
 
-        #create the securityGroup
-        createresult = client.create_security_group(
-            Description=config.groupDescription,
-            GroupName=config.groupName,
-            VpcId=config.vpcId,
-            DryRun=False
-        )
+    for authorization in content['authorizeConfiguration']:
+        config.addAuthorize(authorization)
 
-        if config.authorizeConfiguration:
-            #Create Ingress Permission on Group
-            for auth in config.authorizeConfiguration:
-                response = client.authorize_security_group_ingress(
-                    CidrIp=auth['ipaddress'],
-                    FromPort=auth['port'],
-                    GroupId=createresult['GroupId'],
-                    IpProtocol=auth['protocol'],
-                    ToPort=auth['port'],
-                    DryRun=False
-                )
+    #create the securityGroup
+    createresult = client.create_security_group(
+        Description=config.groupDescription,
+        GroupName=config.groupName,
+        VpcId=config.vpcId,
+        DryRun=False
+    )
 
-            return make_response(jsonify(groupId = createresult['GroupId']))
+    if config.authorizeConfiguration:
+        #Create Ingress Permission on Group
+        for auth in config.authorizeConfiguration:
+            response = client.authorize_security_group_ingress(
+                CidrIp=auth['ipaddress'],
+                FromPort=auth['port'],
+                GroupId=createresult['GroupId'],
+                IpProtocol=auth['protocol'],
+                ToPort=auth['port'],
+                DryRun=False
+            )
 
-    return make_response(jsonify(groupId = None))
+    return make_response(jsonify(groupId = createresult['GroupId']))
 
 
 @app.route('/securityGroup/<groupName>', methods=['GET'])

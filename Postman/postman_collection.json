@@ -71,7 +71,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"groupName\" :\"test2\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-038b29af8bdb5f634\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n\t\t\r\n}"
+									"raw": "{\r\n\t\"groupName\" :\"test2\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n\t\t\r\n}"
 								},
 								"url": {
 									"raw": "http://localhost:32100/securityGroup",
@@ -287,7 +287,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:32400/vm/types/0.5",
+											"raw": "localhost:32400/vm/types/1",
 											"host": [
 												"localhost"
 											],
@@ -295,7 +295,7 @@
 											"path": [
 												"vm",
 												"types",
-												"0.5"
+												"1"
 											]
 										}
 									},

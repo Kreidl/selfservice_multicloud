@@ -134,8 +134,11 @@ def loadOrCreateKeyPair():
     return make_response(jsonify(keypairId))
 
 
-@app.route('/vm/securityGroups', methods=['POST'])
+@app.route('/vm/securitygroup', methods=['POST'])
 def loadOrCreateSecurityGroup():
+    #/securityGroup/', methods=['POST']
+    #@app.route('/securityGroup/<groupName>', methods=['GET']
+    #securitygroupURL
     pass
 
 #Starts application if main.py is the main called file
