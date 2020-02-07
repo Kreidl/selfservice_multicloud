@@ -33,15 +33,63 @@ def index():
 
 @app.route('/vm/<instanceId>', methods=['GET'])
 def getVM(instanceId):
-    return "welcome at the aws vm service"
+    if instanceId:
+        try:
+            response = client.describe_instances(
+                InstanceIds=[
+                    instanceId,
+                ],
+                DryRun=False
+            )
 
-@app.route('/vm/<instanceId>', methods=['PATH'])
+            if response['Reservations']:
+                instance = response['Reservations'][0]['Instances']
+                return make_response(jsonify(instance=instance))
+        except Exception:
+            pass
+
+    return make_response(jsonify(instance=None))
+
+
+@app.route('/vm/<instanceId>', methods=['PATCH'])
 def stopVM(instanceId):
-    return "welcome at the aws vm service"
+    if instanceId:
+        try:
+            response = client.stop_instances(
+            InstanceIds=[
+                instanceId
+            ],
+            DryRun=False
+            )
+
+            state = response['StoppingInstances'][0]['CurrentState']['Name']
+            return make_response(jsonify(State=state))
+
+        except Exception:
+            pass
+
+    return make_response(jsonify(State=None))
 
 @app.route('/vm/<instanceId>', methods=['PUT'])
 def startVM(instanceId):
-    return "welcome at the aws vm service"
+    if instanceId:
+        try:
+            response = client.start_instances(
+                InstanceIds=[
+                     instanceId
+                ],
+                DryRun=False
+            )
+
+            state = response['StartingInstances'][0]['CurrentState']['Name']
+            return make_response(jsonify(State=state))
+
+        except Exception:
+            pass
+
+    return make_response(jsonify(State=None))
+
+
 
 @app.route('/vm/', methods=['POST'])
 def createVM():
@@ -52,7 +100,7 @@ def createVM():
         try:
             vm = VMModel(content['instanceType'], content['keyName'], content['imageId'])
         except KeyError:
-            return make_response(jsonify(instanceId = None))
+            return make_response(jsonify(instanceId=None))
 
         if content['securityGroups']:
             for securitygroup in content['securityGroups']:

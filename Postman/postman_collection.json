@@ -369,15 +369,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/vm/idsflsdf",
+									"raw": "http://localhost:32400/vm/i-0e0fe33dd957c1495",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "32300",
+									"port": "32400",
 									"path": [
 										"vm",
-										"idsflsdf"
+										"i-0e0fe33dd957c1495"
 									]
 								}
 							},
@@ -389,15 +389,15 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/vm/idsflsdf",
+									"raw": "http://localhost:32400/vm/i-0e0fe33dd957c1495",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "32300",
+									"port": "32400",
 									"path": [
 										"vm",
-										"idsflsdf"
+										"i-0e0fe33dd957c1495"
 									]
 								}
 							},
@@ -409,15 +409,15 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/vm/idsflsdf",
+									"raw": "http://localhost:32400/vm/i-0e0fe33dd957c1495",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "32300",
+									"port": "32400",
 									"path": [
 										"vm",
-										"idsflsdf"
+										"i-0e0fe33dd957c1495"
 									]
 								}
 							},
