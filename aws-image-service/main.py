@@ -27,7 +27,7 @@ def getAllImages():
 
 
 
-@app.route('/ownImages', methods=['GET'])
+@app.route('/images/own', methods=['GET'])
 def getOwnImages():
     images = client.describe_images(Owners=['self'])
     return make_response(jsonify(images=images['Images']))

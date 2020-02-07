@@ -361,14 +361,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/ownImages",
+									"raw": "http://localhost:32300/images/own",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32300",
 									"path": [
-										"ownImages"
+										"images",
+										"own"
 									]
 								}
 							},
