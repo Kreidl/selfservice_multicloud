@@ -8,8 +8,8 @@ spec:
   ports:
   - port: 8080
     name: aws-instancetype
-    nodePort: 32000
-  type: NodePort
+    #nodePort: 32000
+  type: ClusterIP
   selector:
     app: aws-instancetype
 ---
@@ -23,8 +23,8 @@ spec:
   ports:
   - port: 8080
     name: aws-securitygroup
-    nodePort: 32100
-  type: NodePort
+    #nodePort: 32100
+  type: ClusterIP
   selector:
     app: aws-securitygroup
 ---
@@ -38,8 +38,8 @@ spec:
   ports:
   - port: 8080
     name: aws-keypair
-    nodePort: 32200
-  type: NodePort
+    #nodePort: 32200
+  type: ClusterIP
   selector:
     app: aws-keypair
 ---
@@ -53,8 +53,8 @@ spec:
   ports:
     - port: 8080
       name: aws-image
-      nodePort: 32300
-  type: NodePort
+      #nodePort: 32300
+  type: ClusterIP
   selector:
     app: aws-image
 ---
