@@ -300,6 +300,64 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "LoadOrCreate SecurityGroup Authorization",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/vm/securitygroup",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"securitygroup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "LoadOrCreate SecurityGroup No Authorization",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"groupName\" :\"test\"\r\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/vm/securitygroup",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"securitygroup"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"protocolProfileBehavior": {},

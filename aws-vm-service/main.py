@@ -99,15 +99,11 @@ def loadInstanceType(maxMemory=None):
     if maxMemory:
         try:
             types = json.loads(requests.get(instancetypeURL + '/types/' + maxMemory).text)
-            print("Memory")
-            print(types)
         except Exception:
             return make_response(jsonify(types=[]))
     else:
         try:
             types = json.loads(requests.get(instancetypeURL + '/types').text)
-            print("Full")
-            print(types)
         except Exception:
             return make_response(jsonify(types=[]))
 
@@ -136,10 +132,17 @@ def loadOrCreateKeyPair():
 
 @app.route('/vm/securitygroup', methods=['POST'])
 def loadOrCreateSecurityGroup():
-    #/securityGroup/', methods=['POST']
-    #@app.route('/securityGroup/<groupName>', methods=['GET']
-    #securitygroupURL
-    pass
+    content = request.get_json()
+
+    if content and content['groupName']:
+        try:
+            groupId = json.loads(requests.post(securitygroupURL + '/securityGroup',json=content).text)
+            if groupId:
+                return make_response(jsonify(groupId))
+        except Exception:
+            pass
+
+    return make_response(jsonify(groupId=None))
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':

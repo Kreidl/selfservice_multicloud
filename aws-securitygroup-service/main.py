@@ -27,16 +27,18 @@ def createSecurityGroup():
     #get the provided json body
     content = request.get_json()
 
+    #check if the SecurityGroup not exists
+    resp = json.loads(searchSecurityGroup(content['groupName']).data)
+    if resp['groupId']:
+        return make_response(jsonify(groupId=resp['groupId']))
+
     try:
         config = SecurityConfiguration(content['groupName'], content['groupDescription'],
                                    content['vpcId'])
     except KeyError:
         return make_response(jsonify(groupId = None))
 
-    #check if the SecurityGroup not exists
-    resp = json.loads(searchSecurityGroup(config.groupName).data)
-    if resp['groupId']:
-        return make_response(jsonify(groupId=resp['groupId']))
+
 
     for authorization in content['authorizeConfiguration']:
         config.addAuthorize(authorization)
