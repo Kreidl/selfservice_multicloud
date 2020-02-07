@@ -47,29 +47,49 @@ def startVM(instanceId):
 def createVM():
     #get the provided json body
     content = request.get_json()
-    pass
-    '''
-    try:
-        vm = VMModel(content['InstanceType'], content['KeyName'], imageId)
-    except KeyError:
-        return make_response(jsonify(instanceId = None))
 
-    for securitygroup in content['SecurityGroups']:
-        vm.addSecurityGroup(securitygroup)
+    if content:
+        try:
+            vm = VMModel(content['instanceType'], content['keyName'], content['imageId'])
+        except KeyError:
+            return make_response(jsonify(instanceId = None))
 
-        response = client.run_instances(
-            InstanceType=vm.instanceType,
-            KeyName=vm.keyname,
-            SecurityGroups=vm.securiyGroups,
-            DryRun=False,
-            MaxCount=1,
-            MinCount=1
-        )
+        if content['securityGroups']:
+            for securitygroup in content['securityGroups']:
+                vm.addSecurityGroup(securitygroup)
+
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    SecurityGroupIds=vm.securiyGroups,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
+        else:
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
+
+
         if response['Instances']:
             instanceId = response['Instances'][0]['InstanceId']
             return make_response(jsonify(instanceId=instanceId))
+
+
     return make_response(jsonify(instanceId=None))
-    '''
 
 @app.route('/vm/image', methods=['GET'])
 def loadImages():

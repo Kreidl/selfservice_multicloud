@@ -186,7 +186,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n\t\"imageId\": \"ubuntu\",\r\n\t\"InstanceType\" :\"test\",\r\n\t\"KeyName\" : \"Test\",\r\n\t\"SecurityGroups\" : [\r\n\t\t\"sg-123434\",\r\n\t\t\"sg-234234\"\r\n\t\t]\r\n}"
+											"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-01e9f751b924376c0\",\r\n\t\t\"sg-0a169e71010a2b723\"\r\n\t\t]\r\n}"
 										},
 										"url": {
 											"raw": "localhost:32400/vm",
@@ -246,7 +246,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n\t\"keypair\": \"bla\"\r\n}"
+											"raw": "{\r\n\t\"keypair\": \"test\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:32400/vm/keypair",
