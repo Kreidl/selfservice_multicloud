@@ -28,3 +28,4 @@ hs_err_pid*
 
 /.metadata/
 
+/aws-vm-service/Models/__pycache__/
