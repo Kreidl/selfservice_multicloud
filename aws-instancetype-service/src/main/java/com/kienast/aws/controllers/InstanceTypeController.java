@@ -15,7 +15,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,8 @@ import com.kienast.aws.util.SortByMemory;
 @RestController
 @RequestMapping("/types")
 public class InstanceTypeController {
+	
+	 String path = "awsinstancetypes.json";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public AWSTypeList getTypes() {
@@ -38,7 +42,7 @@ public class InstanceTypeController {
         ObjectMapper mapper = new ObjectMapper();
         //Dont fail if there are unknown fields
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String path = "awsinstancetypes.json";
+       
         Path p = Paths.get(path);
         if(!checkIFExistsOnSameDay(p)) {
         	createFile();
@@ -47,6 +51,36 @@ public class InstanceTypeController {
 		List<AWSInstanceType> types;
 		try {
 			types = Arrays.asList(mapper.readValue(new File(path), AWSInstanceType[].class));
+			Collections.sort(types, new SortByMemory());
+			return new AWSTypeList(types);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/{maxMemory}",method = RequestMethod.GET)
+	public AWSTypeList getFilteredTypes(@PathVariable("maxMemory") float maxMemory) {
+		
+        ObjectMapper mapper = new ObjectMapper();
+        //Dont fail if there are unknown fields
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Path p = Paths.get(path);
+        if(!checkIFExistsOnSameDay(p)) {
+        	createFile();
+        }
+    	
+		List<AWSInstanceType> types;
+		try {
+			types = Arrays.asList(mapper.readValue(new File(path), AWSInstanceType[].class)).stream().filter(item -> item.getMemory() <= maxMemory).collect(Collectors.toList());
 			Collections.sort(types, new SortByMemory());
 			return new AWSTypeList(types);
 		} catch (JsonMappingException e) {
@@ -81,7 +115,7 @@ public class InstanceTypeController {
 		if(!Files.exists(p)) return false;
         try {
 			DateFormat df = new SimpleDateFormat("MM.dd.yyyy");
-			String fileDate = df.format(Files.readAttributes(p, BasicFileAttributes.class).creationTime().toMillis());
+			String fileDate = df.format(Files.readAttributes(p, BasicFileAttributes.class).lastModifiedTime().toMillis());
 			String currentDate = df.format(new Date(System.currentTimeMillis()));
 			
 			return Files.exists(p) && currentDate.equals(fileDate);

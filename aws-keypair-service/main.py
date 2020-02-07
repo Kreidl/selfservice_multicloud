@@ -19,14 +19,14 @@ app = Flask(__name__)
 def index():
     return "welcome at the aws keypair service"
 
-@app.route('/keypair/', methods=['POST'])
+@app.route('/keypair', methods=['POST'])
 def createKeyPair():
     #get the provided json body
     content = request.get_json()
     try:
         resp = json.loads(getKeyPair(content['keypairName']).data)
     except KeyError:
-        return make_response(jsonify(groupId = None))
+        return make_response(jsonify(keypairId = None))
 
 
     if not resp['keypairId']:
@@ -34,7 +34,9 @@ def createKeyPair():
         KeyName=content['keypairName'],
         DryRun=False)
 
-        return make_response(jsonify(groupId=response['KeyPairId']))
+        return make_response(jsonify(keypairId=response['KeyPairId']))
+    else:
+        return make_response(jsonify(resp))
     return make_response(jsonify(keypairId=None))
 
 

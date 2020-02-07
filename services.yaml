@@ -43,6 +43,21 @@ spec:
   selector:
     app: aws-keypair
 ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: aws-image
+        labels:
+          app: aws-image
+      spec:
+        ports:
+          - port: 8080
+            name: aws-image
+            nodePort: 32300
+        type: NodePort
+        selector:
+          app: aws-image
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,7 +68,7 @@ spec:
   ports:
   - port: 8080
     name: aws-vm
-    nodePort: 32300
+    nodePort: 32400
   type: NodePort
   selector:
     app: aws-vm

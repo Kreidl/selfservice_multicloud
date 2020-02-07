@@ -8,8 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY main.py /app/
 
-COPY config.txt /app/
-
-COPY /Models /app/Models
-
 ENTRYPOINT python main.py
