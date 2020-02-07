@@ -1,0 +1,1 @@
+export * from './awsvm/awsvmservice';
