@@ -83,16 +83,38 @@ def loadImages():
             try:
                 imageId = json.loads(requests.get(imageURL + '/images/' + content['imageName']).text)
             except Exception:
-                return make_response(jsonify(instanceId = None))
-        else:
-            return make_response(jsonify(instanceId=None))
+                pass
+
+    if not imageId:
+        try:
+            imageId = json.loads(requests.get(imageURL + '/images' + content['imageName']).text)
+        except Exception:
+            return make_response(jsonify(imageId=None))
+    return make_response(jsonify(imageId=imageId))
+
+
+@app.route('/vm/types/<maxMemory>', methods=['GET'])
+@app.route('/vm/types', methods=['GET'])
+def loadInstanceType(maxMemory=None):
+    if maxMemory:
+        try:
+            types = json.loads(requests.get(instancetypeURL + '/types/' + maxMemory).text)
+            print("Memory")
+            print(types)
+        except Exception:
+            return make_response(jsonify(types=[]))
     else:
-        return make_response(jsonify(instanceId=None))
+        try:
+            types = json.loads(requests.get(instancetypeURL + '/types').text)
+            print("Full")
+            print(types)
+        except Exception:
+            return make_response(jsonify(types=[]))
 
-    return make_response(jsonify(instanceId=imageId))
+    return make_response(jsonify(types))
 
 
-@app.route('/vm/keypair', methods=['GET'])
+@app.route('/vm/keypair', methods=['POST'])
 def loadOrCreateKeyPair():
     content = request.get_json()
 
@@ -111,6 +133,10 @@ def loadOrCreateKeyPair():
 
     return make_response(jsonify(keypairId))
 
+
+@app.route('/vm/securityGroups', methods=['POST'])
+def loadOrCreateSecurityGroup():
+    pass
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':

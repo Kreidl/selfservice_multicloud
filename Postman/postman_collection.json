@@ -235,11 +235,8 @@
 								},
 								{
 									"name": "Load or Create KeyPair",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
 									"request": {
-										"method": "GET",
+										"method": "POST",
 										"header": [
 											{
 												"key": "Content-Type",
@@ -260,6 +257,45 @@
 											"path": [
 												"vm",
 												"keypair"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load Types",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/vm/types",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load Types with Max",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/vm/types/0.5",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"vm",
+												"types",
+												"0.5"
 											]
 										}
 									},
