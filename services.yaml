@@ -43,20 +43,20 @@ spec:
   selector:
     app: aws-keypair
 ---
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: aws-image
-        labels:
-          app: aws-image
-      spec:
-        ports:
-          - port: 8080
-            name: aws-image
-            nodePort: 32300
-        type: NodePort
-        selector:
-          app: aws-image
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-image
+  labels:
+    app: aws-image
+spec:
+  ports:
+    - port: 8080
+      name: aws-image
+      nodePort: 32300
+  type: NodePort
+  selector:
+    app: aws-image
 ---
 apiVersion: v1
 kind: Service
@@ -72,6 +72,21 @@ spec:
   type: NodePort
   selector:
     app: aws-vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multicloud-frontend
+  labels:
+    app: multicloud-frontend
+spec:
+  ports:
+  - port: 80
+    name: multicloud-frontend
+    nodePort: 32500
+  type: NodePort
+  selector:
+    app: multicloud-frontend
 #---
 #apiVersion: v1
 #kind: Service

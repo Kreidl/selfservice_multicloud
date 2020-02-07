@@ -1,10 +1,10 @@
 apiVersion: skaffold/v2alpha1
 kind: Config
 metadata:
-  name: frontend
+  name: multicloud-frontend
 build:
   artifacts:
-  - image: frontend
+  - image: multicloud-frontend
 deploy:
   kubectl:
     manifests:

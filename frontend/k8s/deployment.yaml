@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend #Name of the deployments
+  name: multicloud-frontend #Name of the deployments
 spec:
   replicas: 1 #Number of created pods
   selector:
     matchLabels:
-      app: frontend
+      app: multicloud-frontend
   template:
     metadata:
       labels:
-        app: frontend #label to set in the pods
+        app: multicloud-frontend #label to set in the pods
     spec:
       containers:
-      - name: frontend
-        image: frontend:prod
+      - name: multicloud-frontend
+        image: multicloud-frontend:prod
         resources:
           limits:
             memory: "200Mi"
