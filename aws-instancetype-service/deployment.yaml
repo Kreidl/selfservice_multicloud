@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aws-instancetype
+  namespace: multicloud
 spec:
   replicas: 1
   selector:
@@ -15,6 +16,11 @@ spec:
       containers:
       - name:  aws-instancetype
         image: aws-instancetype:latest
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "64Mi"
         ports:
         - containerPort: 8080 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready

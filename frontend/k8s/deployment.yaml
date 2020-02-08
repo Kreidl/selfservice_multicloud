@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: multicloud-frontend #Name of the deployments
+  namespace: multicloud
 spec:
   replicas: 1 #Number of created pods
   selector:
@@ -17,9 +18,9 @@ spec:
         image: multicloud-frontend:prod
         resources:
           limits:
-            memory: "200Mi"
+            memory: "256Mi"
           requests:
-            memory: "100Mi"
+            memory: "64Mi"
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready
