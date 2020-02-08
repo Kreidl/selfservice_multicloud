@@ -1,0 +1,261 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.20"
+  title: Swagger REST Article
+produces:
+  - "application/json"
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /:
+    post:
+      operationId: "vm.createVM"
+      tags:
+        - "createVM"
+      summary: "Create an EC2 (VM)"
+      description: "Create an EC2 (VM)"
+      parameters:
+        - in: body
+          name: vmvariables
+          description: vm to Create on
+          required: true
+          schema:
+            type: object
+            properties:
+              imageId:
+                type: string
+              instanceType:
+                type: string
+              keyName:
+                type: string
+              securityGroups:
+                type: array
+      responses:
+        200:
+          description: "Successful created VM"
+          schema:
+            type: object
+            properties:
+              instanceId:
+                type: string
+  /{instanceId}:
+    get:
+      operationId: "vm.getVM"
+      tags:
+        - "getVM"
+      summary: "Get the VM based on provided instanceId"
+      description : "Get the VM based on provided instanceId"
+      parameters:
+      - name: instanceId
+        in: path
+        required: true
+        type: string
+        format: path
+      responses:
+        200:
+          description: "Successful read VM"
+          schema:
+            type: object
+            properties:
+              instance:
+                type: array
+    patch:
+      operationId: "vm.stopVM"
+      tags:
+        - "stopVM"
+      summary: "stop the VM based on provided instanceId"
+      description: "stop the VM based on provided instanceId"
+      parameters:
+        - name: instanceId
+          in: path
+          required: true
+          type: string
+          format: path
+      responses:
+        200:
+          description: "Successful stopped VM"
+          schema:
+            type: object
+            properties:
+              State:
+                type: string
+    put:
+      operationId: "vm.startVM"
+      tags:
+        - "startVM"
+      summary: "Starts the VM based on provided instanceId"
+      description: "Starts the VM based on provided instanceId"
+      parameters:
+        - name: instanceId
+          in: path
+          required: true
+          type: string
+          format: path
+      responses:
+        200:
+          description: "Successful started VM"
+          schema:
+            type: object
+            properties:
+              State:
+                type: string
+
+  /image:
+    post:
+      operationId: "image.loadImages"
+      tags:
+        - "image"
+      summary: "The image data structure supported by aws"
+      description: "Read the list of amazon images"
+      parameters:
+        - in: body
+          name: image
+          description: image to Create on
+          required: false
+          schema:
+            type: object
+            properties:
+              imageId:
+                type: string
+              imageName:
+                type: string
+      responses:
+        200:
+          description: "Successful read image list operation"
+          schema:
+            type: object
+            properties:
+              images:
+                type: array
+  /instancetype:
+    get:
+      operationId: "instancetype.loadInstanceType"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          schema:
+            type: object
+            properties:
+              types:
+                type: array
+  /instancetype/{maxMemory}:
+    get:
+      operationId: "instancetype.loadInstanceTypeWithMemory"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      parameters:
+      - name: maxMemory
+        in: path
+        required: true
+        type: string
+        format: path
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          schema:
+            type: object
+            properties:
+              types:
+                type: array
+  /keypair:
+    post:
+      operationId: "keypair.loadOrCreateKeyPair"
+      tags:
+        - "keypair"
+      summary: "Create or Load a Keypair"
+      description: "Creates or loads the provided keypar"
+      parameters:
+        - in: body
+          name: keypair
+          description: keypair to Create or read on
+          required: true
+          schema:
+            type: object
+            properties:
+              keypair:
+                type: string
+      responses:
+        200:
+          description: "Successful read or created keypair"
+          schema:
+            type: object
+            properties:
+              keypairId:
+                type: string
+  /securitygroup:
+    post:
+      operationId: "securitygroup.loadOrCreateSecurityGroup"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup"
+      description: "Creates or loads the provided securitygroup"
+      parameters:
+        - in: body
+          name: securitygroup
+          description: securitygroup to Create or read on
+          required: true
+          schema:
+            type: object
+            properties:
+              groupName:
+                type: string
+              groupDescription:
+                type: string
+              vpcId:
+                type: string
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          schema:
+            type: object
+            properties:
+              groupId:
+                type: string
+  /securitygroupWithAuthorization:
+    post:
+      operationId: "securitygroup.loadOrCreateSecurityGroupWithAuthorization"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup with Authorization"
+      description: "Creates or loads the provided securitygroup  with Authorization"
+      parameters:
+        - in: body
+          name: securitygroup
+          description: securitygroup to Create or read on
+          required: true
+          schema:
+            type: object
+            properties:
+              groupName:
+                type: string
+              groupDescription:
+                type: string
+              vpcId:
+                type: string
+              authorizeConfiguration:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    port:
+                      type: integer
+                    ipaddress:
+                      type: string
+                    protocol:
+                      type: string
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          schema:
+            type: object
+            properties:
+              groupId:
+                type: string
