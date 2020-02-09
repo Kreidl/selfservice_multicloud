@@ -7,7 +7,7 @@ info:
 #  - "application/json"
 #basePath: "/api"
 servers:
-  - url: /api
+  - url: /awsapi
 
 # Paths supported by the server application
 paths:
