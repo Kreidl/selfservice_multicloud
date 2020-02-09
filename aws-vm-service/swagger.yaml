@@ -203,7 +203,7 @@ components:
       in: path
       required: true
       schema:
-        type: number
+        type: string
   schemas:
     VMRequest:
       type: object
