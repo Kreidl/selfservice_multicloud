@@ -22,4 +22,10 @@ kubectl config set-context --current --namespace=multicloud<br/>
 
 Otherwise the namespace needs to be defined in every command
 
-## If you want to contribute feel free to open issue so I can see 
+## If you want to contribute feel free to open issue so I can see
+
+
+## Update API
+Update swagger.yaml in AWS VM service<br/>
+Installation: npm install @openapitools/openapi-generator-cli -g<br/>
+Run generate.sh under frontend/src/app/api to update API
