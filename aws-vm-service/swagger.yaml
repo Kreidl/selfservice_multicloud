@@ -203,7 +203,7 @@ components:
       in: path
       required: true
       schema:
-        type: string
+        type: number
   schemas:
     VMRequest:
       type: object
@@ -240,11 +240,78 @@ components:
       properties:
         images:
           type: array
+          items:
+            type: object
+            properties:
+              Architecture:
+                type: string
+              BlockDeviceMappings:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    DeviceName:
+                      type: string
+                    Ebs:
+                      type: object
+                      properties:
+                        DeleteOnTermination:
+                          type: boolean
+                        Encrypted:
+                          type: boolean
+                        SnapshotId:
+                          type: string
+                        VolumeSize:
+                          type: integer
+                        VolumeType:
+                          type: string
+              CreationDate:
+                type: string
+                format: date-time
+              Description:
+                type: string
+              Hypervisor:
+                type: string
+              ImageId:
+                type: string
+              ImageLocation:
+                type: string
+              ImageOwnerAlias:
+                type: string
+              ImageType:
+                type: string
+              Name:
+                type: string
+              OwnerId:
+                type: string
+              Public:
+                type: boolean
+              RootDeviceType:
+                type: string
+              State:
+                type: string
+              VirtualizationType:
+                type: string
     InstanceTypeResponse:
       type: object
       properties:
         types:
           type: array
+          items:
+            type: object
+            properties:
+              ebs_iops:
+                type: integer
+              instance_type:
+                type: string
+              memory:
+                type: number
+              network_performance:
+                type: string
+              pretty_name:
+                type: string
+              vCPU:
+                type: integer
     KeyPairRequest:
       type: object
       properties:
