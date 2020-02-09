@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  VM_SERVICE_PATH: 'http://aws-vm:8080'
+  AWS_BASE_PATH: window["env"]["AWS_BASE_PATH"] || "default"
 };

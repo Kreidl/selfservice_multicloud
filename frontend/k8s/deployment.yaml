@@ -21,6 +21,9 @@ spec:
             memory: "256Mi"
           requests:
             memory: "64Mi"
+        env:
+        - name: AWS_BASE_PATH
+          value: "http://localhost:8080/api"
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready

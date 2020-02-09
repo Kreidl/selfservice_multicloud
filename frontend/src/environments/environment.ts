@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  VM_SERVICE_PATH: 'http://localhost:32400'
+  AWS_BASE_PATH: 'http://localhost:8080/api'
 };
 
 /*

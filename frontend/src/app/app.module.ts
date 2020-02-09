@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ApiRequestInterceptor } from './api/apirequestinterceptor';
+import { BASE_PATH as AWS_BASE_PATH } from './api/aws/index';
 import { environment } from '../environments/environment';
 import { AwsvmComponent } from './awsvm/awsvm.component';
 
@@ -19,7 +21,10 @@ import { AwsvmComponent } from './awsvm/awsvm.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: AWS_BASE_PATH, useValue: environment.AWS_BASE_PATH },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiRequestInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
