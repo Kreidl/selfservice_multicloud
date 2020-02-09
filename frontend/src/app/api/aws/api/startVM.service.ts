@@ -29,7 +29,7 @@ import { Configuration }                                     from '../configurat
 })
 export class StartVMService {
 
-    protected basePath = 'http://localhost:32400/awsapi';
+    protected basePath = 'http://localhost/awsapi';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;

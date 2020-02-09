@@ -73,8 +73,8 @@ spec:
   ports:
   - port: 8080
     name: aws-vm
-    nodePort: 32400
-  type: NodePort
+    #nodePort: 32400
+  type: ClusterIP
   selector:
     app: aws-vm
 ---
