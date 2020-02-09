@@ -74,7 +74,8 @@ spec:
   - port: 8080
     name: aws-vm
     #nodePort: 32400
-  type: ClusterIP
+  type: LoadBalancer
+  #type: ClusterIP
   selector:
     app: aws-vm
 ---

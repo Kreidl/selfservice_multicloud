@@ -1,5 +1,4 @@
 import connexion
-from flask_cors import CORS
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='./')
@@ -8,9 +7,6 @@ port = 8080
 
 # Read the swagger.yml file to configure the endpoints
 app.add_api('swagger.yaml')
-
-# add CORS support
-CORS(app.app)
 
 #Default Route
 @app.route('/', methods=['GET'])
