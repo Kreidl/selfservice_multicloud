@@ -29,19 +29,14 @@ def createSecurityGroup():
 
     #check if the SecurityGroup not exists
     resp = json.loads(searchSecurityGroup(content['groupName']).data)
-    if resp['groupId']:
+    if resp['groupId'] != None:
         return make_response(jsonify(groupId=resp['groupId']))
 
     try:
         config = SecurityConfiguration(content['groupName'], content['groupDescription'],
-                                   content['vpcId'])
+                                       content['vpcId'])
     except KeyError:
         return make_response(jsonify(groupId = None))
-
-
-
-    for authorization in content['authorizeConfiguration']:
-        config.addAuthorize(authorization)
 
     #create the securityGroup
     createresult = client.create_security_group(
@@ -51,7 +46,9 @@ def createSecurityGroup():
         DryRun=False
     )
 
-    if config.authorizeConfiguration:
+    if content['authorizeConfiguration']:
+        for authorization in content['authorizeConfiguration']:
+            config.addAuthorize(authorization)
         #Create Ingress Permission on Group
         for auth in config.authorizeConfiguration:
             response = client.authorize_security_group_ingress(

@@ -70,17 +70,14 @@ def startVM(instanceId):
 def createVM():
     #get the provided json body
     content = request.get_json()
-
     if content:
         try:
             vm = VMModel(content['instanceType'], content['keyName'], content['imageId'])
         except KeyError:
             return make_response(jsonify(instanceId=None))
-
         if content['securityGroups']:
             for securitygroup in content['securityGroups']:
                 vm.addSecurityGroup(securitygroup)
-
             try:
                 response = client.run_instances(
                     ImageId=vm.imageId,
@@ -107,9 +104,8 @@ def createVM():
                 return make_response(jsonify(instanceId=None))
 
 
-        if response['Instances']:
-            instanceId = response['Instances'][0]['InstanceId']
-            return make_response(jsonify(instanceId=instanceId))
-
+        #if response['Instances']:
+        instanceId = response['Instances'][0]['InstanceId']
+        return make_response(jsonify(instanceId=instanceId))
 
     return make_response(jsonify(instanceId=None))

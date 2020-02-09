@@ -1,11 +1,13 @@
-swagger: "2.0"
+openapi: "3.0.0"
 info:
   description: This is the swagger file that goes with our server code
   version: "1.20"
   title: Swagger REST Article
-produces:
-  - "application/json"
-basePath: "/api"
+#produces:
+#  - "application/json"
+#basePath: "/api"
+servers:
+  - url: /api
 
 # Paths supported by the server application
 paths:
@@ -16,30 +18,19 @@ paths:
         - "createVM"
       summary: "Create an EC2 (VM)"
       description: "Create an EC2 (VM)"
-      parameters:
-        - in: body
-          name: vmvariables
-          description: vm to Create on
-          required: true
-          schema:
-            type: object
-            properties:
-              imageId:
-                type: string
-              instanceType:
-                type: string
-              keyName:
-                type: string
-              securityGroups:
-                type: array
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMRequest'
       responses:
         200:
           description: "Successful created VM"
-          schema:
-            type: object
-            properties:
-              instanceId:
-                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
   /{instanceId}:
     get:
       operationId: "vm.getVM"
@@ -48,19 +39,14 @@ paths:
       summary: "Get the VM based on provided instanceId"
       description : "Get the VM based on provided instanceId"
       parameters:
-      - name: instanceId
-        in: path
-        required: true
-        type: string
-        format: path
+        - $ref: '#/components/parameters/instanceId'
       responses:
         200:
           description: "Successful read VM"
-          schema:
-            type: object
-            properties:
-              instance:
-                type: array
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
     patch:
       operationId: "vm.stopVM"
       tags:
@@ -68,19 +54,14 @@ paths:
       summary: "stop the VM based on provided instanceId"
       description: "stop the VM based on provided instanceId"
       parameters:
-        - name: instanceId
-          in: path
-          required: true
-          type: string
-          format: path
+        - $ref: '#/components/parameters/instanceId'
       responses:
         200:
           description: "Successful stopped VM"
-          schema:
-            type: object
-            properties:
-              State:
-                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
     put:
       operationId: "vm.startVM"
       tags:
@@ -88,20 +69,14 @@ paths:
       summary: "Starts the VM based on provided instanceId"
       description: "Starts the VM based on provided instanceId"
       parameters:
-        - name: instanceId
-          in: path
-          required: true
-          type: string
-          format: path
+        - $ref: '#/components/parameters/instanceId'
       responses:
         200:
           description: "Successful started VM"
-          schema:
-            type: object
-            properties:
-              State:
-                type: string
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
   /image:
     post:
       operationId: "image.loadImages"
@@ -109,27 +84,21 @@ paths:
         - "image"
       summary: "The image data structure supported by aws"
       description: "Read the list of amazon images"
-      parameters:
-        - in: body
-          name: image
-          description: image to Create on
-          required: false
-          schema:
-            type: object
-            properties:
-              imageId:
-                type: string
-              imageName:
-                type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageRequest'
       responses:
         200:
           description: "Successful read image list operation"
-          schema:
-            type: object
-            properties:
-              images:
-                type: array
-  /instancetype:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+
+  /types:
     get:
       operationId: "instancetype.loadInstanceType"
       tags:
@@ -139,12 +108,11 @@ paths:
       responses:
         200:
           description: "Successful read instancetypes"
-          schema:
-            type: object
-            properties:
-              types:
-                type: array
-  /instancetype/{maxMemory}:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
+  /types/{maxMemory}:
     get:
       operationId: "instancetype.loadInstanceTypeWithMemory"
       tags:
@@ -152,19 +120,14 @@ paths:
       summary: "The instancetypes supported by aws"
       description: "Read the list of aws instancetypes"
       parameters:
-      - name: maxMemory
-        in: path
-        required: true
-        type: string
-        format: path
+        - $ref: '#/components/parameters/maxMemory'
       responses:
         200:
           description: "Successful read instancetypes"
-          schema:
-            type: object
-            properties:
-              types:
-                type: array
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
   /keypair:
     post:
       operationId: "keypair.loadOrCreateKeyPair"
@@ -172,24 +135,19 @@ paths:
         - "keypair"
       summary: "Create or Load a Keypair"
       description: "Creates or loads the provided keypar"
-      parameters:
-        - in: body
-          name: keypair
-          description: keypair to Create or read on
-          required: true
-          schema:
-            type: object
-            properties:
-              keypair:
-                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyPairRequest'
       responses:
         200:
           description: "Successful read or created keypair"
-          schema:
-            type: object
-            properties:
-              keypairId:
-                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyPairResponse'
   /securitygroup:
     post:
       operationId: "securitygroup.loadOrCreateSecurityGroup"
@@ -197,28 +155,20 @@ paths:
         - "securitygroup"
       summary: "Create or Load a securitygroup"
       description: "Creates or loads the provided securitygroup"
-      parameters:
-        - in: body
-          name: securitygroup
-          description: securitygroup to Create or read on
-          required: true
-          schema:
-            type: object
-            properties:
-              groupName:
-                type: string
-              groupDescription:
-                type: string
-              vpcId:
-                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
       responses:
         200:
           description: "Successful read or created securitygroup"
-          schema:
-            type: object
-            properties:
-              groupId:
-                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+
   /securitygroupWithAuthorization:
     post:
       operationId: "securitygroup.loadOrCreateSecurityGroupWithAuthorization"
@@ -226,36 +176,107 @@ paths:
         - "securitygroup"
       summary: "Create or Load a securitygroup with Authorization"
       description: "Creates or loads the provided securitygroup  with Authorization"
-      parameters:
-        - in: body
-          name: securitygroup
-          description: securitygroup to Create or read on
-          required: true
-          schema:
-            type: object
-            properties:
-              groupName:
-                type: string
-              groupDescription:
-                type: string
-              vpcId:
-                type: string
-              authorizeConfiguration:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    port:
-                      type: integer
-                    ipaddress:
-                      type: string
-                    protocol:
-                      type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
       responses:
         200:
           description: "Successful read or created securitygroup"
-          schema:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+components:
+  parameters:
+    instanceId:
+      name: instanceId
+      in: path
+      required: true
+      description: InstanceId
+      schema:
+        type: string
+    maxMemory:
+      name: maxMemory
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    VMRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        instanceType:
+          type: string
+        keyName:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
+    VMResponse:
+      type: object
+      properties:
+        instanceId:
+          type: string
+    State:
+      type: object
+      properties:
+        State:
+          type: string
+    ImageRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        imageName:
+          type: string
+    ImageResponse:
+      type: object
+      properties:
+        images:
+          type: array
+    InstanceTypeResponse:
+      type: object
+      properties:
+        types:
+          type: array
+    KeyPairRequest:
+      type: object
+      properties:
+        keypair:
+          type: string
+    KeyPairResponse:
+      type: object
+      properties:
+        keypairId:
+          type: string
+    SecurityGroupRequest:
+      type: object
+      properties:
+        groupName:
+          type: string
+        groupDescription:
+          type: string
+        vpcId:
+          type: string
+        authorizeConfiguration:
+          type: array
+          items:
             type: object
             properties:
-              groupId:
+              port:
+                type: integer
+              ipaddress:
                 type: string
+              protocol:
+                type: string
+    SecurityGroupResponse:
+      type: object
+      properties:
+        groupId:
+          type: string
