@@ -1,0 +1,349 @@
+openapi: "3.0.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.20"
+  title: Swagger REST Article
+#produces:
+#  - "application/json"
+#basePath: "/api"
+servers:
+  - url: /api
+
+# Paths supported by the server application
+paths:
+  /:
+    post:
+      operationId: "vm.createVM"
+      tags:
+        - "createVM"
+      summary: "Create an EC2 (VM)"
+      description: "Create an EC2 (VM)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMRequest'
+      responses:
+        200:
+          description: "Successful created VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
+  /{instanceId}:
+    get:
+      operationId: "vm.getVM"
+      tags:
+        - "getVM"
+      summary: "Get the VM based on provided instanceId"
+      description : "Get the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful read VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
+    patch:
+      operationId: "vm.stopVM"
+      tags:
+        - "stopVM"
+      summary: "stop the VM based on provided instanceId"
+      description: "stop the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful stopped VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+    put:
+      operationId: "vm.startVM"
+      tags:
+        - "startVM"
+      summary: "Starts the VM based on provided instanceId"
+      description: "Starts the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful started VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+  /image:
+    post:
+      operationId: "image.loadImages"
+      tags:
+        - "image"
+      summary: "The image data structure supported by aws"
+      description: "Read the list of amazon images"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageRequest'
+      responses:
+        200:
+          description: "Successful read image list operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+
+  /types:
+    get:
+      operationId: "instancetype.loadInstanceType"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
+  /types/{maxMemory}:
+    get:
+      operationId: "instancetype.loadInstanceTypeWithMemory"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      parameters:
+        - $ref: '#/components/parameters/maxMemory'
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
+  /keypair:
+    post:
+      operationId: "keypair.loadOrCreateKeyPair"
+      tags:
+        - "keypair"
+      summary: "Create or Load a Keypair"
+      description: "Creates or loads the provided keypar"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyPairRequest'
+      responses:
+        200:
+          description: "Successful read or created keypair"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyPairResponse'
+  /securitygroup:
+    post:
+      operationId: "securitygroup.loadOrCreateSecurityGroup"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup"
+      description: "Creates or loads the provided securitygroup"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+
+  /securitygroupWithAuthorization:
+    post:
+      operationId: "securitygroup.loadOrCreateSecurityGroupWithAuthorization"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup with Authorization"
+      description: "Creates or loads the provided securitygroup  with Authorization"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+components:
+  parameters:
+    instanceId:
+      name: instanceId
+      in: path
+      required: true
+      description: InstanceId
+      schema:
+        type: string
+    maxMemory:
+      name: maxMemory
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    VMRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        instanceType:
+          type: string
+        keyName:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
+    VMResponse:
+      type: object
+      properties:
+        instanceId:
+          type: string
+    State:
+      type: object
+      properties:
+        State:
+          type: string
+    ImageRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        imageName:
+          type: string
+    ImageResponse:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              Architecture:
+                type: string
+              BlockDeviceMappings:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    DeviceName:
+                      type: string
+                    Ebs:
+                      type: object
+                      properties:
+                        DeleteOnTermination:
+                          type: boolean
+                        Encrypted:
+                          type: boolean
+                        SnapshotId:
+                          type: string
+                        VolumeSize:
+                          type: integer
+                        VolumeType:
+                          type: string
+              CreationDate:
+                type: string
+                format: date-time
+              Description:
+                type: string
+              Hypervisor:
+                type: string
+              ImageId:
+                type: string
+              ImageLocation:
+                type: string
+              ImageOwnerAlias:
+                type: string
+              ImageType:
+                type: string
+              Name:
+                type: string
+              OwnerId:
+                type: string
+              Public:
+                type: boolean
+              RootDeviceType:
+                type: string
+              State:
+                type: string
+              VirtualizationType:
+                type: string
+    InstanceTypeResponse:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: object
+            properties:
+              ebs_iops:
+                type: integer
+              instance_type:
+                type: string
+              memory:
+                type: number
+              network_performance:
+                type: string
+              pretty_name:
+                type: string
+              vCPU:
+                type: integer
+    KeyPairRequest:
+      type: object
+      properties:
+        keypair:
+          type: string
+    KeyPairResponse:
+      type: object
+      properties:
+        keypairId:
+          type: string
+    SecurityGroupRequest:
+      type: object
+      properties:
+        groupName:
+          type: string
+        groupDescription:
+          type: string
+        vpcId:
+          type: string
+        authorizeConfiguration:
+          type: array
+          items:
+            type: object
+            properties:
+              port:
+                type: integer
+              ipaddress:
+                type: string
+              protocol:
+                type: string
+    SecurityGroupResponse:
+      type: object
+      properties:
+        groupId:
+          type: string

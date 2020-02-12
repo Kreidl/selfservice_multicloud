@@ -2,14 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: aws-instancetype
+  namespace: multicloud
   labels:
     app: aws-instancetype
 spec:
   ports:
   - port: 8080
     name: aws-instancetype
-    nodePort: 32000
-  type: NodePort
+    #nodePort: 32000
+  type: ClusterIP
   selector:
     app: aws-instancetype
 ---
@@ -17,14 +18,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: aws-securitygroup
+  namespace: multicloud
   labels:
     app: aws-securitygroup
 spec:
   ports:
   - port: 8080
     name: aws-securitygroup
-    nodePort: 32100
-  type: NodePort
+    #nodePort: 32100
+  type: ClusterIP
   selector:
     app: aws-securitygroup
 ---
@@ -32,46 +34,66 @@ apiVersion: v1
 kind: Service
 metadata:
   name: aws-keypair
+  namespace: multicloud
   labels:
     app: aws-keypair
 spec:
   ports:
   - port: 8080
     name: aws-keypair
-    nodePort: 32200
-  type: NodePort
+    #nodePort: 32200
+  type: ClusterIP
   selector:
     app: aws-keypair
 ---
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: aws-image
-        labels:
-          app: aws-image
-      spec:
-        ports:
-          - port: 8080
-            name: aws-image
-            nodePort: 32300
-        type: NodePort
-        selector:
-          app: aws-image
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-image
+  namespace: multicloud
+  labels:
+    app: aws-image
+spec:
+  ports:
+    - port: 8080
+      name: aws-image
+      #nodePort: 32300
+  type: ClusterIP
+  selector:
+    app: aws-image
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: aws-vm
+  namespace: multicloud
   labels:
     app: aws-vm
 spec:
   ports:
   - port: 8080
     name: aws-vm
-    nodePort: 32400
-  type: NodePort
+    #nodePort: 32400
+  type: LoadBalancer
+  #type: ClusterIP
   selector:
     app: aws-vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multicloud-frontend
+  namespace: multicloud
+  labels:
+    app: multicloud-frontend
+spec:
+  ports:
+  - port: 80
+    name: multicloud-frontend
+    nodePort: 32500
+  type: NodePort
+  selector:
+    app: multicloud-frontend
 #---
 #apiVersion: v1
 #kind: Service

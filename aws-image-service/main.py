@@ -5,7 +5,7 @@ import os
 client = boto3.client(
     'ec2',
     aws_access_key_id=os.environ['accessKey'],
-    aws_secret_access_key = os.environ['secretKey'],
+    aws_secret_access_key=os.environ['secretKey'],
     region_name='eu-central-1'
     )
 
@@ -35,15 +35,33 @@ def getOwnImages():
 
 @app.route('/images/<imageName>', methods=['GET'])
 def getImageByName(imageName):
+    images = None
     if imageName:
-        images = client.describe_images(
-            Filters=[
-                dict(Name='name', Values=[imageName+'*']),
-                dict(Name='owner-id', Values=['099720109477'])
-            ]
-        )
-        return make_response(jsonify(images=images['Images']))
+        try:
+            images = client.describe_images(
+                Filters=[
+                    dict(Name='name', Values=[imageName+'*']),
+                    dict(Name='owner-id', Values=['099720109477'])
+                ]
+            )
+        except Exception:
+            pass
+        if not images['Images']:
+            try:
+                images = client.describe_images(
+                    Filters=[
+                        dict(Name='image-id', Values=[imageName])
+                    ]
+                )
+
+            except Exception:
+                pass
+
+        if images['Images']:
+            return make_response(jsonify(images=images['Images']))
+
     return make_response(jsonify(images=None))
+
 
 
 #Starts application if main.py is the main called file
