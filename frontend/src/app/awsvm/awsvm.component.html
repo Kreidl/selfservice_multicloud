@@ -1,17 +1,32 @@
-  <div>
-    <!--<form>-->
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="input-group mb-3">
-              <label for="name">ImageName</label>
-              <input type="text" class="form-control" aria-label="imageName">
-              <div class="input-group-append">
-                <button type="button" class="btn btn-primary" onclick="loadImages()">Load Possible Images</button>
-              </div>
-            </div>
-          </div>
+  <form [formGroup]="newVMForm" (ngSubmit)="onSubmit()">
+    <div class="form-row align-items-center">
+      <div class="col-sm-1">
+        <label class="sr-only" for="imageSearchSelection">ImageSearch</label>
+        <select id="imageSearchSelection" class="form-control" (change)="onChange($event)">
+          <option value="1">ImageId</option>
+          <option value="2">ImageName</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <label class="sr-only" for="inlineFormInputImage">Image</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="inlineFormInputImage" formControlName="image">
         </div>
       </div>
-    <!--</form>-->
-  </div>
+      <div class="col-auto">
+        <input type="button" class="btn btn-primary" (click)="loadImages()" value="load Images" >
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <div class="col-sm-3">
+        <select>
+          <option value="0"></option>
+          <ng-container *ngFor="let o of images | slice:0:displayNum; let i=index">
+            <option *ngIf="o.Description" [ngValue]="o.ImageId">{{o.Description}}</option>
+          </ng-container>
+        </select>
+        <p *ngIf="!images && imagesSearchInfo"><em>Loading Images</em></p>
+        <input type="button" class="btn btn-primary" (click)="increaseBy(10)" [disabled]="!images" value="Show More" >
+      </div>
+    </div>
+  </form>
