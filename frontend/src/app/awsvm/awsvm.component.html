@@ -1,4 +1,5 @@
   <form [formGroup]="newVMForm" (ngSubmit)="onSubmit()">
+    <h2>Images</h2>
     <div class="form-row align-items-center">
       <div class="col-sm-1">
         <label class="sr-only" for="imageSearchSelection">ImageSearch</label>
@@ -10,23 +11,50 @@
       <div class="col-sm-3">
         <label class="sr-only" for="inlineFormInputImage">Image</label>
         <div class="input-group">
-          <input type="text" class="form-control" id="inlineFormInputImage" formControlName="image">
+          <input type="text" class="form-control" id="inlineFormInputImage" formControlName="imageInput">
         </div>
       </div>
       <div class="col-auto">
+        <p *ngIf="!images && imagesSearchInfo"><em>Loading Images</em></p>
         <input type="button" class="btn btn-primary" (click)="loadImages()" value="load Images" >
       </div>
     </div>
     <div class="form-row align-items-center">
       <div class="col-sm-3">
-        <select>
+        <select formcontrolName="selectedImage">
           <option value="0"></option>
-          <ng-container *ngFor="let o of images | slice:0:displayNum; let i=index">
+          <ng-container *ngFor="let o of images | slice:0:displayNumImages; let i=index">
             <option *ngIf="o.Description" [ngValue]="o.ImageId">{{o.Description}}</option>
           </ng-container>
         </select>
-        <p *ngIf="!images && imagesSearchInfo"><em>Loading Images</em></p>
-        <input type="button" class="btn btn-primary" (click)="increaseBy(10)" [disabled]="!images" value="Show More" >
+        <input type="button" class="btn btn-primary" (click)="increaseImagesBy(10)" [disabled]="!images" value="Show More" >
+      </div>
+    </div>
+    <br/><br/><br/>
+
+
+
+
+    <h2>Instancetypes</h2>
+    <div class="form-row align-items-center">
+      <div class="col-sm-2">
+        <label class="sr-only" for="inlineFormInputMaxmemory">maxMemory</label>
+        <input type="text" class="form-control" id="inlineFormInputMaxmemory" formControlName="maxMemory">
+      </div>
+      <div class="col-auto">
+        <p *ngIf="!types && typesSearchInfo"><em>Loading Instancetypes</em></p>
+        <input type="button" class="btn btn-primary" (click)="loadInstanceTypes()" value="load Types" >
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <div class="col-sm-5">
+        <select formcontrolName="selectedtype">
+          <option value="0"></option>
+          <ng-container *ngFor="let t of types | slice:0:displayNumTypes; let i=index">
+            <option  [ngValue]="t.instance_type">{{t.pretty_name}} - {{t.memory}} GB</option>
+          </ng-container>
+        </select>
+        <input type="button" class="btn btn-primary" (click)="increaseTypesBy(10)" [disabled]="!types" value="Show More" >
       </div>
     </div>
   </form>
