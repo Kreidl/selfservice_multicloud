@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ImageService, ImageRequest, InstancetypeService } from '../api/aws/index';
+import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService, SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService]
+  providers: [ImageService, InstancetypeService, SecuritygroupService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -18,12 +18,16 @@ export class AwsvmComponent implements OnInit {
   types: any[];
   displayNumImages = 10;
   displayNumTypes = 10;
+  groupId: string;
 
-  imagesSearchInfo = false;
-  typesSearchInfo = false;
+
+  private authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
+
+
 
   constructor(private imageService: ImageService,
               private instancetypeService: InstancetypeService,
+              private securitygroupService: SecuritygroupService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -31,11 +35,19 @@ export class AwsvmComponent implements OnInit {
       imageInput: [''],
       selectedImage: [''],
       selectedtype: [''],
-      maxMemory: ['']
+      maxMemory: [''],
+      securityGroupName: [''],
+      securityGroupDescription: [''],
+      vpcId: [''],
+      ip: [''],
+      port: [''],
+      protocol: [''],
+      groupId: ['']
 
     });
     this.imagesSearchInfo = false;
     this.typesSearchInfo = false;
+    this.securityGroupInfo = false;
   }
 
   onSubmit() {
@@ -77,6 +89,20 @@ export class AwsvmComponent implements OnInit {
       });
   }
 
+  addToTable() {
+    let authorize:SecurityGroupRequestAuthorizeConfiguration = {
+      ipaddress: this.f.ip.value,
+      port: this.f.port.value,
+      protocol: this.f.protocol.value,
+    };
+    this.authorizeConfig.push(authorize);
+
+    this.newVMForm.controls['ip'].setValue("");
+    this.newVMForm.controls['port'].setValue("");
+    this.newVMForm.controls['protocol'].setValue("");
+
+  }
+
   loadInstanceTypes() {
     this.typesSearchInfo = true;
 
@@ -97,6 +123,50 @@ export class AwsvmComponent implements OnInit {
           console.log(error);
         });
     }
+
+  }
+
+  loadOrCreateSecurityGroup() {
+      this.securityGroupInfo = true;
+
+      if(this.authorizeConfig && this.authorizeConfig.length) {
+        let securityGroup:SecurityGroupRequest = {
+          //authorizeConfiguration?: Array<SecurityGroupRequestAuthorizeConfiguration>;
+          groupDescription: this.f.securityGroupDescription.value,
+          groupName: this.f.securityGroupName.value,
+          vpcId: this.f.vpcId.value,
+          authorizeConfiguration: this.authorizeConfig
+        }
+
+        this.securitygroupService.securitygroupLoadOrCreateSecurityGroupWithAuthorization(securityGroup).subscribe(
+          securityGroup => {
+            this.groupId = securityGroup.groupId
+            //console.log(securityGroup.groupId)
+          //  this.types  = types.types;
+          },
+          error => {
+            console.log(error);
+          });
+
+      }else{
+        let securityGroup:SecurityGroupRequest = {
+          //authorizeConfiguration?: Array<SecurityGroupRequestAuthorizeConfiguration>;
+          groupDescription: this.f.securityGroupDescription.value,
+          groupName: this.f.securityGroupName.value,
+          vpcId: this.f.vpcId.value,
+          authorizeConfiguration: []
+        }
+        this.securitygroupService.securitygroupLoadOrCreateSecurityGroup(securityGroup).subscribe(
+          securityGroup => {
+            this.groupId = securityGroup.groupId
+            //console.log(securityGroup.groupId)
+          //  this.types  = types.types;
+          },
+          error => {
+            console.log(error);
+          });
+
+      }
 
   }
 
