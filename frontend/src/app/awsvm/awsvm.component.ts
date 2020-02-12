@@ -19,9 +19,12 @@ export class AwsvmComponent implements OnInit {
   displayNumImages = 10;
   displayNumTypes = 10;
   groupId: string;
+  imagesSearchInfo = false;
+  typesSearchInfo = false;
+  securityGroupInfo = false;
 
 
-  private authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
+  authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
 
 
 
