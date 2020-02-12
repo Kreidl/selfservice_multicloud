@@ -38,6 +38,10 @@ export class AwsvmComponent implements OnInit {
     this.typesSearchInfo = false;
   }
 
+  onSubmit() {
+
+  }
+
   onChange(event) {
     this.selectedImagetype = event.target.value;
 
@@ -57,10 +61,10 @@ export class AwsvmComponent implements OnInit {
       //Check if it is imageId or imageName and set attribute accordingly
       if(this.selectedImagetype === '1') {
           this.imageTypeDescription = "ImageId Input";
-          imageRequest.imageId =  this.f.image.value;
+          imageRequest.imageId =  this.f.imageInput.value;
       }else{
           this.imageTypeDescription = "ImageName Input";
-          imageRequest.imageName =  this.f.image.value;
+          imageRequest.imageName =  this.f.imageInput.value;
       }
     }
 
@@ -103,6 +107,8 @@ export class AwsvmComponent implements OnInit {
   increaseTypesBy(value) {
     this.displayNumTypes += value;
   }
+
+
 
   get f() { return this.newVMForm.controls; }
 
