@@ -189,11 +189,11 @@
 											"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/api/",
+											"raw": "localhost:32400/api/",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												""
@@ -215,14 +215,14 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n\t\"imageName\": \"ubuntu\"\r\n}"
+											"raw": "{\r\n\t\"imageName\": \"fedora\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/api/image",
+											"raw": "localhost:32400/api/image",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"image"
@@ -247,11 +247,11 @@
 											"raw": "{\r\n\t\"keypair\": \"test\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/api/keypair",
+											"raw": "localhost:32400/api/keypair",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"keypair"
@@ -266,11 +266,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/api/types",
+											"raw": "localhost:32400/api/types",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"types"
@@ -285,11 +285,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/api/types/0.5",
+											"raw": "localhost:32400/api/types/0.5",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"types",
@@ -315,11 +315,11 @@
 											"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/api/securitygroupWithAuthorization",
+											"raw": "localhost:32400/api/securitygroupWithAuthorization",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"securitygroupWithAuthorization"
@@ -344,11 +344,11 @@
 											"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : []\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/api/securitygroup",
+											"raw": "localhost:32400/api/securitygroup",
 											"host": [
 												"localhost"
 											],
-											"port": "8080",
+											"port": "32400",
 											"path": [
 												"api",
 												"securitygroup"
@@ -367,12 +367,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/api/i-0512b025649941358",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32400",
 									"path": [
 										"api",
 										"i-0512b025649941358"
@@ -387,12 +387,12 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/api/i-0512b025649941358",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32400",
 									"path": [
 										"api",
 										"i-0512b025649941358"
@@ -407,12 +407,12 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/api/i-0512b025649941358",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32400",
 									"path": [
 										"api",
 										"i-0512b025649941358"

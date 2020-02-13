@@ -7,7 +7,7 @@ metadata:
     app: aws-instancetype
 spec:
   ports:
-  - port: 8080
+  - port: 80
     name: aws-instancetype
     #nodePort: 32000
   type: ClusterIP
@@ -23,7 +23,7 @@ metadata:
     app: aws-securitygroup
 spec:
   ports:
-  - port: 8080
+  - port: 80
     name: aws-securitygroup
     #nodePort: 32100
   type: ClusterIP
@@ -39,7 +39,7 @@ metadata:
     app: aws-keypair
 spec:
   ports:
-  - port: 8080
+  - port: 80
     name: aws-keypair
     #nodePort: 32200
   type: ClusterIP
@@ -55,7 +55,7 @@ metadata:
     app: aws-image
 spec:
   ports:
-    - port: 8080
+    - port: 80
       name: aws-image
       #nodePort: 32300
   type: ClusterIP
@@ -71,11 +71,11 @@ metadata:
     app: aws-vm
 spec:
   ports:
-  - port: 8080
+  - port: 80
     name: aws-vm
-    #nodePort: 32400
-  type: LoadBalancer
-  #type: ClusterIP
+    nodePort: 32400
+  #type: LoadBalancer
+  type: NodePort
   selector:
     app: aws-vm
 ---
