@@ -27,6 +27,6 @@ Otherwise the namespace needs to be defined in every command
 
 ## Update API
 Update swagger.yaml in AWS VM service<br/>
-Installation: npm install @openapitools/openapi-generator-cli -g<br/>
-Get the api.json from aws-vm (Edit services.yaml to enable NodePort or Loadbalancer and copy SERVER_NAME:PORT/awsapi/openapi.json into the file awsapi.json)
+Installation: npm install @openapitools/openapi-generator-cli -g<br/><br/>
+Get the api.json from aws-vm (Edit services.yaml to enable NodePort or Loadbalancer and copy SERVER_NAME:PORT/awsapi/openapi.json into the file awsapi.json)<br/>
 Run generate.sh under frontend/src/app/api to update API
