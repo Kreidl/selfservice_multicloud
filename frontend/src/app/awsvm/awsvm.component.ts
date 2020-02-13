@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
-  SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest, KeypairService, KeyPairRequest } from '../api/aws/index';
+  SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest,
+  KeypairService, KeyPairRequest, CreateVMService, VMRequest } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService]
+  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, CreateVMService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -21,10 +23,12 @@ export class AwsvmComponent implements OnInit {
   displayNumTypes = 10;
   groupId: string = null;
   keypair: string = null;
+  instanceId: string= null;
   imagesSearchInfo = false;
   typesSearchInfo = false;
   securityGroupInfo = false;
   keypairSearchInfo = false;
+  instanceCreateInfo = false;
 
 
   authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
@@ -35,6 +39,8 @@ export class AwsvmComponent implements OnInit {
               private instancetypeService: InstancetypeService,
               private securitygroupService: SecuritygroupService,
               private keypairService: KeypairService,
+              private createVMService: CreateVMService,
+              private router: Router,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -58,9 +64,26 @@ export class AwsvmComponent implements OnInit {
     this.typesSearchInfo = false;
     this.securityGroupInfo = false;
     this.keypairSearchInfo = false;
+    this.instanceCreateInfo = false;
   }
 
   onSubmit() {
+    this.instanceCreateInfo = true;
+
+    let vmRequest:VMRequest = {
+      imageId: this.f.selectedImage.value,
+      instanceType: this.f.selectedtype.value,
+      keyName: this.keypair,
+      securityGroups: [this.groupId]
+    };
+
+    this.createVMService.vmCreateVM(vmRequest).subscribe(
+      instance => {
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log(error);
+      });
 
   }
 
@@ -111,6 +134,17 @@ export class AwsvmComponent implements OnInit {
     this.newVMForm.controls['port'].setValue("");
     this.newVMForm.controls['protocol'].setValue("");
 
+  }
+  onProtocolChange($event){
+    this.newVMForm.controls['protocol'].setValue($event.target.options[$event.target.options.selectedIndex].text);
+  }
+
+  onImageChange($event){
+    this.newVMForm.controls['selectedImage'].setValue($event.target.options[$event.target.options.selectedIndex].value);
+  }
+
+  onTypeChange($event){
+    this.newVMForm.controls['selectedtype'].setValue($event.target.options[$event.target.options.selectedIndex].value);
   }
 
   loadInstanceTypes() {
@@ -188,7 +222,7 @@ export class AwsvmComponent implements OnInit {
       }
       this.keypairService.keypairLoadOrCreateKeyPair(keypairRequest).subscribe(
         keypair => {
-          this.keypair = keypair.keypairId;
+          this.keypair = this.f.keypairInput.value;
         },
         error => {
           console.log(error);

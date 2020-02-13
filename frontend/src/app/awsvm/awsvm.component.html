@@ -42,8 +42,11 @@
         <div class="input-group col-sm-1">
           <input type="number" class="form-control" placeholder="port" formControlName="port" aria-label="port">
         </div>
-        <div class="input-group col-sm-1">
-          <input type="text" class="form-control" placeholder="protocol" formControlName="protocol" aria-label="protocol">
+        <div class="input-group col-sm-1" >
+          <select class="form-control" (change)="onProtocolChange($event)">
+            <option>TCP</option>
+            <option>UDP</option>
+          </select>
         </div>
         <input type="button" class="btn btn-primary" (click)="addToTable()" [disabled]="!(this.f.ip.value && this.f.port.value && this.f.protocol.value)" value="Add to Table" >
       </div>
@@ -105,10 +108,10 @@
       </div>
       <div class="form-row align-items-center">
         <div class="col-sm-3">
-          <select formcontrolName="selectedImage">
+          <select class="form-control" (change)="onImageChange($event)">
             <option value="0"></option>
             <ng-container *ngFor="let o of images | slice:0:displayNumImages; let i=index">
-              <option *ngIf="o.Description" [ngValue]="o.ImageId">{{o.Description}}</option>
+              <option *ngIf="o.Description" [value]="o.ImageId">{{o.Description}}</option>
             </ng-container>
           </select>
           <input type="button" class="btn btn-primary" (click)="increaseImagesBy(10)" [disabled]="!images" value="Show More" >
@@ -134,13 +137,26 @@
       </div>
       <div class="form-row align-items-center">
         <div class="col-sm-5">
-          <select formcontrolName="selectedtype">
+          <select class="form-control" (change)="onTypeChange($event)">
             <option value="0"></option>
             <ng-container *ngFor="let t of types | slice:0:displayNumTypes; let i=index">
-              <option  [ngValue]="t.instance_type">{{t.pretty_name}} - {{t.memory}} GB</option>
+              <option  [value]="t.instance_type">{{t.pretty_name}} - {{t.memory}} GB</option>
             </ng-container>
           </select>
           <input type="button" class="btn btn-primary" (click)="increaseTypesBy(10)" [disabled]="!types" value="Show More" >
+        </div>
+      </div>
+    </div>
+    <br/><br/><br/>
+
+    <h2>VM Creation</h2>
+    <h6  [hidden]="(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value)">Create Button Will be shown when securityGroup, keypair, instancetype and image are selected</h6>
+    <div [hidden]="!(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value)">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <p *ngIf="!instanceId && instanceCreateInfo"><em>Creating VM</em></p>
+          <button type="submit" class="btn btn-primary">create VM</button>
+          <!--<input type="button" class="btn btn-primary" (click)="createVM()" value="create VM" >-->
         </div>
       </div>
     </div>
