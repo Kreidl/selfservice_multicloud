@@ -40,8 +40,7 @@ def getImageByName(imageName):
         try:
             images = client.describe_images(
                 Filters=[
-                    dict(Name='name', Values=[imageName+'*']),
-                    dict(Name='owner-id', Values=['099720109477'])
+                    dict(Name='name', Values=[imageName+'*'])            
                 ]
             )
         except Exception:
