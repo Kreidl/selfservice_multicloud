@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService, SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest } from '../api/aws/index';
+import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
+  SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest, KeypairService, KeyPairRequest } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService, SecuritygroupService]
+  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -18,10 +19,12 @@ export class AwsvmComponent implements OnInit {
   types: any[];
   displayNumImages = 10;
   displayNumTypes = 10;
-  groupId: string;
+  groupId: string = null;
+  keypair: string = null;
   imagesSearchInfo = false;
   typesSearchInfo = false;
   securityGroupInfo = false;
+  keypairSearchInfo = false;
 
 
   authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
@@ -31,6 +34,7 @@ export class AwsvmComponent implements OnInit {
   constructor(private imageService: ImageService,
               private instancetypeService: InstancetypeService,
               private securitygroupService: SecuritygroupService,
+              private keypairService: KeypairService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -45,12 +49,15 @@ export class AwsvmComponent implements OnInit {
       ip: [''],
       port: [''],
       protocol: [''],
-      groupId: ['']
+      groupId: [''],
+      keypairInput:[''],
+      keypair: ['']
 
     });
     this.imagesSearchInfo = false;
     this.typesSearchInfo = false;
     this.securityGroupInfo = false;
+    this.keypairSearchInfo = false;
   }
 
   onSubmit() {
@@ -170,6 +177,23 @@ export class AwsvmComponent implements OnInit {
           });
 
       }
+
+  }
+
+  loadOrCreateKeypair() {
+    this.keypairSearchInfo = true;
+    if(this.f.keypairInput.value){
+      let keypairRequest: KeyPairRequest ={
+        keypair: this.f.keypairInput.value
+      }
+      this.keypairService.keypairLoadOrCreateKeyPair(keypairRequest).subscribe(
+        keypair => {
+          this.keypair = keypair.keypairId;
+        },
+        error => {
+          console.log(error);
+        });
+    }
 
   }
 

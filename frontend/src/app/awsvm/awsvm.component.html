@@ -1,4 +1,87 @@
   <form [formGroup]="newVMForm" (ngSubmit)="onSubmit()">
+    <h2>Keypair</h2>
+    <div [hidden]="keypair">
+      <div class="form-row align-items-center">
+        <div class="col-sm-3">
+          <label class="sr-only" for="inlineFormInputKeypair">Keypair</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="inlineFormInputKeypair" formControlName="keypairInput">
+          </div>
+        </div>
+        <div class="col-auto">
+          <p *ngIf="!keypair && keypairSearchInfo"><em>Loading or Creating Keypair</em></p>
+          <input type="button" class="btn btn-primary" (click)="loadOrCreateKeypair()" value="load or Create keyPair" [disabled]="!this.f.keypairInput.value">
+        </div>
+      </div>
+    </div>
+    <div class="form-row align-items-center"  [hidden]="!keypair">
+      <div class="col-auto">
+        <input type="text" class="form-control" placeholder="keypair" formControlName="keypair" aria-label="keypair" value ="{{keypair}}" readonly>
+      </div>
+    </div>
+    <br/><br/><br/>
+
+
+    <h2>SecurityGroup</h2>
+    <div [hidden]="groupId">
+      <div class="form-row align-items-center">
+        <div class="input-group col-sm-2">
+          <input type="text" class="form-control" formControlName="securityGroupName" placeholder="SecurityGroupName" aria-label="SecurityGroupName">
+        </div>
+        <div class="input-group col-sm-2">
+          <textarea class="form-control" aria-label="SecurityGroupDescription" formControlName="securityGroupDescription" placeholder="securityGroupDescription"></textarea>
+        </div>
+        <div class="input-group col-sm-2">
+          <input type="text" class="form-control" placeholder="vpcId" formControlName="vpcId" aria-label="vpcId">
+        </div>
+      </div>
+      <div class="form-row align-items-center">
+        <div class="input-group col-sm-2">
+          <input type="text" class="form-control" placeholder="ip" formControlName="ip" aria-label="ip">
+        </div>
+        <div class="input-group col-sm-1">
+          <input type="number" class="form-control" placeholder="port" formControlName="port" aria-label="port">
+        </div>
+        <div class="input-group col-sm-1">
+          <input type="text" class="form-control" placeholder="protocol" formControlName="protocol" aria-label="protocol">
+        </div>
+        <input type="button" class="btn btn-primary" (click)="addToTable()" [disabled]="!(this.f.ip.value && this.f.port.value && this.f.protocol.value)" value="Add to Table" >
+      </div>
+      <div class="form-row align-items-center">
+        <div class="input-group col-sm-2">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">IpAddresss</th>
+                <th scope="col">Port</th>
+                <th scope="col">Protocol</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let authorize of authorizeConfig; let i = index">
+                <td>{{ authorize.ipaddress }}</td>
+                <td>{{ authorize.port }}</td>
+                <td>{{ authorize.protocol }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <p *ngIf="!groupId && securityGroupInfo"><em>Loading or Creating SecurityGroup</em></p>
+          <input type="button" class="btn btn-primary" (click)="loadOrCreateSecurityGroup()" value="load or Create SecurityGroup" [disabled]="!(this.f.securityGroupName.value && this.f.securityGroupDescription.value && this.f.vpcId.value)">
+        </div>
+      </div>
+    </div>
+    <div class="form-row align-items-center"  [hidden]="!groupId">
+      <div class="col-auto">
+        <input type="text" class="form-control" placeholder="groupId" formControlName="groupId" aria-label="groupId" value ="{{groupId}}" readonly>
+      </div>
+    </div>
+    <br/><br/><br/>
+
+
     <h2>Images</h2>
     <div>
       <div class="form-row align-items-center">
@@ -38,7 +121,6 @@
 
 
     <h2>Instancetypes</h2>
-
     <div>
       <div class="form-row align-items-center">
         <div class="col-sm-2">
@@ -62,71 +144,4 @@
         </div>
       </div>
     </div>
-    <br/><br/><br/>
-
-
-
-    <h2>SecurityGroup</h2>
-    <div [hidden]="groupId">
-      <div class="form-row align-items-center">
-        <div class="input-group col-sm-2">
-          <input type="text" class="form-control" formControlName="securityGroupName" placeholder="SecurityGroupName" aria-label="SecurityGroupName">
-        </div>
-
-        <div class="input-group col-sm-2">
-          <textarea class="form-control" aria-label="SecurityGroupDescription" formControlName="securityGroupDescription" placeholder="securityGroupDescription"></textarea>
-        </div>
-
-        <div class="input-group col-sm-2">
-          <input type="text" class="form-control" placeholder="vpcId" formControlName="vpcId" aria-label="vpcId">
-        </div>
-
-        <div class="input-group col-sm-2">
-          <input type="text" class="form-control" placeholder="ip" formControlName="ip" aria-label="ip">
-        </div>
-
-        <div class="input-group col-sm-1">
-          <input type="number" class="form-control" placeholder="port" formControlName="port" aria-label="port">
-        </div>
-
-        <div class="input-group col-sm-1">
-          <input type="text" class="form-control" placeholder="protocol" formControlName="protocol" aria-label="protocol">
-        </div>
-
-        <input type="button" class="btn btn-primary" (click)="addToTable()" [disabled]="!(this.f.ip.value && this.f.port.value && this.f.protocol.value)" value="Add to Table" >
-      </div>
-      <div class="form-row align-items-center">
-        <div class="input-group col-sm-2">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">IpAddresss</th>
-                <th scope="col">Port</th>
-                <th scope="col">Protocol</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let authorize of authorizeConfig; let i = index">
-                <td>{{ authorize.ipaddress }}</td>
-                <td>{{ authorize.port }}</td>
-                <td>{{ authorize.protocol }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="form-row align-items-center">
-        <div class="col-auto">
-          <p *ngIf="!groupId && securityGroupInfo"><em>Loading or Creating SecurityGroup</em></p>
-          <input type="button" class="btn btn-primary" (click)="loadOrCreateSecurityGroup()" value="load or Create SecurityGroup" >
-        </div>
-      </div>
-    </div>
-
-    <div class="form-row align-items-center"  [hidden]="!groupId">
-      <div class="col-auto">
-        <input type="text" class="form-control" placeholder="groupId" formControlName="groupId" aria-label="groupId" value ="{{groupId}}" readonly>
-      </div>
-    </div>
-
   </form>
