@@ -23,7 +23,7 @@ spec:
             memory: "64Mi"
         env:
         - name: AWS_BASE_PATH
-          value: "http://localhost:8080/api"
+          value: "http://localhost:32400/api"
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready
