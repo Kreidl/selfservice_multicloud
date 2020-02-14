@@ -11,6 +11,7 @@ import { KeypairService } from './api/keypair.service';
 import { SecuritygroupService } from './api/securitygroup.service';
 import { StartVMService } from './api/startVM.service';
 import { StopVMService } from './api/stopVM.service';
+import { VpcService } from './api/vpc.service';
 
 @NgModule({
   imports:      [],

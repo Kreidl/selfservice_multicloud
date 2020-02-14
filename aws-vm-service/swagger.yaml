@@ -364,7 +364,7 @@ components:
     VPCListResponse:
       type: object
       properties:
-        vps:
+        vpcs:
           type: array
           items:
             type: object

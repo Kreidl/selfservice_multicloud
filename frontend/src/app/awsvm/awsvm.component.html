@@ -32,7 +32,12 @@
           <textarea class="form-control" aria-label="SecurityGroupDescription" formControlName="securityGroupDescription" placeholder="securityGroupDescription"></textarea>
         </div>
         <div class="input-group col-sm-2">
-          <input type="text" class="form-control" placeholder="vpcId" formControlName="vpcId" aria-label="vpcId">
+          <select class="form-control" (change)="onVPCChange($event)">
+            <option value="0"></option>
+            <ng-container *ngFor="let v of vpcs | slice:0:10; let i=index">
+              <option *ngIf="v.Tags" [value]="v.VpcId">{{v.Tags[0].Value}}</option>
+            </ng-container>
+          </select>
         </div>
       </div>
       <div class="form-row align-items-center">
