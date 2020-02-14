@@ -1,29 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: multicloud-frontend #Name of the deployments
+  name: aws-vpc
   namespace: multicloud
 spec:
-  replicas: 1 #Number of created pods
+  replicas: 1
   selector:
     matchLabels:
-      app: multicloud-frontend
+      app:  aws-vpc
   template:
     metadata:
       labels:
-        app: multicloud-frontend #label to set in the pods
+        app:  aws-vpc
     spec:
       containers:
-      - name: multicloud-frontend
-        image: multicloud-frontend:prod
+      - name:  aws-vpc
+        image: aws-vpc:latest
         resources:
           limits:
             memory: "256Mi"
           requests:
             memory: "64Mi"
         env:
-        - name: AWS_BASE_PATH
-          value: "http://localhost:32400/api"
+        - name: accessKey
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: awsaccessKey
+        - name: secretKey
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: awssecretKey
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready

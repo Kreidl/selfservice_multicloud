@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
   SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest,
-  KeypairService, KeyPairRequest, CreateVMService, VMRequest } from '../api/aws/index';
+  KeypairService, KeyPairRequest, CreateVMService, VMRequest, VpcService } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, CreateVMService]
+  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, CreateVMService, VpcService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -19,6 +19,7 @@ export class AwsvmComponent implements OnInit {
   imageTypeDescription = "ImageId Input";
   images: any[];
   types: any[];
+  vpcs: any[];
   displayNumImages = 10;
   displayNumTypes = 10;
   groupId: string = null;
@@ -40,6 +41,7 @@ export class AwsvmComponent implements OnInit {
               private securitygroupService: SecuritygroupService,
               private keypairService: KeypairService,
               private createVMService: CreateVMService,
+              private vpcService: VpcService,
               private router: Router,
               private formBuilder: FormBuilder) { }
 
@@ -65,6 +67,14 @@ export class AwsvmComponent implements OnInit {
     this.securityGroupInfo = false;
     this.keypairSearchInfo = false;
     this.instanceCreateInfo = false;
+
+    this.vpcService.vpcLoadVPCs().subscribe(
+      vpcs => {
+        this.vpcs = vpcs.vpcs;
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   onSubmit() {
@@ -143,6 +153,9 @@ export class AwsvmComponent implements OnInit {
     this.newVMForm.controls['selectedImage'].setValue($event.target.options[$event.target.options.selectedIndex].value);
   }
 
+  onVPCChange($event){
+    this.newVMForm.controls['vpcId'].setValue($event.target.options[$event.target.options.selectedIndex].value);
+  }
   onTypeChange($event){
     this.newVMForm.controls['selectedtype'].setValue($event.target.options[$event.target.options.selectedIndex].value);
   }

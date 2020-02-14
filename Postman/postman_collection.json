@@ -9,6 +9,31 @@
 			"name": "AWS",
 			"item": [
 				{
+					"name": "AWSVPC",
+					"item": [
+						{
+							"name": "GET all VPC",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32300/vpc",
+									"host": [
+										"localhost"
+									],
+									"port": "32300",
+									"path": [
+										"vpc"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "AWSTypes",
 					"item": [
 						{
@@ -352,6 +377,25 @@
 											"path": [
 												"api",
 												"securitygroup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET ALL VPC",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/vpc",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"vpc"
 											]
 										}
 									},

@@ -14,4 +14,6 @@ export * from './startVM.service';
 import { StartVMService } from './startVM.service';
 export * from './stopVM.service';
 import { StopVMService } from './stopVM.service';
-export const APIS = [CreateVMService, GetVMService, ImageService, InstancetypeService, KeypairService, SecuritygroupService, StartVMService, StopVMService];
+export * from './vpc.service';
+import { VpcService } from './vpc.service';
+export const APIS = [CreateVMService, GetVMService, ImageService, InstancetypeService, KeypairService, SecuritygroupService, StartVMService, StopVMService, VpcService];

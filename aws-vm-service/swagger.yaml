@@ -189,6 +189,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponse'
+  /vpc:
+    get:
+      operationId: "vpc.loadVPCs"
+      tags:
+        - "vpc"
+      summary: "Load all VPCs in Account"
+      description: "Load all VPCs in Account"
+      responses:
+        200:
+          description: "Successful read vpcs"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPCListResponse'
 components:
   parameters:
     instanceId:
@@ -347,3 +361,70 @@ components:
       properties:
         groupId:
           type: string
+    VPCListResponse:
+      type: object
+      properties:
+        vpcs:
+          type: array
+          items:
+            type: object
+            properties:
+              CidrBlock:
+                type: string
+              DhcpOptionsId:
+                type: string
+              State:
+                type: string
+              VpcId:
+                type: string
+              OwnerId:
+                type: string
+              InstanceTenancy:
+                type: string
+              Ipv6CidrBlockAssociationSet:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    AssociationId:
+                      type: string
+                    Ipv6CidrBlock:
+                      type: string
+                    Ipv6CidrBlockState:
+                      type: object
+                      properties:
+                        State:
+                          type: string
+                        StatusMessage:
+                          type: string
+                    Ipv6Pool:
+                      type: string
+                    NetworkBorderGroup:
+                      type: string
+              CidrBlockAssociationSet:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    AssociationId:
+                      type: string
+                    CidrBlock:
+                      type: string
+                    CidrBlockState:
+                      type: object
+                      properties:
+                        State:
+                          type: string
+                        StatusMessage:
+                          type: string
+              IsDefault:
+                type: boolean
+              Tags:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Key:
+                      type: string
+                    Value:
+                      type: string
