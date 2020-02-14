@@ -1,5 +1,5 @@
 [MicroServiceURL]
 aws-instancetype = http://aws-instancetype:8080
-aws-keypair = http://aws-keypair:8080
-aws-securitygroup = http://aws-securitygroup:8080
-aws-image = http://aws-image:8080
+aws-keypair = http://aws-keypair:80
+aws-securitygroup = http://aws-securitygroup:80
+aws-image = http://aws-image:80

@@ -1,4 +1,4 @@
-FROM python:alpine3.11
+FROM tiangolo/meinheld-gunicorn-flask:python3.7-alpine3.8
 
 WORKDIR /app
 # We copy just the requirements.txt first to leverage Docker cache
@@ -13,5 +13,3 @@ COPY config.txt /app/
 COPY swagger.yaml /app/
 
 COPY /Models /app/Models
-
-ENTRYPOINT python main.py
