@@ -65,6 +65,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: aws-vpc
+  namespace: multicloud
+  labels:
+    app: aws-vpc
+spec:
+  ports:
+    - port: 80
+      name: aws-image
+      nodePort: 32300
+  type: NodePort
+  selector:
+    app: aws-vpc
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: aws-vm
   namespace: multicloud
   labels:
