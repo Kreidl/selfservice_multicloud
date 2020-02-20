@@ -400,6 +400,63 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Load All VM",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load All keypair",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/keypair",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"keypair"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load all Securitygroup",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/securitygroup",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"securitygroup"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"protocolProfileBehavior": {},

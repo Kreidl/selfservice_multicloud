@@ -62,6 +62,14 @@ def createSecurityGroup():
 
     return make_response(jsonify(groupId = createresult['GroupId']))
 
+@app.route('/securityGroup', methods=['GET'])
+def loadAllSecurityGroups():
+    #Search group based on Name on aws
+    response = client.describe_security_groups()
+    if response['SecurityGroups']:
+        groups = response['SecurityGroups']
+        return make_response(jsonify(groups=groups))
+    return make_response(jsonify(groups=None))
 
 @app.route('/securityGroup/<groupName>', methods=['GET'])
 def searchSecurityGroup(groupName):

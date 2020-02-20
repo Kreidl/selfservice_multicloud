@@ -31,6 +31,22 @@ def getVM(instanceId):
 
     return make_response(jsonify(instance=None))
 
+
+
+def loadAllVM():
+    #try:
+    response = client.describe_instances(
+        DryRun=False
+    )
+
+    if response['Reservations']:
+        instances = response['Reservations']
+        return make_response(jsonify(instances=instances))
+    #except Exception:
+    #    pass
+
+    return make_response(jsonify(instances=None))
+
 def stopVM(instanceId):
     if instanceId:
         try:
