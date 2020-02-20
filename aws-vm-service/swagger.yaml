@@ -15,7 +15,7 @@ paths:
     post:
       operationId: "vm.createVM"
       tags:
-        - "createVM"
+        - "vm"
       summary: "Create an EC2 (VM)"
       description: "Create an EC2 (VM)"
       requestBody:
@@ -34,7 +34,7 @@ paths:
     get:
       operationId: "vm.loadAllVM"
       tags:
-        - "loadALLVM"
+        - "vm"
       summary: "Loads All VMs"
       description: "Loads all VMS"
       responses:
@@ -48,7 +48,7 @@ paths:
     get:
       operationId: "vm.getVM"
       tags:
-        - "getVM"
+        - "vm"
       summary: "Get the VM based on provided instanceId"
       description : "Get the VM based on provided instanceId"
       parameters:
@@ -63,7 +63,7 @@ paths:
     patch:
       operationId: "vm.stopVM"
       tags:
-        - "stopVM"
+        - "vm"
       summary: "stop the VM based on provided instanceId"
       description: "stop the VM based on provided instanceId"
       parameters:
@@ -78,7 +78,7 @@ paths:
     put:
       operationId: "vm.startVM"
       tags:
-        - "startVM"
+        - "vm"
       summary: "Starts the VM based on provided instanceId"
       description: "Starts the VM based on provided instanceId"
       parameters:
