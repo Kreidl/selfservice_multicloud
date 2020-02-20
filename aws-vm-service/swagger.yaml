@@ -271,6 +271,8 @@ components:
           type: array
           items:
             type: string
+        vmname:
+          type: string
     VMResponse:
       type: object
       properties:
