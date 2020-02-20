@@ -36,6 +36,8 @@ def getOwnImages():
 @app.route('/images/<imageName>', methods=['GET'])
 def getImageByName(imageName):
     images = None
+    if imageName.lower() == "ubuntu":
+        return make_response(jsonify(images=None))
     if imageName:
         try:
             images = client.describe_images(
