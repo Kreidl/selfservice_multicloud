@@ -574,15 +574,35 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/images/ubuntu",
+									"raw": "http://localhost:32600/images/fedora",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "32300",
+									"port": "32600",
 									"path": [
 										"images",
-										"ubuntu"
+										"fedora"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Image By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32600/images/ami-0df0e7600ad0913a9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32600",
+									"path": [
+										"images",
+										"ami-0df0e7600ad0913a9"
 									]
 								}
 							},

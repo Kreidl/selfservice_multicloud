@@ -40,7 +40,7 @@ def getImageByName(imageName):
         try:
             images = client.describe_images(
                 Filters=[
-                    dict(Name='name', Values=[imageName+'*'])            
+                    dict(Name='name', Values=[imageName+'*'])
                 ]
             )
         except Exception:
@@ -60,7 +60,6 @@ def getImageByName(imageName):
             return make_response(jsonify(images=images['Images']))
 
     return make_response(jsonify(images=None))
-
 
 
 #Starts application if main.py is the main called file
