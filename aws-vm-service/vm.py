@@ -31,6 +31,22 @@ def getVM(instanceId):
 
     return make_response(jsonify(instance=None))
 
+
+
+def loadAllVM():
+    #try:
+    response = client.describe_instances(
+        DryRun=False
+    )
+
+    if response['Reservations']:
+        instances = response['Reservations']
+        return make_response(jsonify(instances=instances))
+    #except Exception:
+    #    pass
+
+    return make_response(jsonify(instances=None))
+
 def stopVM(instanceId):
     if instanceId:
         try:
@@ -71,41 +87,42 @@ def createVM():
     #get the provided json body
     content = request.get_json()
     if content:
-        #try:
-        vm = VMModel(content['instanceType'], content['keyName'], content['imageId'])
-        #except KeyError:
-        #return make_response(jsonify(instanceId=None))
+        try:
+            vm = VMModel(content['instanceType'], content['keyName'], content['imageId'], content['vmname'])
+        except KeyError:
+            return make_response(jsonify(instanceId=None))
         if content['securityGroups']:
             for securitygroup in content['securityGroups']:
                 vm.addSecurityGroup(securitygroup)
-            #try:
-            response = client.run_instances(
-                ImageId=vm.imageId,
-                InstanceType=vm.instanceType,
-                KeyName=vm.keyname,
-                SecurityGroupIds=vm.securiyGroups,
-                DryRun=False,
-                MaxCount=1,
-                MinCount=1
-                )
-            #except Exception:
-            #    return make_response(jsonify(instanceId=None))
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    SecurityGroupIds=vm.securiyGroups,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                    )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
         else:
-            #try:
-            response = client.run_instances(
-                ImageId=vm.imageId,
-                InstanceType=vm.instanceType,
-                KeyName=vm.keyname,
-                DryRun=False,
-                MaxCount=1,
-                MinCount=1
-            )
-            #except Exception:
-            #    return make_response(jsonify(instanceId=None))
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
 
 
-        #if response['Instances']:
-        instanceId = response['Instances'][0]['InstanceId']
-        return make_response(jsonify(instanceId=instanceId))
+        if response['Instances']:
+            instanceId = response['Instances'][0]['InstanceId']
+            client.create_tags(Resources=[instanceId], Tags=[{'Key':'Name', 'Value':vm.vmname}])
+            return make_response(jsonify(instanceId=instanceId))
 
     return make_response(jsonify(instanceId=None))

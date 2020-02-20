@@ -9,11 +9,13 @@ import { ApiRequestInterceptor } from './api/apirequestinterceptor';
 import { BASE_PATH as AWS_BASE_PATH } from './api/aws/index';
 import { environment } from '../environments/environment';
 import { AwsvmComponent } from './awsvm/awsvm.component';
+import { AwshomeComponent } from './awshome/awshome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AwsvmComponent
+    AwsvmComponent,
+    AwshomeComponent
   ],
   imports: [
     BrowserModule,

@@ -102,6 +102,7 @@
           </select>
         </div>
         <div class="col-sm-3">
+          <p>Do not search for ubuntu since there are too many to search</p>
           <label class="sr-only" for="inlineFormInputImage">Image</label>
           <div class="input-group">
             <input type="text" class="form-control" id="inlineFormInputImage" formControlName="imageInput">
@@ -155,14 +156,23 @@
     </div>
     <br/><br/><br/>
 
+
+
+    <div class="form-row align-items-center">
+      <div class="col-sm-5">
+        <label for="vmname">name of the VM</label>
+        <input type="text" class="form-control" id="vmname" formControlName="vmname">
+      </div>
+    </div>
+  <br/><br/><br/>
+
     <h2>VM Creation</h2>
-    <h6  [hidden]="(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value)">Create Button Will be shown when securityGroup, keypair, instancetype and image are selected</h6>
-    <div [hidden]="!(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value)">
+    <h6  [hidden]="(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value && this.f.vmname.value)">Create Button Will be shown when securityGroup, keypair, instancetype and image are selected</h6>
+    <div [hidden]="!(groupId && keypair && this.f.selectedtype.value && this.f.selectedImage.value && this.f.vmname.value)">
       <div class="form-row align-items-center">
         <div class="col-auto">
           <p *ngIf="!instanceId && instanceCreateInfo"><em>Creating VM</em></p>
           <button type="submit" class="btn btn-primary">create VM</button>
-          <!--<input type="button" class="btn btn-primary" (click)="createVM()" value="create VM" >-->
         </div>
       </div>
     </div>

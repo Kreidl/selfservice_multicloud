@@ -39,6 +39,14 @@ def createKeyPair():
         return make_response(jsonify(resp))
     return make_response(jsonify(keypairId=None))
 
+@app.route('/keypair', methods=['GET'])
+def getKeyPairs():
+    #Search group based on Name on aws
+    response = client.describe_key_pairs()
+
+    if response['KeyPairs']:
+        keypairs = response['KeyPairs']
+        return make_response(jsonify(keypairs=keypairs))
 
 
 @app.route('/keypair/<keypairname>', methods=['GET'])

@@ -33,3 +33,14 @@ def loadOrCreateSecurityGroupWithAuthorization():
          #   pass
 
     return make_response(jsonify(groupId=None))
+
+
+def loadAllSecurityGroups():
+    try:
+        groups = json.loads(requests.get(securitygroupURL + '/securityGroup').text)
+        if groups:
+            return make_response(jsonify(groups))
+    except Exception:
+        pass
+
+    return make_response(jsonify(groups=None))

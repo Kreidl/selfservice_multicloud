@@ -11,7 +11,7 @@
  */
 import { VPCListResponseIpv6CidrBlockAssociationSet } from './vPCListResponseIpv6CidrBlockAssociationSet';
 import { VPCListResponseCidrBlockAssociationSet } from './vPCListResponseCidrBlockAssociationSet';
-import { VPCListResponseTags } from './vPCListResponseTags';
+import { KeyPairResponseFullTags } from './keyPairResponseFullTags';
 
 
 export interface VPCListResponseVpcs { 
@@ -23,7 +23,7 @@ export interface VPCListResponseVpcs {
     isDefault?: boolean;
     ownerId?: string;
     state?: string;
-    tags?: Array<VPCListResponseTags>;
+    tags?: Array<KeyPairResponseFullTags>;
     vpcId?: string;
 }
 

@@ -16,5 +16,6 @@ export interface VMRequest {
     instanceType?: string;
     keyName?: string;
     securityGroups?: Array<string>;
+    vmname?: string;
 }
 

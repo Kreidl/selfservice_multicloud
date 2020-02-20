@@ -9,7 +9,7 @@
 			"name": "AWS",
 			"item": [
 				{
-					"name": "AWSVPC",
+					"name": "VPC",
 					"item": [
 						{
 							"name": "GET all VPC",
@@ -34,7 +34,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSTypes",
+					"name": "Types",
 					"item": [
 						{
 							"name": "Get Types",
@@ -80,7 +80,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSSecurityGroup",
+					"name": "SecurityGroup",
 					"item": [
 						{
 							"name": "Create",
@@ -137,7 +137,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSKeypair",
+					"name": "Keypair",
 					"item": [
 						{
 							"name": "Get Key Pair",
@@ -193,7 +193,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSVM",
+					"name": "VM",
 					"item": [
 						{
 							"name": "Create VM",
@@ -211,7 +211,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
+											"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"vmname\": \"settedname\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
 										},
 										"url": {
 											"raw": "localhost:32400/api/",
@@ -400,6 +400,63 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Load All VM",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load All keypair",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/keypair",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"keypair"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Load all Securitygroup",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:32400/api/securitygroup",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"securitygroup"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"protocolProfileBehavior": {},
@@ -470,7 +527,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWS Images",
+					"name": "Images",
 					"item": [
 						{
 							"name": "Get Images",
@@ -517,15 +574,35 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32300/images/ubuntu",
+									"raw": "http://localhost:32600/images/fedora",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "32300",
+									"port": "32600",
 									"path": [
 										"images",
-										"ubuntu"
+										"fedora"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Image By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32600/images/ami-0df0e7600ad0913a9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32600",
+									"path": [
+										"images",
+										"ami-0df0e7600ad0913a9"
 									]
 								}
 							},

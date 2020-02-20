@@ -24,3 +24,12 @@ def loadOrCreateKeyPair():
         return make_response(jsonify(keypairId=None))
 
     return make_response(jsonify(keypairId))
+
+
+def getAllKeypairs():
+    try:
+        keypairs = json.loads(requests.get(keypairURL + '/keypair').text)
+    except Exception:
+        return make_response(jsonify(keypairs=None))
+
+    return make_response(jsonify(keypairs))
