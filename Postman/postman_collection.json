@@ -9,7 +9,7 @@
 			"name": "AWS",
 			"item": [
 				{
-					"name": "AWSVPC",
+					"name": "VPC",
 					"item": [
 						{
 							"name": "GET all VPC",
@@ -34,7 +34,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSTypes",
+					"name": "Types",
 					"item": [
 						{
 							"name": "Get Types",
@@ -80,7 +80,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSSecurityGroup",
+					"name": "SecurityGroup",
 					"item": [
 						{
 							"name": "Create",
@@ -137,7 +137,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSKeypair",
+					"name": "Keypair",
 					"item": [
 						{
 							"name": "Get Key Pair",
@@ -193,7 +193,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWSVM",
+					"name": "VM",
 					"item": [
 						{
 							"name": "Create VM",
@@ -527,7 +527,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "AWS Images",
+					"name": "Images",
 					"item": [
 						{
 							"name": "Get Images",

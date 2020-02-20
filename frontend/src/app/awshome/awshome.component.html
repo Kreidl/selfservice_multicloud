@@ -10,7 +10,6 @@
           {{vm.Instances[0].Tags[0].Value}} - {{vm.Instances[0].State.Name}}
           <input *ngIf="vm.Instances[0].State.Code==16" type="button" class="btn btn-primary" (click)="stop(vm.Instances[0].InstanceId)" value="Stop" >
           <input *ngIf="vm.Instances[0].State.Code==80" type="button" class="btn btn-primary" (click)="start(vm.Instances[0].InstanceId)" value="Start" >
-          <a [routerLink]="['/awshome', 'detail', vm.Instances[0].InstanceId]" class="btn btn-primary" ><span>Detail</span></a>
         </li>
       </div>
     </ul>
