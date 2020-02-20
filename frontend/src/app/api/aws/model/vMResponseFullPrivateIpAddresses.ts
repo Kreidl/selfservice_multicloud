@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { VMResponseFullAssociation } from './vMResponseFullAssociation';
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullPrivateIpAddresses { 
+    association?: VMResponseFullAssociation;
+    primary?: boolean;
+    privateDnsName?: string;
+    privateIpAddress?: string;
 }
 

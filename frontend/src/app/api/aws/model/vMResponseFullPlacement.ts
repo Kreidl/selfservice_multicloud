@@ -11,11 +11,14 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullPlacement { 
+    affinity?: string;
+    availabilityZone?: string;
+    groupName?: string;
+    hostId?: string;
+    hostResourceGroupArn?: string;
+    partitionNumber?: number;
+    spreadDomain?: string;
+    tenancy?: string;
 }
 

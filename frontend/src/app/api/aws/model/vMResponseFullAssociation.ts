@@ -11,11 +11,9 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullAssociation { 
+    ipOwnerId?: string;
+    publicDnsName?: string;
+    publicIp?: string;
 }
 

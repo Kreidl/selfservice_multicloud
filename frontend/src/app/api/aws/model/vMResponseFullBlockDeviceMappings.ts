@@ -9,13 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { VMResponseFullEbs } from './vMResponseFullEbs';
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullBlockDeviceMappings { 
+    deviceName?: string;
+    ebs?: VMResponseFullEbs;
 }
 

@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { KeyPairResponseFullTags } from './keyPairResponseFullTags';
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
+export interface KeyPairResponseFull { 
+    keyFingerprint?: string;
     keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+    keyPairId?: string;
+    tags?: Array<KeyPairResponseFullTags>;
 }
 

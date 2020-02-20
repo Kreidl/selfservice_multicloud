@@ -9,13 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SecurityGroupResponseFull } from './securityGroupResponseFull';
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface SecurityGroupResponseFullList { 
+    groups?: Array<SecurityGroupResponseFull>;
 }
 

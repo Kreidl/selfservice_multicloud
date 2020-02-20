@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
   SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest,
-  KeypairService, KeyPairRequest, CreateVMService, VMRequest, VpcService } from '../api/aws/index';
+  KeypairService, KeyPairRequest, VmService, VMRequest, VpcService } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, CreateVMService, VpcService]
+  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, VmService, VpcService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -40,7 +40,7 @@ export class AwsvmComponent implements OnInit {
               private instancetypeService: InstancetypeService,
               private securitygroupService: SecuritygroupService,
               private keypairService: KeypairService,
-              private createVMService: CreateVMService,
+              private vmService: VmService,
               private vpcService: VpcService,
               private router: Router,
               private formBuilder: FormBuilder) { }
@@ -59,7 +59,8 @@ export class AwsvmComponent implements OnInit {
       protocol: [''],
       groupId: [''],
       keypairInput:[''],
-      keypair: ['']
+      keypair: [''],
+      vmname: ['']
 
     });
     this.imagesSearchInfo = false;
@@ -81,15 +82,17 @@ export class AwsvmComponent implements OnInit {
     this.instanceCreateInfo = true;
 
     let vmRequest:VMRequest = {
-      imageId: this.f.selectedImage.value,
-      instanceType: this.f.selectedtype.value,
-      keyName: this.keypair,
-      securityGroups: [this.groupId]
+      imageId: this.f.selectedImage.value.toString(),
+      instanceType: this.f.selectedtype.value.toString(),
+      keyName: this.keypair.toString(),
+      securityGroups: [this.groupId],
+      vmname: this.f.vmname.value.toString()
     };
 
-    this.createVMService.vmCreateVM(vmRequest).subscribe(
+    this.vmService.vmCreateVM(vmRequest).subscribe(
       instance => {
-        this.router.navigate(['/']);
+        console.log(instance);
+        this.router.navigate(['/awshome']);
       },
       error => {
         console.log(error);

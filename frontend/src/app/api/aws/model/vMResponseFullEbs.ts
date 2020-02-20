@@ -11,11 +11,10 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullEbs { 
+    attachTime?: string;
+    deleteOnTermination?: boolean;
+    status?: string;
+    volumeId?: string;
 }
 

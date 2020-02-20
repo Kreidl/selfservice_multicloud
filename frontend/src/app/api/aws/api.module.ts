@@ -3,14 +3,11 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
-import { CreateVMService } from './api/createVM.service';
-import { GetVMService } from './api/getVM.service';
 import { ImageService } from './api/image.service';
 import { InstancetypeService } from './api/instancetype.service';
 import { KeypairService } from './api/keypair.service';
 import { SecuritygroupService } from './api/securitygroup.service';
-import { StartVMService } from './api/startVM.service';
-import { StopVMService } from './api/stopVM.service';
+import { VmService } from './api/vm.service';
 import { VpcService } from './api/vpc.service';
 
 @NgModule({

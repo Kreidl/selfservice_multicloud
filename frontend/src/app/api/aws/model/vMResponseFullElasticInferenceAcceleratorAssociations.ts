@@ -11,11 +11,10 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullElasticInferenceAcceleratorAssociations { 
+    elasticInferenceAcceleratorArn?: string;
+    elasticInferenceAcceleratorAssociationId?: string;
+    elasticInferenceAcceleratorAssociationState?: string;
+    elasticInferenceAcceleratorAssociationTime?: string;
 }
 

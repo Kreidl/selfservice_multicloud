@@ -11,11 +11,13 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface SecurityGroupResponseFullUserIdGroupPairs { 
+    description?: string;
+    groupId?: string;
+    groupName?: string;
+    peeringStatus?: string;
+    userId?: string;
+    vpcId?: string;
+    vpcPeeringConnectionId?: string;
 }
 

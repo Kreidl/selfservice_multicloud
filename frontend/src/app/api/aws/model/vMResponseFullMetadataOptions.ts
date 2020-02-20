@@ -11,11 +11,10 @@
  */
 
 
-export interface VMRequest { 
-    imageId?: string;
-    instanceType?: string;
-    keyName?: string;
-    securityGroups?: Array<string>;
-    vmname?: string;
+export interface VMResponseFullMetadataOptions { 
+    httpEndpoint?: string;
+    httpPutResponseHopLimit?: number;
+    httpTokens?: string;
+    state?: string;
 }
 
