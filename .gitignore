@@ -30,3 +30,4 @@ hs_err_pid*
 
 /aws-vm-service/Models/__pycache__/
 /aws-vm-service/__pycache__/
+/aws-vpc-service/__pycache__/
