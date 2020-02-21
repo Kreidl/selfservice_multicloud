@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
   SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest,
-  KeypairService, KeyPairRequest, VmService, VMRequest, VpcService } from '../api/aws/index';
+  KeypairService, KeyPairRequest, VmService, VMRequest, VpcService, VPCRequest } from '../api/aws/index';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -30,6 +30,7 @@ export class AwsvmComponent implements OnInit {
   securityGroupInfo = false;
   keypairSearchInfo = false;
   instanceCreateInfo = false;
+  createvpc = true;
 
 
   authorizeConfig: Array<SecurityGroupRequestAuthorizeConfiguration> = [];
@@ -60,7 +61,10 @@ export class AwsvmComponent implements OnInit {
       groupId: [''],
       keypairInput:[''],
       keypair: [''],
-      vmname: ['']
+      vmname: [''],
+      createvpc:[''],
+      vpcname:[''],
+      ipaddressvpc:['']
 
     });
     this.imagesSearchInfo = false;
@@ -69,9 +73,44 @@ export class AwsvmComponent implements OnInit {
     this.keypairSearchInfo = false;
     this.instanceCreateInfo = false;
 
+    this.createvpc = true;
+
+    this.loadVpc();
+  }
+
+  loadVpc(){
     this.vpcService.vpcLoadVPCs().subscribe(
       vpcs => {
         this.vpcs = vpcs.vpcs;
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
+  onCheckChange(event){
+    if(event.target.checked){
+      this.createvpc = false;
+    }else{
+      this.createvpc = true;
+    }
+
+  }
+
+  createVPC(){
+    let vpcRequest:VPCRequest = {
+      ipaddress: this.f.ipaddressvpc.value,
+      vpcname: this.f.vpcname.value
+    }
+
+    this.vpcService.vpcCreateVPC(vpcRequest).subscribe(
+      vpc => {
+        this.newVMForm.controls['ipaddressvpc'].setValue("");
+        this.newVMForm.controls['vpcname'].setValue("");
+        this.newVMForm.controls['createvpc'].setValue("");
+        this.createvpc = true;
+        this.loadVpc();
+
       },
       error => {
         console.log(error);

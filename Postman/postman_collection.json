@@ -28,6 +28,34 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Create VPC",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"ipaddress\" :\"10.0.0.0/16\",\r\n\t\"vpcname\" : \"myVPC\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/vpc",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"vpc"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -453,6 +481,35 @@
 											"path": [
 												"api",
 												"securitygroup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create VPC",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ipaddress\": \"10.0.0.0/16\",\n    \"vpcname\": \"myVPC\"\n}"
+										},
+										"url": {
+											"raw": "localhost:32400/api/vpc",
+											"host": [
+												"localhost"
+											],
+											"port": "32400",
+											"path": [
+												"api",
+												"vpc"
 											]
 										}
 									},

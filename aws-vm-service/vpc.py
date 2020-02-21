@@ -14,3 +14,14 @@ def loadVPCs():
         return make_response(jsonify(vpcs))
     except Exception:
         return make_response(jsonify(vpcs=None))
+
+def createVPC():
+    content = request.get_json()
+
+    if content and content['ipaddress'] and content['vpcname']:
+        try:
+            vpc = json.loads(requests.post(vpcURL + '/vpc',json=content).text)
+            return make_response(jsonify(vpc))
+        except Exception:
+            pass
+    return make_response(jsonify(vpcId=None))

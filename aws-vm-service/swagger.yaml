@@ -242,6 +242,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VPCListResponse'
+    post:
+      operationId: "vpc.createVPC"
+      tags:
+        - "vpc"
+      summary: "Creates a VPC"
+      description: "Creates a VPC"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPCRequest'
+      responses:
+        200:
+          description: "Successful created vpc"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPCResponse'
 components:
   parameters:
     instanceId:
@@ -258,6 +277,78 @@ components:
       schema:
         type: string
   schemas:
+    VPCRequest:
+      type: object
+      properties:
+        ipaddress:
+          type: string
+        vpcname:
+          type: string
+    VPCResponse:
+      type: object
+      properties:
+        Vpc:
+          type: object
+          properties:
+            CidrBlock:
+              type: string
+            DhcpOptionsId:
+              type: string
+            State:
+              type: string
+            VpcId:
+              type: string
+            OwnerId:
+              type: string
+            InstanceTenancy:
+              type: string
+            Ipv6CidrBlockAssociationSet:
+              type: array
+              items:
+                type: object
+                properties:
+                  AssociationId:
+                    type: string
+                  Ipv6CidrBlock:
+                    type: string
+                  Ipv6CidrBlockState:
+                    type: object
+                    properties:
+                      State:
+                        type: string
+                      StatusMessage:
+                        type: string
+                  NetworkBorderGroup:
+                    type: string
+                  Ipv6Pool:
+                    type: string
+            CidrBlockAssociationSet:
+              type: array
+              items:
+                type: object
+                properties:
+                  AssociationId:
+                    type: string
+                  CidrBlock:
+                    type: string
+                  CidrBlockState:
+                    type: object
+                    properties:
+                      State:
+                        type: string
+                      StatusMessage:
+                        type: string
+            IsDefault:
+              type: boolean
+            Tags:
+              type: array
+              items:
+                type: object
+                properties:
+                  Key:
+                    type: string
+                  Value:
+                    type: string
     VMRequest:
       type: object
       properties:

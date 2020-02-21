@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 import boto3
 import os
+from Models.VPCModel import VPCModel
 
 client = boto3.client(
     'ec2',
@@ -26,6 +27,25 @@ def getAllVPC():
     except Exception:
         pass
     return make_response(jsonify(vpcs=None))
+
+
+#create VPC's
+@app.route('/vpc', methods=['POST'])
+def createVPC():
+    #get the provided json body
+    content = request.get_json()
+    #try:
+    vpcmodel = VPCModel(content['ipaddress'], content['vpcname'])
+    # create VPC
+    vpc = client.create_vpc(CidrBlock=vpcmodel.ipaddress)
+    # assign a name to our VPC
+#    vpcs = client.describe_vpcs()
+    if vpc:
+        client.create_tags(Resources=[vpc['Vpc']['VpcId']], Tags=[{'Key':'Name', 'Value':vpcmodel.vpcname}])
+        return make_response(jsonify(vpcId=vpc['Vpc']['VpcId']))
+    #except Exception:
+    #    pass
+    return make_response(jsonify(vpcId=None))
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':

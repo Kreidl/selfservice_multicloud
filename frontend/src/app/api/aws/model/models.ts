@@ -53,3 +53,5 @@ export * from './vPCListResponseCidrBlockAssociationSet';
 export * from './vPCListResponseCidrBlockState';
 export * from './vPCListResponseIpv6CidrBlockAssociationSet';
 export * from './vPCListResponseVpcs';
+export * from './vPCRequest';
+export * from './vPCResponse';
