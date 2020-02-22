@@ -1,5 +1,5 @@
 # selfservice_multicloud UNDER CONSTRUCTION
-A Self service platform for creating Resources in aws and gcloud
+A Self service platform for creating Resources in aws and azure
 
 ## External things needed
 There should be an active Secret in Kubernetes in this Structure:
