@@ -28,6 +28,7 @@ hs_err_pid*
 
 /.metadata/
 
-/aws-vm-service/Models/__pycache__/
-/aws-vm-service/__pycache__/
-/aws-vpc-service/Models/__pycache__/
+/aws/aws-vm-service/Models/__pycache__/
+/aws/aws-vm-service/__pycache__/
+/aws/aws-vpc-service/Models/__pycache__/
+/azure/azure-resource-service/Models/__pycache__/

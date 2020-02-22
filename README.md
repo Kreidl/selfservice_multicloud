@@ -13,6 +13,10 @@ type: Opaque<br/>
 stringData:<br/>
     awsaccessKey: "YOUR ACCESS KEY TO AWS (EC2)"<br/>
     awssecretKey: "YOUR SECRET KEY FOR AWS EC2 User"<br/>
+    azuresubscriptionId: "YOUR Azure SubscriptionId"<br/>
+    azureclientId: "YOUR Azure APP Client Id"<br/>
+    azuresecret: "YOUR Azure APP Secret"<br/>
+    azureTenantId: "YOUR Azure APP Tenant Id"<br/>
 </pre>
 
 
@@ -33,3 +37,10 @@ Run generate.sh under frontend/src/app/api to update API
 
 ### Define API
 To define the api use this url [Swagger Editor](https://editor.swagger.io/)
+
+
+## Azure Credentials
+Create a SubScription and add in the subscriptionId in the secrets file <br/>
+Create a Role with the permissions to create resources, start,stop and delete<br/>
+Create an app registration and copy client and tenantId in the secrets file<br/>
+Create a new secret and copy the value in the secrets file<br/>

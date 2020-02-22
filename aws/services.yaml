@@ -94,34 +94,3 @@ spec:
   type: NodePort
   selector:
     app: aws-vm
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: multicloud-frontend
-  namespace: multicloud
-  labels:
-    app: multicloud-frontend
-spec:
-  ports:
-  - port: 80
-    name: multicloud-frontend
-    nodePort: 32500
-  type: NodePort
-  selector:
-    app: multicloud-frontend
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: movie-info-service
-#  labels:
-#    app: movie-info
-#spec:
-#  clusterIP: "10.96.0.2" To Specify the ip address of the service
-#  ports:
-#  - port: 8082
-#    name: movie-info
-#  type: ClusterIP
-#  selector:
-#    app: movie-info

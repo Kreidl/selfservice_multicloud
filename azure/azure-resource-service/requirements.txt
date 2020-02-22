@@ -1,0 +1,2 @@
+Flask == 1.0.2
+azure-mgmt-resource==3.0.0
