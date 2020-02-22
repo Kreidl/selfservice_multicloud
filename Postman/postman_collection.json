@@ -671,6 +671,122 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Azure",
+			"item": [
+				{
+					"name": "ResourceGroups",
+					"item": [
+						{
+							"name": "Get a ResourceGroup",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/resource/cloud-shell-storage-westeurope",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"resource",
+										"cloud-shell-storage-westeurope"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All ResourceGroups",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/resource",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"resource"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a ResourceGroup",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"groupName\": \"testing4\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/resource",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"resource"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a ResourceGroup",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"groupName\": \"testing2\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/resource",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"resource"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
