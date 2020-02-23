@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from Models.PublisherModel import PublisherModel
 from Models.ImageModel import ImageModel
 from Models.PublisherListModel import PublisherListModel
+from Models.SkuModel import SkuModel
 
 subscription_id = os.environ["subscriptionId"]
 
@@ -38,7 +39,9 @@ def getAllImages():
     else:
         creationDate = datetime.fromtimestamp(os.path.getctime(fileName)).replace(hour=0, minute=0, second=0, microsecond=0)
         today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        if today != creationDate:
+        d = timedelta(days=21)
+        t = creationDate + d
+        if t == creationDate:
             return make_response(jsonify(createFile()))
         else:
             return make_response(jsonify(readFile()))
@@ -54,13 +57,18 @@ def createFile():
     publishers = compute_client.virtual_machine_images.list_publishers(compute_group_params)
     for pub in publishers:
         publisher = PublisherModel(pub.id, pub.name, pub.location, pub.tags)
-        try:
-            images = compute_client.virtual_machine_images.list_offers(compute_group_params, publisher.name)
-            for image in images:
-                publisher.addImage(ImageModel(image.id, image.name, image.location, image.tags))
-        except Exception:
-            pass
-        pubs.addPublisher(publisher)
+        images = compute_client.virtual_machine_images.list_offers(compute_group_params, publisher.name)
+        for image in images:
+            image = ImageModel(image.id, image.name, image.location, image.tags)
+            skus = result_list_skus = compute_client.virtual_machine_images.list_skus(compute_group_params,pub.name,image.name)
+            for sku in skus:
+                sku = SkuModel(sku.id, sku.name, sku.location, sku.tags)
+                image.addsku(sku)
+            publisher.addImage(image)
+    pubs.addPublisher(publisher)
+    #Delete file if already exists
+    if os.path.isfile(fileName):
+        os.remove(fileName)
     with open(fileName, 'w') as f:
         json.dump(pubs.toJSON(), f, ensure_ascii=False, indent=4)
     return pubs.toJSON()
