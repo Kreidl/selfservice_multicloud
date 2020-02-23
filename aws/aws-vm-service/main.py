@@ -1,22 +1,147 @@
-import connexion
-from flask_cors import CORS
+#import flask
+from flask import Flask, jsonify, request, make_response
+import boto3
+import os
+import json
 
-# Create the application instance
-app = connexion.App(__name__, specification_dir='./')
+from Models.VMModel import VMModel
 
-port = 8080
+client = boto3.client(
+    'ec2',
+    aws_access_key_id=os.environ['accessKey'],
+    aws_secret_access_key = os.environ['secretKey'],
+    region_name='eu-central-1'
+    )
 
-# Read the swagger.yml file to configure the endpoints
-app.add_api('swagger.yaml')
-
-# add CORS support
-cors = CORS(app.app, resources={r"/api/*": {"origins": "*"}})
+app = Flask(__name__)
 
 #Default Route
 @app.route('/', methods=['GET'])
 def index():
     return "welcome at the aws vm service"
 
+@app.route('/vm', methods=['POST'])
+def createVM():
+    #get the provided json body
+    content = request.get_json()
+    if content:
+        try:
+            vm = VMModel(content['instanceType'], content['keyName'], content['imageId'], content['vmname'])
+        except KeyError:
+            return make_response(jsonify(instanceId=None))
+        if content['securityGroups']:
+            for securitygroup in content['securityGroups']:
+                vm.addSecurityGroup(securitygroup)
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    SecurityGroupIds=vm.securiyGroups,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                    )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
+        else:
+            try:
+                response = client.run_instances(
+                    ImageId=vm.imageId,
+                    InstanceType=vm.instanceType,
+                    KeyName=vm.keyname,
+                    DryRun=False,
+                    MaxCount=1,
+                    MinCount=1
+                )
+            except Exception:
+                return make_response(jsonify(instanceId=None))
+
+
+        if response['Instances']:
+            instanceId = response['Instances'][0]['InstanceId']
+            client.create_tags(Resources=[instanceId], Tags=[{'Key':'Name', 'Value':vm.vmname}])
+            return make_response(jsonify(instanceId=instanceId))
+
+    return make_response(jsonify(instanceId=None))
+
+@app.route('/vm', methods=['GET'])
+def loadAllVM():
+    try:
+        response = client.describe_instances(
+            DryRun=False
+        )
+
+        if response['Reservations']:
+            instances = response['Reservations']
+            return make_response(jsonify(instances=instances))
+    except Exception:
+        pass
+
+    return make_response(jsonify(instances=None))
+
+@app.route('/vm/<instanceId>', methods=['GET'])
+def getVM(instanceId):
+    if instanceId:
+        try:
+            response = client.describe_instances(
+                InstanceIds=[
+                    instanceId,
+                ],
+                DryRun=False
+            )
+
+            if response['Reservations']:
+                instance = response['Reservations'][0]['Instances']
+                return make_response(jsonify(instance=instance))
+        except Exception:
+            pass
+
+    return make_response(jsonify(instance=None))
+
+
+@app.route('/vm/<instanceId>', methods=['PATCH'])
+def stopVM(instanceId):
+    if instanceId:
+        try:
+            response = client.stop_instances(
+            InstanceIds=[
+                instanceId
+            ],
+            DryRun=False
+            )
+
+            state = response['StoppingInstances'][0]['CurrentState']['Name']
+            return make_response(jsonify(State=state))
+
+        except Exception:
+            pass
+
+    return make_response(jsonify(State=None))
+
+
+@app.route('/vm/<instanceId>', methods=['PUT'])
+def startVM(instanceId):
+    if instanceId:
+        try:
+            response = client.start_instances(
+                InstanceIds=[
+                     instanceId
+                ],
+                DryRun=False
+            )
+
+            state = response['StartingInstances'][0]['CurrentState']['Name']
+            return make_response(jsonify(State=state))
+
+        except Exception:
+            pass
+
+    return make_response(jsonify(State=None))
+
+
+
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port, threaded=True)
+    app.run('0.0.0.0', port = 8080, threaded=True)

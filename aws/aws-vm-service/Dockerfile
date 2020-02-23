@@ -6,10 +6,6 @@ COPY ./requirements.txt ./requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY *.py /app/
-
-COPY config.txt /app/
-
-COPY swagger.yaml /app/
+COPY main.py /app/
 
 COPY /Models /app/Models
