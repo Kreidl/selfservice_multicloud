@@ -783,19 +783,77 @@
 					"name": "Image",
 					"item": [
 						{
-							"name": "get All Images",
+							"name": "get All Publishers",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32002/image",
+									"raw": "http://localhost:32002/pub",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32002",
 									"path": [
-										"image"
+										"pub"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Images from Publisher",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publishername\": \"Canonical\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32002/offer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32002",
+									"path": [
+										"offer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all sku from Image",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"publishername\": \"Canonical\",\n\t\"imagename\": \"UbuntuServer\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32002/sku",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32002",
+									"path": [
+										"sku"
 									]
 								}
 							},
@@ -988,6 +1046,243 @@
 									"port": "32004",
 									"path": [
 										"subnet"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a NIC",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"nicname\" : \"mynic\",\n\t\"ipconfigname\": \"myconfig\",\n\t\"subnetid\": \"subscriptions/{subscriptionId}/resourceGroups/testing/providers/Microsoft.Network/virtualNetworks/mynetwork/subnets/mysubnetwork\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/nic",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"nic"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all Nic",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\": \"testing\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/nic",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"nic"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "VM",
+					"item": [
+						{
+							"name": "GET ALL VMS",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete VM",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start VM",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stop VM",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "HEAD",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a VM",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm/myVM",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm",
+										"myVM"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a VM",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\",\n\t\"username\": \"lukas\",\n\t\"password\": \"Test1234567\",\n\t\"vmsize\": \"Standard_B1ls\",\n\t\"publishername\": \"Canonical\",\n\t\"offername\": \"UbuntuServer\",\n\t\"skuname\": \"18.04-LTS\",\n\t\"version\": \"latest\",\n\t\"nicid\": \"/subscriptions/{subId}/resourceGroups/testing/providers/Microsoft.Network/networkInterfaces/mynic\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32005/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32005",
+									"path": [
+										"vm"
 									]
 								}
 							},
