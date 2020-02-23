@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-network
+  namespace: multicloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  azure-network
+  template:
+    metadata:
+      labels:
+        app:  azure-network
+    spec:
+      containers:
+      - name:  azure-network
+        image: azure-network:latest
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "64Mi"
+        env:
+        - name: subscriptionId
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: azuresubscriptionId
+        - name: clientId
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: azureclientId
+        - name: secret
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: azuresecret
+        - name: tenantId
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: azureTenantId
+        ports:
+        - containerPort: 80 #Expose containerport to the pod
+        livenessProbe: #Check that pod is ready
+          httpGet:
+            path: / #path to check
+            port: 80
+          initialDelaySeconds: 30 #start checking after 30 seconds
+          periodSeconds: 30 #check every 30 seconds
+        readinessProbe: #Check that pod is healthy
+          httpGet:
+            path: / #path to check
+            port: 80 #port to check
+          initialDelaySeconds: 15 #start checking after 15 seconds
+          periodSeconds: 3 #check every 3 seconds

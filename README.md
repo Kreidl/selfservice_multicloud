@@ -1,6 +1,8 @@
 # selfservice_multicloud UNDER CONSTRUCTION
 A Self service platform for creating Resources in aws and azure
 
+## If you want to contribute feel free to open issue so I can see
+
 ## External things needed
 There should be an active Secret in Kubernetes in this Structure:
 <pre>
@@ -25,9 +27,6 @@ To set the context to all kubectl commands run: <br/>
 kubectl config set-context --current --namespace=multicloud<br/>
 
 Otherwise the namespace needs to be defined in every command
-
-## If you want to contribute feel free to open issue so I can see
-
 
 ## Update API
 Update swagger.yaml in AWS VM service<br/>
