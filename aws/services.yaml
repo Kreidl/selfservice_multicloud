@@ -89,8 +89,8 @@ spec:
   ports:
   - port: 80
     name: aws-vm
-    nodePort: 32400
+    #nodePort: 32400
   #type: LoadBalancer
-  type: NodePort
+  type: ClusterIP
   selector:
     app: aws-vm
