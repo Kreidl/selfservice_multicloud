@@ -9,13 +9,14 @@ info:
 servers:
   - url: /api
 
+
 # Paths supported by the server application
 paths:
-  /vm:
+  /aws/vm:
     post:
       operationId: "aws.vm.createVM"
       tags:
-        - "vm"
+        - "AWS-vm"
       summary: "Create an EC2 (VM)"
       description: "Create an EC2 (VM)"
       requestBody:
@@ -34,7 +35,7 @@ paths:
     get:
       operationId: "aws.vm.loadAllVM"
       tags:
-        - "vm"
+        - "AWS-vm"
       summary: "Loads All VMs"
       description: "Loads all VMS"
       responses:
@@ -44,11 +45,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMResponseFullist'
-  /vm/{instanceId}:
+  /aws/vm/{instanceId}:
     get:
       operationId: "aws.vm.getVM"
       tags:
-        - "vm"
+        - "AWS-vm"
       summary: "Get the VM based on provided instanceId"
       description : "Get the VM based on provided instanceId"
       parameters:
@@ -63,7 +64,7 @@ paths:
     patch:
       operationId: "aws.vm.stopVM"
       tags:
-        - "vm"
+        - "AWS-vm"
       summary: "stop the VM based on provided instanceId"
       description: "stop the VM based on provided instanceId"
       parameters:
@@ -78,7 +79,7 @@ paths:
     put:
       operationId: "aws.vm.startVM"
       tags:
-        - "vm"
+        - "AWS-vm"
       summary: "Starts the VM based on provided instanceId"
       description: "Starts the VM based on provided instanceId"
       parameters:
@@ -90,11 +91,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/State'
-  /image:
+  /aws/image:
     post:
       operationId: "aws.image.loadImages"
       tags:
-        - "image"
+        - "AWS-image"
       summary: "The image data structure supported by aws"
       description: "Read the list of amazon images"
       requestBody:
@@ -111,11 +112,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ImageResponse'
 
-  /types:
+  /aws/types:
     get:
       operationId: "aws.instancetype.loadInstanceType"
       tags:
-        - "instancetype"
+        - "AWS-instancetype"
       summary: "The instancetypes supported by aws"
       description: "Read the list of aws instancetypes"
       responses:
@@ -125,11 +126,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceTypeResponse'
-  /types/{maxMemory}:
+  /aws/types/{maxMemory}:
     get:
       operationId: "aws.instancetype.loadInstanceTypeWithMemory"
       tags:
-        - "instancetype"
+        - "AWS-instancetype"
       summary: "The instancetypes supported by aws"
       description: "Read the list of aws instancetypes"
       parameters:
@@ -141,11 +142,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceTypeResponse'
-  /keypair:
+  /aws/keypair:
     post:
       operationId: "aws.keypair.loadOrCreateKeyPair"
       tags:
-        - "keypair"
+        - "AWS-keypair"
       summary: "Create or Load a Keypair"
       description: "Creates or loads the provided keypair"
       requestBody:
@@ -164,7 +165,7 @@ paths:
     get:
       operationId: "aws.keypair.getAllKeypairs"
       tags:
-        - "keypair"
+        - "AWS-keypair"
       summary: "Loads all Keypairs"
       description: "Loads all Keypairs"
       responses:
@@ -174,11 +175,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KeyPairResponseFullList'
-  /securitygroup:
+  /aws/securitygroup:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroup"
       tags:
-        - "securitygroup"
+        - "AWS-securitygroup"
       summary: "Create or Load a securitygroup"
       description: "Creates or loads the provided securitygroup"
       requestBody:
@@ -197,7 +198,7 @@ paths:
     get:
       operationId: "aws.securitygroup.loadAllSecurityGroups"
       tags:
-        - "securitygroup"
+        - "AWS-securitygroup"
       summary: "Loads all SecurityGroups"
       description: "Loads all SecurityGroupssecuritygroup"
       responses:
@@ -208,11 +209,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponseFullList'
 
-  /securitygroupWithAuthorization:
+  /aws/securitygroupWithAuthorization:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroupWithAuthorization"
       tags:
-        - "securitygroup"
+        - "AWS-securitygroup"
       summary: "Create or Load a securitygroup with Authorization"
       description: "Creates or loads the provided securitygroup  with Authorization"
       requestBody:
@@ -228,11 +229,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponse'
-  /vpc:
+  /aws/vpc:
     get:
       operationId: "aws.vpc.loadVPCs"
       tags:
-        - "vpc"
+        - "AWS-vpc"
       summary: "Load all VPCs in Account"
       description: "Load all VPCs in Account"
       responses:
@@ -245,7 +246,7 @@ paths:
     post:
       operationId: "aws.vpc.createVPC"
       tags:
-        - "vpc"
+        - "AWS-vpc"
       summary: "Creates a VPC"
       description: "Creates a VPC"
       requestBody:
@@ -261,6 +262,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VPCResponse'
+  /azure/image:
+    get:
+      operationId: "azure.image.getAllPublishers"
+      tags:
+        - "AZURE-image"
+      summary: "The publishers provided by azure"
+      description: "The publishers provided by azure"
+      responses:
+        200:
+          description: "Successful read providers"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublisherResponseList'
+    post:
+      operationId: "azure.image.getAllOffersForPub"
+      tags:
+        - "AZURE-image"
+      summary: "The offers provided by azure based on publisher"
+      description: "The offers provided by azure based on publisher"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferRequest'
+      responses:
+        200:
+          description: "Successful read offers"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferResponseList'
+    patch:
+      operationId: "azure.image.getAllSkusForimage"
+      tags:
+        - "AZURE-image"
+      summary: "The skus provided by azure based on publisher and offer"
+      description: "The skus provided by azure based on publisher and offer"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkuRequest'
+      responses:
+        200:
+          description: "Successful read skus"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkuResponseList'
 components:
   parameters:
     instanceId:
@@ -277,6 +330,51 @@ components:
       schema:
         type: string
   schemas:
+    OfferRequest:
+      type: object
+      properties:
+        publishername:
+          type: string
+    SkuRequest:
+      type: object
+      properties:
+        publishername:
+          type: string
+        imagename:
+          type: string
+    SkuResponseList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          location:
+            type: string
+          name:
+            type: string
+    OfferResponseList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          location:
+            type: string
+          name:
+            type: string
+    PublisherResponseList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          location:
+            type: string
+          name:
+            type: string
     VPCRequest:
       type: object
       properties:

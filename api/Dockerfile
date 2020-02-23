@@ -13,3 +13,5 @@ COPY config.txt /app/
 COPY swagger.yaml /app/
 
 COPY /aws /app/aws
+
+COPY /azure /app/azure
