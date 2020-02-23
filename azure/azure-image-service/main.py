@@ -59,12 +59,15 @@ def createFile():
         publisher = PublisherModel(pub.id, pub.name, pub.location, pub.tags)
         images = compute_client.virtual_machine_images.list_offers(compute_group_params, publisher.name)
         for image in images:
-            image = ImageModel(image.id, image.name, image.location, image.tags)
-            skus = result_list_skus = compute_client.virtual_machine_images.list_skus(compute_group_params,pub.name,image.name)
-            for sku in skus:
-                sku = SkuModel(sku.id, sku.name, sku.location, sku.tags)
-                image.addsku(sku)
-            publisher.addImage(image)
+            try:
+                image = ImageModel(image.id, image.name, image.location, image.tags)
+                skus = result_list_skus = compute_client.virtual_machine_images.list_skus(compute_group_params,pub.name,image.name)
+                for sku in skus:
+                    sku = SkuModel(sku.id, sku.name, sku.location, sku.tags)
+                    image.addsku(sku)
+                publisher.addImage(image)
+            except Exception:
+                pass
     pubs.addPublisher(publisher)
     #Delete file if already exists
     if os.path.isfile(fileName):
