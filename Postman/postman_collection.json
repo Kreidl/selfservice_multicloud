@@ -730,7 +730,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"groupName\": \"testing4\"\n}"
+									"raw": "{\n\t\"groupName\": \"testing\"\n}"
 								},
 								"url": {
 									"raw": "http://localhost:32001/resource",
@@ -759,7 +759,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"groupName\": \"testing2\"\n}"
+									"raw": "{\n\t\"groupName\": \"testing\"\n}"
 								},
 								"url": {
 									"raw": "http://localhost:32001/resource",
@@ -810,9 +810,23 @@
 					"item": [
 						{
 							"name": "get all types",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"url": {
 									"raw": "localhost:32003/types",
 									"host": [
@@ -821,6 +835,159 @@
 									"port": "32003",
 									"path": [
 										"types"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Network",
+					"item": [
+						{
+							"name": "Get All networks",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/network",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"network"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get a network",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/network/mynetwork",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"network",
+										"mynetwork"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a network",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"vnetName\" : \"mynetwork\",\n\t\"networkIp\": \"10.0.0.0/16\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/network",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"network"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Network",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"vnetName\" : \"mynetwork\"\n}\n"
+								},
+								"url": {
+									"raw": "http://localhost:32004/network",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"network"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a Subnet",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"vnetName\" : \"mynetwork\",\n\t\"subnetName\": \"mysubnetwork\",\n\t\"subnetIp\": \"10.0.0.0/24\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:32004/subnet",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32004",
+									"path": [
+										"subnet"
 									]
 								}
 							},
