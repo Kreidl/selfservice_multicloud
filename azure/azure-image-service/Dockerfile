@@ -10,6 +10,5 @@ RUN pip install -r requirements.txt
 
 COPY main.py /app/
 
-COPY gunicorn_conf.py /app/
 
 COPY /Models /app/Models

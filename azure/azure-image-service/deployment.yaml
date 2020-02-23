@@ -42,8 +42,6 @@ spec:
             secretKeyRef:
               name: multicloud
               key: azureTenantId
-        - name: timeout
-          value: "180"
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready
