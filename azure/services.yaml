@@ -29,3 +29,19 @@ spec:
   type: NodePort
   selector:
     app:  azure-image
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  azure-instancetype
+  namespace: multicloud
+  labels:
+    app:  azure-instancetype
+spec:
+  ports:
+  - port: 80
+    name:  azure-instancetype
+    nodePort: 32003
+  type: NodePort
+  selector:
+    app:  azure-instancetype

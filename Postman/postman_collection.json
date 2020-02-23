@@ -804,6 +804,31 @@
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "InstanceTypes",
+					"item": [
+						{
+							"name": "get all types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32003/types",
+									"host": [
+										"localhost"
+									],
+									"port": "32003",
+									"path": [
+										"types"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
 				}
 			],
 			"protocolProfileBehavior": {}
