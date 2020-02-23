@@ -684,12 +684,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/resource/cloud-shell-storage-westeurope",
+									"raw": "http://localhost:32001/resource/cloud-shell-storage-westeurope",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32001",
 									"path": [
 										"resource",
 										"cloud-shell-storage-westeurope"
@@ -704,12 +704,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/resource",
+									"raw": "http://localhost:32001/resource",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32001",
 									"path": [
 										"resource"
 									]
@@ -733,12 +733,12 @@
 									"raw": "{\n\t\"groupName\": \"testing4\"\n}"
 								},
 								"url": {
-									"raw": "http://localhost:8080/resource",
+									"raw": "http://localhost:32001/resource",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32001",
 									"path": [
 										"resource"
 									]
@@ -762,20 +762,40 @@
 									"raw": "{\n\t\"groupName\": \"testing2\"\n}"
 								},
 								"url": {
-									"raw": "http://localhost:8080/resource",
+									"raw": "http://localhost:32001/resource",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "32001",
 									"path": [
 										"resource"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Image",
+					"item": [
+						{
+							"name": "get All Images",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32002/image",
+									"protocol": "http",
+									"host": [
+										"localhost"
 									],
-									"query": [
-										{
-											"key": "",
-											"value": ""
-										}
+									"port": "32002",
+									"path": [
+										"image"
 									]
 								}
 							},
