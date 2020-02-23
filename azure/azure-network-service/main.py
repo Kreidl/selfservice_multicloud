@@ -111,6 +111,40 @@ def createOrUpdateSubnet():
     return make_response(jsonify(None))
 
 
+#Create NIC
+@app.route('/nic', methods=['POST'])
+def CreateOrUpdateNic():
+    content = request.get_json()
+    if content:
+        nic = network_client.network_interfaces.create_or_update(
+                content['resourcegroupname'],
+                content['nicname'],
+                {
+                    'location': network_group_params,
+                    'ip_configurations': [{
+                        'name': content['ipconfigname'],
+                        'subnet': {
+                            'id': content['subnetid']
+                        }
+                    }]
+                }
+            ).result().serialize()
+        return make_response(jsonify(json.loads(json.dumps(nic))))
+
+    return make_response(jsonify(None))
+
+
+#get all NIC
+@app.route('/nic', methods=['PATCH'])
+def getALLNIC():
+    content = request.get_json()
+    if content:
+        nicList = [nic.serialize() for nic in network_client.network_interfaces.list(content['resourcegroupname'])]
+        return make_response(jsonify(json.loads(json.dumps(nicList))))
+
+    return make_response(jsonify(None))
+
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
     app.run('0.0.0.0', port = 8080, threaded=True)

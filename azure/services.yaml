@@ -61,3 +61,19 @@ spec:
   type: NodePort
   selector:
     app:  azure-network
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  azure-vm
+  namespace: multicloud
+  labels:
+    app:  azure-vm
+spec:
+  ports:
+  - port: 80
+    name:  azure-vm
+    nodePort: 32005
+  type: NodePort
+  selector:
+    app:  azure-vm

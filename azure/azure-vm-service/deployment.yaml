@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: azure-image
+  name: azure-vm
   namespace: multicloud
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  azure-image
+      app:  azure-vm
   template:
     metadata:
       labels:
-        app:  azure-image
+        app:  azure-vm
     spec:
       containers:
-      - name:  azure-image
-        image: azure-image:latest
+      - name:  azure-vm
+        image: azure-vm:latest
         resources:
           limits:
             memory: "256Mi"
