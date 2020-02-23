@@ -1,0 +1,1066 @@
+openapi: "3.0.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.20"
+  title: Swagger REST Article
+#produces:
+#  - "application/json"
+#basePath: "/api"
+servers:
+  - url: /api
+
+# Paths supported by the server application
+paths:
+  /vm:
+    post:
+      operationId: "aws.vm.createVM"
+      tags:
+        - "vm"
+      summary: "Create an EC2 (VM)"
+      description: "Create an EC2 (VM)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMRequest'
+      responses:
+        200:
+          description: "Successful created VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
+    get:
+      operationId: "aws.vm.loadAllVM"
+      tags:
+        - "vm"
+      summary: "Loads All VMs"
+      description: "Loads all VMS"
+      responses:
+        200:
+          description: "Successful loaded all VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponseFullist'
+  /vm/{instanceId}:
+    get:
+      operationId: "aws.vm.getVM"
+      tags:
+        - "vm"
+      summary: "Get the VM based on provided instanceId"
+      description : "Get the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful read VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMResponse'
+    patch:
+      operationId: "aws.vm.stopVM"
+      tags:
+        - "vm"
+      summary: "stop the VM based on provided instanceId"
+      description: "stop the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful stopped VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+    put:
+      operationId: "aws.vm.startVM"
+      tags:
+        - "vm"
+      summary: "Starts the VM based on provided instanceId"
+      description: "Starts the VM based on provided instanceId"
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        200:
+          description: "Successful started VM"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+  /image:
+    post:
+      operationId: "aws.image.loadImages"
+      tags:
+        - "image"
+      summary: "The image data structure supported by aws"
+      description: "Read the list of amazon images"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageRequest'
+      responses:
+        200:
+          description: "Successful read image list operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+
+  /types:
+    get:
+      operationId: "aws.instancetype.loadInstanceType"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
+  /types/{maxMemory}:
+    get:
+      operationId: "aws.instancetype.loadInstanceTypeWithMemory"
+      tags:
+        - "instancetype"
+      summary: "The instancetypes supported by aws"
+      description: "Read the list of aws instancetypes"
+      parameters:
+        - $ref: '#/components/parameters/maxMemory'
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponse'
+  /keypair:
+    post:
+      operationId: "aws.keypair.loadOrCreateKeyPair"
+      tags:
+        - "keypair"
+      summary: "Create or Load a Keypair"
+      description: "Creates or loads the provided keypair"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyPairRequest'
+      responses:
+        200:
+          description: "Successful read or created keypair"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyPairResponse'
+    get:
+      operationId: "aws.keypair.getAllKeypairs"
+      tags:
+        - "keypair"
+      summary: "Loads all Keypairs"
+      description: "Loads all Keypairs"
+      responses:
+        200:
+          description: "Successful loaded all keypairs"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyPairResponseFullList'
+  /securitygroup:
+    post:
+      operationId: "aws.securitygroup.loadOrCreateSecurityGroup"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup"
+      description: "Creates or loads the provided securitygroup"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+    get:
+      operationId: "aws.securitygroup.loadAllSecurityGroups"
+      tags:
+        - "securitygroup"
+      summary: "Loads all SecurityGroups"
+      description: "Loads all SecurityGroupssecuritygroup"
+      responses:
+        200:
+          description: "Successful loaded all SecurityGroups"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponseFullList'
+
+  /securitygroupWithAuthorization:
+    post:
+      operationId: "aws.securitygroup.loadOrCreateSecurityGroupWithAuthorization"
+      tags:
+        - "securitygroup"
+      summary: "Create or Load a securitygroup with Authorization"
+      description: "Creates or loads the provided securitygroup  with Authorization"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupRequest'
+      responses:
+        200:
+          description: "Successful read or created securitygroup"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResponse'
+  /vpc:
+    get:
+      operationId: "aws.vpc.loadVPCs"
+      tags:
+        - "vpc"
+      summary: "Load all VPCs in Account"
+      description: "Load all VPCs in Account"
+      responses:
+        200:
+          description: "Successful read vpcs"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPCListResponse'
+    post:
+      operationId: "aws.vpc.createVPC"
+      tags:
+        - "vpc"
+      summary: "Creates a VPC"
+      description: "Creates a VPC"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPCRequest'
+      responses:
+        200:
+          description: "Successful created vpc"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VPCResponse'
+components:
+  parameters:
+    instanceId:
+      name: instanceId
+      in: path
+      required: true
+      description: InstanceId
+      schema:
+        type: string
+    maxMemory:
+      name: maxMemory
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    VPCRequest:
+      type: object
+      properties:
+        ipaddress:
+          type: string
+        vpcname:
+          type: string
+    VPCResponse:
+      type: object
+      properties:
+        Vpc:
+          type: object
+          properties:
+            CidrBlock:
+              type: string
+            DhcpOptionsId:
+              type: string
+            State:
+              type: string
+            VpcId:
+              type: string
+            OwnerId:
+              type: string
+            InstanceTenancy:
+              type: string
+            Ipv6CidrBlockAssociationSet:
+              type: array
+              items:
+                type: object
+                properties:
+                  AssociationId:
+                    type: string
+                  Ipv6CidrBlock:
+                    type: string
+                  Ipv6CidrBlockState:
+                    type: object
+                    properties:
+                      State:
+                        type: string
+                      StatusMessage:
+                        type: string
+                  NetworkBorderGroup:
+                    type: string
+                  Ipv6Pool:
+                    type: string
+            CidrBlockAssociationSet:
+              type: array
+              items:
+                type: object
+                properties:
+                  AssociationId:
+                    type: string
+                  CidrBlock:
+                    type: string
+                  CidrBlockState:
+                    type: object
+                    properties:
+                      State:
+                        type: string
+                      StatusMessage:
+                        type: string
+            IsDefault:
+              type: boolean
+            Tags:
+              type: array
+              items:
+                type: object
+                properties:
+                  Key:
+                    type: string
+                  Value:
+                    type: string
+    VMRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        instanceType:
+          type: string
+        keyName:
+          type: string
+        securityGroups:
+          type: array
+          items:
+            type: string
+        vmname:
+          type: string
+    VMResponse:
+      type: object
+      properties:
+        instanceId:
+          type: string
+    State:
+      type: object
+      properties:
+        State:
+          type: string
+    ImageRequest:
+      type: object
+      properties:
+        imageId:
+          type: string
+        imageName:
+          type: string
+    ImageResponse:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              Architecture:
+                type: string
+              BlockDeviceMappings:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    DeviceName:
+                      type: string
+                    Ebs:
+                      type: object
+                      properties:
+                        DeleteOnTermination:
+                          type: boolean
+                        Encrypted:
+                          type: boolean
+                        SnapshotId:
+                          type: string
+                        VolumeSize:
+                          type: integer
+                        VolumeType:
+                          type: string
+              CreationDate:
+                type: string
+                format: date-time
+              Description:
+                type: string
+              Hypervisor:
+                type: string
+              ImageId:
+                type: string
+              ImageLocation:
+                type: string
+              ImageOwnerAlias:
+                type: string
+              ImageType:
+                type: string
+              Name:
+                type: string
+              OwnerId:
+                type: string
+              Public:
+                type: boolean
+              RootDeviceType:
+                type: string
+              State:
+                type: string
+              VirtualizationType:
+                type: string
+    InstanceTypeResponse:
+      type: object
+      properties:
+        types:
+          type: array
+          items:
+            type: object
+            properties:
+              ebs_iops:
+                type: integer
+              instance_type:
+                type: string
+              memory:
+                type: number
+              network_performance:
+                type: string
+              pretty_name:
+                type: string
+              vCPU:
+                type: integer
+
+
+
+    VMResponseFullist:
+      type: object
+      properties:
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/VMResponseFull'
+    VMResponseFull:
+      type: object
+      properties:
+        Groups:
+          type: array
+          items:
+            type: object
+            properties:
+              GroupName:
+                type: string
+              GroupId:
+                type: string
+        Instances:
+          type: array
+          items:
+            type: object
+            properties:
+              AmiLaunchIndex:
+                type: integer
+              ImageId:
+                type: string
+              InstanceId:
+                type: string
+              InstanceType:
+                type: string
+              KernelId:
+                type: string
+              KeyName:
+                type: string
+              LaunchTime:
+                type: string
+              Monitoring:
+                type: object
+                properties:
+                  State:
+                    type: string
+              Placement:
+                type: object
+                properties:
+                  AvailabilityZone:
+                    type: string
+                  Affinity:
+                    type: string
+                  GroupName:
+                    type: string
+                  PartitionNumber:
+                    type: integer
+                  HostId:
+                    type: string
+                  Tenancy:
+                    type: string
+                  SpreadDomain:
+                    type: string
+                  HostResourceGroupArn:
+                    type: string
+              Platform:
+                type: string
+              PrivateDnsName:
+                type: string
+              PrivateIpAddress:
+                type: string
+              ProductCodes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ProductCodeId:
+                      type: string
+                    ProductCodeType:
+                      type: string
+              PublicDnsName:
+                type: string
+              PublicIpAddress:
+                type: string
+              RamdiskId:
+                type: string
+              State:
+                type: object
+                properties:
+                  Code:
+                    type: integer
+                  Name:
+                    type: string
+              StateTransitionReason:
+                type: string
+              SubnetId:
+                type: string
+              VpcId:
+                type: string
+              Architecture:
+                type: string
+              BlockDeviceMappings:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    DeviceName:
+                      type: string
+                    Ebs:
+                      type: object
+                      properties:
+                        AttachTime:
+                          type: string
+                        DeleteOnTermination:
+                          type: boolean
+                        Status:
+                          type: string
+                        VolumeId:
+                          type: string
+              ClientToken:
+                type: string
+              EbsOptimized:
+                type: boolean
+              EnaSupport:
+                type: boolean
+              Hypervisor:
+                type: string
+              IamInstanceProfile:
+                type: object
+                properties:
+                  Arn:
+                    type: string
+                  Id:
+                    type: string
+              InstanceLifecycle:
+                type: string
+              ElasticGpuAssociations:
+                type: array
+                items:
+                    type: object
+                    properties:
+                      ElasticGpuId:
+                        type: string
+                      ElasticGpuAssociationId:
+                        type: string
+                      ElasticGpuAssociationState:
+                        type: string
+                      ElasticGpuAssociationTime:
+                        type: string
+              ElasticInferenceAcceleratorAssociations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ElasticInferenceAcceleratorArn:
+                      type: string
+                    ElasticInferenceAcceleratorAssociationId:
+                      type: string
+                    ElasticInferenceAcceleratorAssociationState:
+                      type: string
+                    ElasticInferenceAcceleratorAssociationTime:
+                      type: string
+              NetworkInterfaces:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Association:
+                      type: object
+                      properties:
+                        IpOwnerId:
+                          type: string
+                        PublicDnsName:
+                          type: string
+                        PublicIp:
+                          type: string
+                    Attachment:
+                      type: object
+                      properties:
+                        AttachTime:
+                          type: string
+                        AttachmentId:
+                          type: string
+                        DeleteOnTermination:
+                          type: boolean
+                        DeviceIndex:
+                          type: integer
+                        Status:
+                          type: string
+                    Description:
+                      type: string
+                    Groups:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          GroupName:
+                            type: string
+                          GroupId:
+                            type: string
+                    Ipv6Addresses:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Ipv6Address:
+                            type: string
+                    MacAddress:
+                      type: string
+                    NetworkInterfaceId:
+                      type: string
+                    OwnerId:
+                      type: string
+                    PrivateDnsName:
+                      type: string
+                    PrivateIpAddress:
+                      type: string
+                    PrivateIpAddresses:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          Association:
+                            type: object
+                            properties:
+                              IpOwnerId:
+                                type: string
+                              PublicDnsName:
+                                type: string
+                              PublicIp:
+                                type: string
+                          Primary:
+                            type: boolean
+                          PrivateDnsName:
+                            type: string
+                          PrivateIpAddress:
+                            type: string
+                    SourceDestCheck:
+                      type: boolean
+                    Status:
+                      type: string
+                    SubnetId:
+                      type: string
+                    VpcId:
+                      type: string
+                    InterfaceType:
+                      type: string
+              OutpostArn:
+                type: string
+              RootDeviceName:
+                type: string
+              RootDeviceType:
+                type: string
+              SecurityGroups:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    GroupName:
+                      type: string
+                    GroupId:
+                      type: string
+              SourceDestCheck:
+                type: boolean
+              SpotInstanceRequestId:
+                type: string
+              SriovNetSupport:
+                type: string
+              StateReason:
+                type: object
+                properties:
+                  Code:
+                    type: string
+                  Message:
+                    type: string
+              Tags:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Key:
+                      type: string
+                    Value:
+                      type: string
+              VirtualizationType:
+                type: string
+              CpuOptions:
+                type: object
+                properties:
+                  CoreCount:
+                    type: integer
+                  ThreadsPerCore:
+                    type: integer
+              CapacityReservationId:
+                type: string
+              CapacityReservationSpecification:
+                type: object
+                properties:
+                  CapacityReservationPreference:
+                    type: string
+                  CapacityReservationTarget:
+                    type: object
+                    properties:
+                      CapacityReservationId:
+                        type: string
+              HibernationOptions:
+                type: object
+                properties:
+                  Configured:
+                    type: boolean
+              Licenses:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    LicenseConfigurationArn:
+                      type: string
+              MetadataOptions:
+                type: object
+                properties:
+                  State:
+                    type: string
+                  HttpTokens:
+                    type: string
+                  HttpPutResponseHopLimit:
+                    type: integer
+                  HttpEndpoint:
+                    type: string
+        OwnerId:
+          type: string
+        RequesterId:
+          type: string
+        ReservationId:
+          type: string
+
+    SecurityGroupResponseFullList:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityGroupResponseFull'
+
+    SecurityGroupResponseFull:
+      type: object
+      properties:
+        Description:
+          type: string
+        GroupName:
+          type: string
+        IpPermissions:
+          type: array
+          items:
+            type: object
+            properties:
+              FromPort:
+                type: integer
+              IpProtocol:
+                type: string
+              IpRanges:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    CidrIp:
+                      type: string
+                    Description:
+                      type: string
+              Ipv6Ranges:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    CidrIpv6:
+                      type: string
+                    Description:
+                      type: string
+              PrefixListIds:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Description:
+                      type: string
+                    PrefixListId:
+                      type: string
+              ToPort:
+                type: integer
+              UserIdGroupPairs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Description:
+                      type: string
+                    GroupId:
+                      type: string
+                    GroupName:
+                      type: string
+                    PeeringStatus:
+                      type: string
+                    UserId:
+                      type: string
+                    VpcId:
+                      type: string
+                    VpcPeeringConnectionId:
+                      type: string
+        OwnerId:
+          type: string
+        GroupId:
+          type: string
+        IpPermissionsEgress:
+          type: array
+          items:
+            type: object
+            properties:
+              FromPort:
+                type: integer
+              IpProtocol:
+                type: string
+              IpRanges:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    CidrIp:
+                      type: string
+                    Description:
+                      type: string
+              Ipv6Ranges:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    CidrIpv6:
+                      type: string
+                    Description:
+                      type: string
+              PrefixListIds:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Description:
+                      type: string
+                    PrefixListId:
+                      type: string
+              ToPort:
+                type: integer
+              UserIdGroupPairs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Description:
+                      type: string
+                    GroupId:
+                      type: string
+                    GroupName:
+                      type: string
+                    PeeringStatus:
+                      type: string
+                    UserId:
+                      type: string
+                    VpcId:
+                      type: string
+                    VpcPeeringConnectionId:
+                      type: string
+        Tags:
+          type: array
+          items:
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+        VpcId:
+          type: string
+    KeyPairResponseFullList:
+      type: object
+      properties:
+        keypairs:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyPairResponseFull'
+    KeyPairResponseFull:
+      type: object
+      properties:
+        KeyPairId:
+          type: string
+        KeyFingerprint:
+          type: string
+        KeyName:
+          type: string
+        Tags:
+          type: array
+          items:
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+    KeyPairRequest:
+      type: object
+      properties:
+        keypair:
+          type: string
+    KeyPairResponse:
+      type: object
+      properties:
+        keypairId:
+          type: string
+    SecurityGroupRequest:
+      type: object
+      properties:
+        groupName:
+          type: string
+        groupDescription:
+          type: string
+        vpcId:
+          type: string
+        authorizeConfiguration:
+          type: array
+          items:
+            type: object
+            properties:
+              port:
+                type: integer
+              ipaddress:
+                type: string
+              protocol:
+                type: string
+    SecurityGroupResponse:
+      type: object
+      properties:
+        groupId:
+          type: string
+    VPCListResponse:
+      type: object
+      properties:
+        vpcs:
+          type: array
+          items:
+            type: object
+            properties:
+              CidrBlock:
+                type: string
+              DhcpOptionsId:
+                type: string
+              State:
+                type: string
+              VpcId:
+                type: string
+              OwnerId:
+                type: string
+              InstanceTenancy:
+                type: string
+              Ipv6CidrBlockAssociationSet:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    AssociationId:
+                      type: string
+                    Ipv6CidrBlock:
+                      type: string
+                    Ipv6CidrBlockState:
+                      type: object
+                      properties:
+                        State:
+                          type: string
+                        StatusMessage:
+                          type: string
+                    Ipv6Pool:
+                      type: string
+                    NetworkBorderGroup:
+                      type: string
+              CidrBlockAssociationSet:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    AssociationId:
+                      type: string
+                    CidrBlock:
+                      type: string
+                    CidrBlockState:
+                      type: object
+                      properties:
+                        State:
+                          type: string
+                        StatusMessage:
+                          type: string
+              IsDefault:
+                type: boolean
+              Tags:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Key:
+                      type: string
+                    Value:
+                      type: string

@@ -224,316 +224,20 @@
 					"name": "VM",
 					"item": [
 						{
-							"name": "Create VM",
-							"item": [
-								{
-									"name": "Create VM",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"type": "text",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"vmname\": \"settedname\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load Image",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\t\"imageName\": \"fedora\"\r\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/image",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"image"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load or Create KeyPair",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"type": "text",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\t\"keypair\": \"test\"\r\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/keypair",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"keypair"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load Types",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/types",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"types"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load Types with Max",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/types/0.5",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"types",
-												"0.5"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "LoadOrCreate SecurityGroup Authorization",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"type": "text",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/securitygroupWithAuthorization",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"securitygroupWithAuthorization"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "LoadOrCreate SecurityGroup No Authorization",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : []\r\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/securitygroup",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"securitygroup"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "GET ALL VPC",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/vpc",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"vpc"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load All VM",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load All keypair",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/keypair",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"keypair"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Load all Securitygroup",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:32400/api/securitygroup",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"securitygroup"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Create VPC",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"ipaddress\": \"10.0.0.0/16\",\n    \"vpcname\": \"myVPC\"\n}"
-										},
-										"url": {
-											"raw": "localhost:32400/api/vpc",
-											"host": [
-												"localhost"
-											],
-											"port": "32400",
-											"path": [
-												"api",
-												"vpc"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"protocolProfileBehavior": {},
-							"_postman_isSubFolder": true
-						},
-						{
 							"name": "Get VM",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32400/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/vm/i-08f2e9073729af948",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32400",
 									"path": [
-										"api",
-										"i-0512b025649941358"
+										"vm",
+										"i-08f2e9073729af948"
 									]
 								}
 							},
@@ -545,15 +249,15 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32400/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/vm/i-08f2e9073729af948",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32400",
 									"path": [
-										"api",
-										"i-0512b025649941358"
+										"vm",
+										"i-08f2e9073729af948"
 									]
 								}
 							},
@@ -565,15 +269,61 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:32400/api/i-0512b025649941358",
+									"raw": "http://localhost:32400/vm/i-0512b025649941358",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
 									"port": "32400",
 									"path": [
-										"api",
+										"vm",
 										"i-0512b025649941358"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VM",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"vmname\": \"settedname\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32400/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32400",
+									"path": [
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all VM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32400/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32400",
+									"path": [
+										"vm"
 									]
 								}
 							},
@@ -1289,6 +1039,396 @@
 							"response": []
 						}
 					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "AWS",
+					"item": [
+						{
+							"name": "Load all Securitygroup",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/securitygroup",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"securitygroup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load All VM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VPC",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ipaddress\": \"10.0.0.0/16\",\n    \"vpcname\": \"myVPC\"\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/vpc",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vpc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load All keypair",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/keypair",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"keypair"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL VPC",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/vpc",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vpc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoadOrCreate SecurityGroup No Authorization",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : []\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/securitygroup",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"securitygroup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoadOrCreate SecurityGroup Authorization",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"groupName\" :\"test\",\r\n\t\"groupDescription\" : \"Group created via app\",\r\n\t\"vpcId\" : \"vpc-f7f7019d\",\r\n\t\"authorizeConfiguration\" : [\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"0.0.0.0/0\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"port\": 80,\r\n\t\t\t\"ipaddress\" : \"62.178.238.153/32\",\r\n\t\t\t\"protocol\" : \"TCP\"\r\n\t\t}\r\n\t\t]\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/securitygroupWithAuthorization",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"securitygroupWithAuthorization"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load Types with Max",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/types/0.5",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"types",
+										"0.5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/types",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load or Create KeyPair",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"keypair\": \"test\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/keypair",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"keypair"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load Image",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"imageName\": \"fedora\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/image",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"image"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get VM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32000/api/vm/i-08f2e9073729af948",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vm",
+										"i-08f2e9073729af948"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stop",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32000/api/vm/i-08f2e9073729af948",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vm",
+										"i-08f2e9073729af948"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start VM",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:32000/api/vm/i-0512b025649941358",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vm",
+										"i-0512b025649941358"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VM",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"imageId\": \"ami-0009db5f32b93fbc9\",\r\n\t\"instanceType\" :\"t2.micro\",\r\n\t\"keyName\" : \"test\",\r\n\t\"vmname\": \"settedname\",\r\n\t\"securityGroups\" : [\r\n\t\t\"sg-1fed007d\"\r\n\t\t]\r\n}"
+								},
+								"url": {
+									"raw": "localhost:32000/api/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all VM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:32000/api/vm",
+									"host": [
+										"localhost"
+									],
+									"port": "32000",
+									"path": [
+										"api",
+										"vm"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Azure",
+					"item": [],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				}
