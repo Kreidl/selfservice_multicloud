@@ -9,8 +9,8 @@ spec:
   ports:
   - port: 80
     name:  azure-resource
-    nodePort: 32001
-  type: NodePort
+    #nodePort: 32001
+  type: ClusterIP
   selector:
     app:  azure-resource
 ---
@@ -25,8 +25,8 @@ spec:
   ports:
   - port: 80
     name:  azure-image
-    nodePort: 32002
-  type: NodePort
+    #nodePort: 32002
+  type: ClusterIP
   selector:
     app:  azure-image
 ---
@@ -41,8 +41,8 @@ spec:
   ports:
   - port: 80
     name:  azure-instancetype
-    nodePort: 32003
-  type: NodePort
+    #nodePort: 32003
+  type: ClusterIP
   selector:
     app:  azure-instancetype
 ---
@@ -57,8 +57,8 @@ spec:
   ports:
   - port: 80
     name:  azure-network
-    nodePort: 32004
-  type: NodePort
+    #nodePort: 32004
+  type: ClusterIP
   selector:
     app:  azure-network
 ---
@@ -73,7 +73,7 @@ spec:
   ports:
   - port: 80
     name:  azure-vm
-    nodePort: 32005
-  type: NodePort
+    #nodePort: 32005
+  type: ClusterIP
   selector:
     app:  azure-vm
