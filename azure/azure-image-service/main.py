@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.compute import ComputeManagementClient
-import os, json, time
-from datetime import datetime, timedelta
+import os, json#, time
+#from datetime import datetime, timedelta
 
 from Models.PublisherModel import PublisherModel
 from Models.ImageModel import ImageModel
@@ -31,50 +31,31 @@ def index():
     return "welcome at the azure image service"
 
 
-#Get all Images
-@app.route('/image', methods=['GET'])
-def getAllImages():
-    if not os.path.isfile(fileName):
-        return make_response(jsonify(createFile()))
-    else:
-        creationDate = datetime.fromtimestamp(os.path.getctime(fileName)).replace(hour=0, minute=0, second=0, microsecond=0)
-        today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        d = timedelta(days=21)
-        t = creationDate + d
-        if t == creationDate:
-            return make_response(jsonify(createFile()))
-        else:
-            return make_response(jsonify(readFile()))
+#Get all Image Publishers
+@app.route('/pub', methods=['GET'])
+def getAllPublishers():
+    publisherList = [vm.serialize() for vm in compute_client.virtual_machine_images.list_publishers(compute_group_params)]
+    return make_response(jsonify(json.loads(json.dumps(publisherList))))
 
+#Get all Offers from Publisher
+@app.route('/offer', methods=['PATCH'])
+def getAllOffersForPub():
+    content = request.get_json()
+    if content:
+        offerList = [offer.serialize() for offer in compute_client.virtual_machine_images.list_offers(compute_group_params, content['publishername'])]
+        return make_response(jsonify(json.loads(json.dumps(offerList))))
 
-def readFile():
-    pubs = PublisherListModel()
-    with open(fileName) as json_file:
-        return json.load(json_file)
+    return make_response(jsonify(None))
 
-def createFile():
-    pubs = PublisherListModel()
-    publishers = compute_client.virtual_machine_images.list_publishers(compute_group_params)
-    for pub in publishers:
-        publisher = PublisherModel(pub.id, pub.name, pub.location, pub.tags)
-        images = compute_client.virtual_machine_images.list_offers(compute_group_params, publisher.name)
-        for image in images:
-            try:
-                image = ImageModel(image.id, image.name, image.location, image.tags)
-                skus = result_list_skus = compute_client.virtual_machine_images.list_skus(compute_group_params,pub.name,image.name)
-                for sku in skus:
-                    sku = SkuModel(sku.id, sku.name, sku.location, sku.tags)
-                    image.addsku(sku)
-                publisher.addImage(image)
-            except Exception:
-                pass
-    pubs.addPublisher(publisher)
-    #Delete file if already exists
-    if os.path.isfile(fileName):
-        os.remove(fileName)
-    with open(fileName, 'w') as f:
-        json.dump(pubs.toJSON(), f, ensure_ascii=False, indent=4)
-    return pubs.toJSON()
+#Get all SKUS from Image
+@app.route('/sku', methods=['PATCH'])
+def getAllSkusForimage():
+    content = request.get_json()
+    if content:
+        skuList = [sku.serialize() for sku in compute_client.virtual_machine_images.list_skus(compute_group_params,content['publishername'],content['imagename'])]
+        return make_response(jsonify(json.loads(json.dumps(skuList))))
+
+    return make_response(jsonify(None))
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
