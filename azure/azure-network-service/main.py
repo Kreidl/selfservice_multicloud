@@ -134,7 +134,16 @@ def CreateOrUpdateNic():
     return make_response(jsonify(None))
 
 
+#get all NIC
+@app.route('/nic', methods=['PATCH'])
+def getALLNIC():
+    content = request.get_json()
+    if content:
+        nicList = [nic.serialize() for nic in network_client.network_interfaces.list(content['resourcegroupname'])]
+        return make_response(jsonify(json.loads(json.dumps(nicList))))
+
     return make_response(jsonify(None))
+
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
