@@ -1,9 +1,14 @@
 package com.kienast.aws.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AWSInstanceType {
 
 	@JsonProperty("pretty_name")
@@ -17,20 +22,43 @@ public class AWSInstanceType {
 	@JsonProperty("network_performance")
 	private String network;
 	@JsonProperty("ebs_iops")
-	private int iops;	
+	private int iops;
+	private Map<String,Object> linux;
+	private Map<String,Object> reservedlinux;
+	private Map<String,Object> windows;
+	private Map<String,Object> reservedwindows;
+	//private List<Pricing> pricing = new ArrayList<Pricing>();
+	/*@JsonProperty("pricing.eu")
+	private List pricing;*/
+	@SuppressWarnings("unchecked")
+    @JsonProperty("pricing")
+	private PricingFull pricings;
+	
+    /*private void unpackNested(Map<String,Object> pricing) {
+		//Map<String,Map<String, Object>> eucentral1 = (Map<String,Map<String, Object>>)pricing.get("eu-central-1");
+		//if(!eucentral1.get("linux").isEmpty()) {
+			this.pricings = pricing.get("eu-central-1").toString();
+		//}
+		
+        //this.eucentral1 = pricing.get("eu-central-1");
+        //((List<Pricing>) pricing).add(new Pricing("linux"));
+        
+        //Map<String,String> owner = (Map<String,String>)pricing.get("owner");
+    }*/
 	
 	
 	public AWSInstanceType() {
-		
 	}
 	public AWSInstanceType(String name, String type, float memory, int cpu, String network, int iops) {
-		super();
+		this();
 		this.name = name;
 		this.type = type;
 		this.memory = memory;
 		this.cpu = cpu;
 		this.network = network;
 		this.iops = iops;
+		
+		//System.out.println(this.pricing);
 	}
 	
 	public String getName() {
@@ -69,6 +97,14 @@ public class AWSInstanceType {
 	public void setIops(int iops) {
 		this.iops = iops;
 	}
+	public PricingFull getPricings() {
+		return pricings;
+	}
+	public void setPricings(PricingFull pricings) {
+		this.pricings = pricings;
+	}
+	
+	
 	
 	
 }
