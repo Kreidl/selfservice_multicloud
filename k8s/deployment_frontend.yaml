@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: multicloud-frontend #Name of the deployments
+  name: frontend #Name of the deployments
   namespace: multicloud
 spec:
   replicas: 1 #Number of created pods
   selector:
     matchLabels:
-      app: multicloud-frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: multicloud-frontend #label to set in the pods
+        app: frontend #label to set in the pods
     spec:
       containers:
-      - name: multicloud-frontend
-        image: multicloud-frontend:prod
+      - name: frontend
+        image: frontend:prod
         resources:
           limits:
             memory: "256Mi"
@@ -23,7 +23,7 @@ spec:
             memory: "64Mi"
         env:
         - name: AWS_BASE_PATH
-          value: "http://localhost:32400/api"
+          value: "http://localhost:32000/api"
         ports:
         - containerPort: 80 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready

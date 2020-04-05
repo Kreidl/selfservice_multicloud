@@ -2,7 +2,7 @@ apiVersion: skaffold/v2alpha1
 kind: Config
 build:
   artifacts:
-  - image: multicloud-frontend
+  - image: frontend
     context: frontend
   - image: api
     context: backend/api
