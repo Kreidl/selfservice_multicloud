@@ -20,11 +20,11 @@ def getAllPublishers():
 def getAllOffersForPub():
     content = request.get_json()
     if content and content['publishername']:
-        #try:
-        offers = json.loads(requests.patch(imageURL + '/offer',json=content).text)
-        return make_response(jsonify(offers))
-        #except Exception:
-        #    pass
+        try:
+            offers = json.loads(requests.patch(imageURL + '/offer',json=content).text)
+            return make_response(jsonify(offers))
+        except Exception:
+            pass
 
     return make_response(jsonify(None))
 

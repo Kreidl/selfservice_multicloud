@@ -43,10 +43,6 @@ def createOrUpdateResourceGroup():
 
     return make_response(jsonify(None))
 
-
-
-
-
 #Get all Resourcegroups
 @app.route('/resource', methods=['GET'])
 def getAllResourceGroups():
@@ -80,9 +76,6 @@ def deleteResourceGroup():
         pass
 
     return make_response(jsonify(None))
-
-
-
 
 
 #Starts application if main.py is the main called file

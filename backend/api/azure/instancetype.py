@@ -11,8 +11,8 @@ typeURL = config.get('MicroServiceURL', 'azure-instancetype')
 #Get all Instancetypes
 def getAllTypes():
     try:
-        publishers = json.loads(requests.get(typeURL + '/types').text)
+        types = json.loads(requests.get(typeURL + '/types').text)
     except Exception:
         return make_response(jsonify(None))
 
-    return make_response(jsonify(publishers))
+    return make_response(jsonify(types))
