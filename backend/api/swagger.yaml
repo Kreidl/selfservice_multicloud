@@ -314,6 +314,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SkuResponseList'
+  /azure/types:
+    get:
+      operationId: "azure.instancetype.getAllTypes"
+      tags:
+        - "AZURE-Instancetypes"
+      summary: "The instancetypes provided by azure"
+      description: "The instancetypes provided by azure"
+      responses:
+        200:
+          description: "Successful read instancetypes"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceTypeResponseList'
 components:
   parameters:
     instanceId:
@@ -330,6 +344,25 @@ components:
       schema:
         type: string
   schemas:
+    InstanceTypeResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/InstanceTypeResponse'
+    InstanceTypeResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        number_of_cores:
+          type: number
+        os_disk_size_in_mb:
+          type: number
+        resource_disk_size_in_mb:
+          type: number
+        memory_in_mb:
+          type: number
+        max_data_disk_count:
+          type: number
     OfferRequest:
       type: object
       properties:
@@ -536,6 +569,40 @@ components:
                 type: string
               VirtualizationType:
                 type: string
+    ReservedPricing:
+      type: object
+      properties:
+        yrTerm1Convertible.allUpfront:
+          type: number
+        yrTerm1Convertible.noUpfront:
+          type: number
+        yrTerm1Convertible.partialUpfront:
+          type: number
+        yrTerm1Standard.allUpfront:
+          type: number
+        yrTerm1Standard.noUpfront:
+          type: number
+        yrTerm1Standard.partialUpfront:
+          type: number
+        yrTerm3Convertible.allUpfront:
+          type: number
+        yrTerm3Convertible.noUpfront:
+          type: number
+        yrTerm3Convertible.partialUpfront:
+          type: number
+        yrTerm3Standard.allUpfront:
+          type: number
+        yrTerm3Standard.noUpfront:
+          type: number
+        yrTerm3Standard.partialUpfront:
+          type: number
+    OSPricing:
+      type: object
+      properties:
+        ondemand:
+          type: number
+        reserved:
+          $ref: '#/components/schemas/ReservedPricing'
     InstanceTypeResponse:
       type: object
       properties:
@@ -556,6 +623,17 @@ components:
                 type: string
               vCPU:
                 type: integer
+              pricing:
+                type: object
+                properties:
+                  eu-central-1:
+                    type: object
+                    properties:
+                      linux:
+                        $ref: '#/components/schemas/OSPricing'
+                      mswin:
+                        $ref: '#/components/schemas/OSPricing'
+
 
 
 
