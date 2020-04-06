@@ -71,7 +71,7 @@ def createOrUpdateSubnet():
 #Create NIC
 def CreateOrUpdateNic():
     content = request.get_json()
-    if content and content['resourcegroupname'] and content['nicname'] and content['ipconfigname'] and content['subnetid']:
+    if content and content['resourcegroupname'] and content['nicname'] and content['ipconfigname'] and content['subnetid'] and content['vnetName']:
         try:
             nic = json.loads(requests.post(networkURL + '/nic',json=content).text)
             return make_response(jsonify(nic))

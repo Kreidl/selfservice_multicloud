@@ -115,6 +115,7 @@ def createOrUpdateSubnet():
 @app.route('/nic', methods=['POST'])
 def CreateOrUpdateNic():
     content = request.get_json()
+    print('subscriptions/'+subscription_id+'/resourceGroups/'+content['resourcegroupname']+'/providers/Microsoft.Network/virtualNetworks/'+content['vnetName']+'/subnets/'+content['subnetid'])
     if content:
         nic = network_client.network_interfaces.create_or_update(
                 content['resourcegroupname'],
@@ -124,7 +125,7 @@ def CreateOrUpdateNic():
                     'ip_configurations': [{
                         'name': content['ipconfigname'],
                         'subnet': {
-                            'id': content['subnetid']
+                            'id': 'subscriptions/'+subscription_id+'/resourceGroups/'+content['resourcegroupname']+'/providers/Microsoft.Network/virtualNetworks/'+content['vnetName']+'/subnets/'+content['subnetid']
                         }
                     }]
                 }
