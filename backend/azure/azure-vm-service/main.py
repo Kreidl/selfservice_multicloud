@@ -52,7 +52,7 @@ def createaVM():
                 },
                 'network_profile': {
                     'network_interfaces': [{
-                        'id': content['nicid'],
+                        'id': '/subscriptions/'+subscription_id+'/resourceGroups/'+content['resourcegroupname']+'/providers/Microsoft.Network/networkInterfaces/'+content['nicid'],
                     }]
                 },
             }

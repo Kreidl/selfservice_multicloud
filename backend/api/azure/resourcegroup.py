@@ -47,10 +47,10 @@ def getAResourceGroup(groupName):
 def deleteResourceGroup():
     content = request.get_json()
     if content and content['groupName']:
-        try:
-            resourcegroup = json.loads(requests.delete(resourceURL + '/resource/',json=content).text)
+        #try:
+            resourcegroup = json.loads(requests.delete(resourceURL + '/resource',json=content).text)
             return make_response(jsonify(resourcegroup))
-        except Exception:
-            pass
+        #except Exception:
+        #    pass
 
     return make_response(jsonify(None))

@@ -814,7 +814,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"nicname\" : \"mynic\",\n\t\"ipconfigname\": \"myconfig\",\n\t\"subnetid\": \"subscriptions/{subscriptionId}/resourceGroups/testing/providers/Microsoft.Network/virtualNetworks/mynetwork/subnets/mysubnetwork\"\n}"
+									"raw": "{\n\t\"resourcegroupname\": \"testing\",\n\t\"nicname\" : \"mynic\",\n\t\"ipconfigname\": \"myconfig\",\n\t\"vnetName\": \"mynetwork\",\n\t\"subnetid\": \"mysubnetwork\"\n}"
 								},
 								"url": {
 									"raw": "http://localhost:32004/nic",
@@ -1023,7 +1023,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\",\n\t\"username\": \"lukas\",\n\t\"password\": \"Test1234567\",\n\t\"vmsize\": \"Standard_B1ls\",\n\t\"publishername\": \"Canonical\",\n\t\"offername\": \"UbuntuServer\",\n\t\"skuname\": \"18.04-LTS\",\n\t\"version\": \"latest\",\n\t\"nicid\": \"/subscriptions/{subId}/resourceGroups/testing/providers/Microsoft.Network/networkInterfaces/mynic\"\n}"
+									"raw": "{\n\t\"resourcegroupname\" :\"testing\",\n\t\"vmname\": \"myvm\",\n\t\"username\": \"lukas\",\n\t\"password\": \"Test1234567\",\n\t\"vmsize\": \"Standard_B1ls\",\n\t\"publishername\": \"Canonical\",\n\t\"offername\": \"UbuntuServer\",\n\t\"skuname\": \"18.04-LTS\",\n\t\"version\": \"latest\",\n\t\"nicid\": \"mynic\"\n}"
 								},
 								"url": {
 									"raw": "localhost:32005/vm",

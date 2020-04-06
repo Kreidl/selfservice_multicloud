@@ -596,21 +596,6 @@ paths:
       responses:
         200:
           description: "Successful started VM"
-    head:
-      operationId: "azure.vm.stopVM"
-      tags:
-        - "AZURE-vm"
-      summary: "stops a VM"
-      description: "stops a VM"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VMSmallRequest'
-      responses:
-        200:
-          description: "Successful stopped VM"
   /azure/vm/{vmName}:
     patch:
       operationId: "azure.vm.getaVM"
@@ -633,6 +618,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AzureVMResponse'
+  /azure/vm/stop:
+    post:
+      operationId: "azure.vm.stopVM"
+      tags:
+        - "AZURE-vm"
+      summary: "stops a VM"
+      description: "stops a VM"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMSmallRequest'
+      responses:
+        200:
+          description: "Successful stopped VM"
 components:
   parameters:
     vmName:
@@ -912,6 +913,8 @@ components:
         ipconfigname:
           type: string
         subnetid:
+          type: string
+        vnetName:
           type: string
     SubnetRequest:
       type: object

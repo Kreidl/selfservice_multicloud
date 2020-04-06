@@ -69,11 +69,11 @@ def getAResourceGroup(groupName):
 @app.route('/resource', methods=['DELETE'])
 def deleteResourceGroup():
     content = request.get_json()
-    try:
-        if content:
-            client.resource_groups.delete(content['groupName'])
-    except Exception:
-        pass
+    #try:
+    if content:
+        client.resource_groups.delete(content['groupName'])
+    #except Exception:
+    #    pass
 
     return make_response(jsonify(None))
 
