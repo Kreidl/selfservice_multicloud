@@ -69,3 +69,17 @@ def startVM(instanceId):
             pass
 
     return make_response(jsonify(instance=None))
+
+def deleteVM():
+    #get the provided json body
+    content = request.get_json()
+
+    if content and content['instanceId']:
+        try:
+            instanceId = json.loads(requests.delete(vmURL + '/vm',json=content).text)
+            if instanceId:
+                return make_response(jsonify(instanceId))
+        except Exception:
+            pass
+
+    return make_response(jsonify(instanceId=None))

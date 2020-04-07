@@ -64,6 +64,17 @@ def getKeyPair(keypairname):
     return make_response(jsonify(keypairId=None))
 
 
+@app.route('/keypair', methods=['DELETE'])
+def deleteKeyPair():
+    content = request.get_json()
+    if content and content['keypairname']:
+        #Deletes the key_pair
+        response = client.delete_key_pair(KeyName=content['keypairname'])
+        return make_response(keypairId(response))
+
+    return make_response(jsonify(None))
+
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
     app.run('0.0.0.0', port = 8080, threaded=True)

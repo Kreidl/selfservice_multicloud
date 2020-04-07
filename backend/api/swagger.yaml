@@ -45,6 +45,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMResponseFullist'
+    delete:
+      operationId: "aws.vm.deleteVM"
+      tags:
+        - "AWS-vm"
+      summary: "Deletes an EC2 (VM)"
+      description: "Deletes an EC2 (VM)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMResponse'
+      responses:
+        200:
+          description: "Successful deleted VM"
   /aws/vm/{instanceId}:
     get:
       operationId: "aws.vm.getVM"
@@ -175,6 +190,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KeyPairResponseFullList'
+    delete:
+      operationId: "aws.keypair.deleteKeyPair"
+      tags:
+        - "AWS-keypair"
+      summary: "Deletes a Keypair"
+      description: "Deletes the provided keypair"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyPairRequest'
+      responses:
+        200:
+          description: "Successful deleted keypair"
   /aws/securitygroup:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroup"
@@ -208,7 +238,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponseFullList'
-
+    delete:
+      operationId: "aws.securitygroup.deleteSecurityGroup"
+      tags:
+        - "AWS-securitygroup"
+      summary: "Deletes a securitygroup"
+      description: "Deletes the provided securitygroup"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroupNameRequest'
+      responses:
+        200:
+          description: "Successful deleted securitygroup"
   /aws/securitygroupWithAuthorization:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroupWithAuthorization"
@@ -262,6 +306,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VPCResponse'
+    delete:
+      operationId: "aws.vpc.deleteVPC"
+      tags:
+        - "AWS-vpc"
+      summary: "Deletes a VPC"
+      description: "Deletes a VPC"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VPCIdRequest'
+      responses:
+        200:
+          description: "Successful deleted vpc"
   /azure/image:
     get:
       operationId: "azure.image.getAllPublishers"
@@ -1241,6 +1300,11 @@ components:
           type: string
         vpcname:
           type: string
+    VPCIdRequest:
+      type: object
+      properties:
+        VpcId:
+          type: string
     VPCResponse:
       type: object
       properties:
@@ -1973,6 +2037,11 @@ components:
       type: object
       properties:
         keypairId:
+          type: string
+    SecurityGroupNameRequest:
+      type: object
+      properties:
+        groupName:
           type: string
     SecurityGroupRequest:
       type: object

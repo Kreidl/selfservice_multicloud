@@ -85,6 +85,19 @@ def searchSecurityGroup(groupName):
             return make_response(jsonify(groupId = group_id))
     return make_response(jsonify(groupId=None))
 
+
+@app.route('/securityGroup', methods=['DELETE'])
+def deleteSecurityGroups():
+    #Delete SecurityGorup
+    content = request.get_json()
+    if content and content['groupName']:
+        try:
+            response = client.delete_security_group(GroupName=content['groupName'])
+            return make_response(jsonify(response))
+        except Exception:
+            pass
+    return make_response(jsonify(None))
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
     app.run('0.0.0.0', port = 8080, threaded=True)

@@ -32,10 +32,10 @@ def getAllOffersForPub():
 def getAllSkusForimage():
     content = request.get_json()
     if content and content['publishername'] and content['imagename']:
-        #try:
-        skus = json.loads(requests.patch(imageURL + '/sku',json=content).text)
-        return make_response(jsonify(skus))
-        #except Exception:
-        #    pass
+        try:
+            skus = json.loads(requests.patch(imageURL + '/sku',json=content).text)
+            return make_response(jsonify(skus))
+        except Exception:
+            pass
 
     return make_response(jsonify(None))

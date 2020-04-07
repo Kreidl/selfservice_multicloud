@@ -25,12 +25,12 @@ def loadOrCreateSecurityGroupWithAuthorization():
     content = request.get_json()
 
     if content and content['groupName']:
-        #try:
-        groupId = json.loads(requests.post(securitygroupURL + '/securityGroup',json=content).text)
-        if groupId:
-            return make_response(jsonify(groupId))
-        #except Exception:
-         #   pass
+        try:
+            groupId = json.loads(requests.post(securitygroupURL + '/securityGroup',json=content).text)
+            if groupId:
+                return make_response(jsonify(groupId))
+        except Exception:
+            pass
 
     return make_response(jsonify(groupId=None))
 
@@ -44,3 +44,16 @@ def loadAllSecurityGroups():
         pass
 
     return make_response(jsonify(groups=None))
+
+def deleteSecurityGroup():
+    content = request.get_json()
+
+    if content and content['groupName']:
+        try:
+            groupId = json.loads(requests.delete(securitygroupURL + '/securityGroup',json=content).text)
+            if groupId:
+                return make_response(jsonify(groupId))
+        except Exception:
+            pass
+
+    return make_response(jsonify(groupId=None))
