@@ -47,6 +47,19 @@ def createVPC():
     #    pass
     return make_response(jsonify(vpcId=None))
 
+#delete Vpc
+@app.route('/vpc', methods=['DELETE'])
+def deleteVPC():
+    content = request.get_json()
+    if content and content['VpcId']:
+        try:
+            response = client.delete_vpc(VpcId=content['VpcId'])
+            return make_response(keypairId(response))
+        except Exception:
+            pass
+    return make_response(jsonify(vpcs=None))
+
+
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
     app.run('0.0.0.0', port = 8080, threaded=True)

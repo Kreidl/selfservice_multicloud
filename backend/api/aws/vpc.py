@@ -25,3 +25,14 @@ def createVPC():
         except Exception:
             pass
     return make_response(jsonify(vpcId=None))
+
+def deleteVPC():
+    content = request.get_json()
+
+    if content and content['VpcId']:
+        try:
+            vpc = json.loads(requests.delete(vpcURL + '/vpc',json=content).text)
+            return make_response(jsonify(vpc))
+        except Exception:
+            pass
+    return make_response(jsonify(vpcId=None))

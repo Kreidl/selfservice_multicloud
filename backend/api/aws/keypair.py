@@ -33,3 +33,17 @@ def getAllKeypairs():
         return make_response(jsonify(keypairs=None))
 
     return make_response(jsonify(keypairs))
+
+def deleteKeyPair():
+    content = request.get_json()
+
+    if content and content['keypair']:
+        # call keypair Service to Filter the latest created Image, if nothing found or other error return null on method
+        try:
+            keypairId = json.loads(requests.delete(keypairURL + '/keypair', json={"keypairname" : content['keypair']}).text)
+        except Exception:
+            return make_response(jsonify(keypairId=None))
+    else:
+        return make_response(jsonify(keypairId=None))
+
+    return make_response(jsonify(keypairId))

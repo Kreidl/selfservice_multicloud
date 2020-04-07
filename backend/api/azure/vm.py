@@ -14,11 +14,11 @@ def createaVM():
     if (content and content['resourcegroupname'] and content['vmname'] and
     content['username'] and content['password'] and content['vmsize'] and
     content['publishername'] and content['offername'] and content['skuname'] and content['version'] and content['nicid']):
-        #try:
-        vm = json.loads(requests.post(vmURL + '/vm',json=content).text)
-        return make_response(jsonify(vm))
-        #except Exception:
-        #    pass
+        try:
+            vm = json.loads(requests.post(vmURL + '/vm',json=content).text)
+            return make_response(jsonify(vm))
+        except Exception:
+            pass
 
     return make_response(jsonify(None))
 

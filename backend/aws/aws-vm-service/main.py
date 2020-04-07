@@ -140,7 +140,16 @@ def startVM(instanceId):
     return make_response(jsonify(State=None))
 
 
-
+@app.route('/vm', methods=['DELETE'])
+def deleteVM():
+    content = request.get_json()
+    if content and content['instanceId']:
+        #try:
+        response = client.terminate_instances(InstanceIds = [content['instanceId']]).terminate()
+        return make_response(jsonify(response))
+        #except Exception:
+        #    pass
+    return make_response(jsonify(None))
 
 #Starts application if main.py is the main called file
 if __name__ == '__main__':
