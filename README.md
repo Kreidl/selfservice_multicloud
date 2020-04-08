@@ -19,6 +19,7 @@ stringData:<br/>
     azureclientId: "YOUR Azure APP Client Id"<br/>
     azuresecret: "YOUR Azure APP Secret"<br/>
     azureTenantId: "YOUR Azure APP Tenant Id"<br/>
+    ldappassword: "LDAP PASSWORD"<br/>
 </pre>
 
 
@@ -43,3 +44,7 @@ Create a SubScription and add in the subscriptionId in the secrets file <br/>
 Create a Role with the permissions to create resources, start,stop and delete<br/>
 Create an app registration and copy client and tenantId in the secrets file<br/>
 Create a new secret and copy the value in the secrets file<br/>
+
+## Authentication
+For this a ldap statefulSet is deployed (see in authentication folder)<br/>
+define the LDAP Domain --> Admin password needs to be in secret
