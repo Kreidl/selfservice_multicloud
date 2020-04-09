@@ -19,7 +19,7 @@ stringData:<br/>
     azureclientId: "YOUR Azure APP Client Id"<br/>
     azuresecret: "YOUR Azure APP Secret"<br/>
     azureTenantId: "YOUR Azure APP Tenant Id"<br/>
-    ldappassword: "LDAP PASSWORD"<br/>
+    ldappassword: "Your LDAP Password"<br/>
 </pre>
 
 

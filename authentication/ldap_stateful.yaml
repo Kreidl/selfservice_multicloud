@@ -62,10 +62,7 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "my-storage-class"
-      selector:
-        matchLabels:
-          volume: "data"
+      storageClassName: "hostpath" #name of existing storageclass
       resources:
         requests:
           storage: 1Gi
@@ -73,7 +70,7 @@ spec:
       name: config
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "my-storage-class"
+      storageClassName: "hostpath" #name of existing storageclass
       selector:
         matchLabels:
           volume: "conf"
@@ -84,108 +81,10 @@ spec:
       name: certs
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "my-storage-class"
+      storageClassName: "hostpath" #name of existing storageclass
       selector:
         matchLabels:
           volume: "certs"
       resources:
         requests:
           storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: data-pv-volume-0
-  namespace: multicloud
-  labels:
-    volume: data
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: conf-pv-volume-0
-  labels:
-    volume: conf
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/conf"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: certs-pv-volume-0
-  labels:
-    volume: certs
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/certs"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: data-pv-volume-1
-  namespace: multicloud
-  labels:
-    volume: data
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: conf-pv-volume-1
-  labels:
-    volume: conf
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/conf"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: certs-pv-volume-1
-  labels:
-    volume: certs
-spec:
-  persistentVolumeReclaimPolicy: Recycle
-  storageClassName: my-storage-class
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/certs"

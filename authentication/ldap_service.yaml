@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ldap
+  name: ldap-service
+  namespace: multicloud
+spec:
+  ports:
+  - port: 389
+    name: openldap
+    nodePort: 32600
+  type: NodePort
+  selector:
+    app: ldap
