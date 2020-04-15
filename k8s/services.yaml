@@ -206,3 +206,19 @@ spec:
   type: ClusterIP
   selector:
     app:  azure-vm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  authentication
+  namespace: multicloud
+  labels:
+    app:  authentication
+spec:
+  ports:
+  - port: 5000
+    name:  authentication
+    nodePort: 32300
+  type: NodePort
+  selector:
+    app:  authentication

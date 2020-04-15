@@ -10,6 +10,7 @@ spec:
   - port: 389
     name: openldap
     nodePort: 32600
+  #type: ClusterIP
   type: NodePort
   selector:
     app: ldap

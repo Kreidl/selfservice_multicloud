@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication
+  namespace: multicloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  authentication
+  template:
+    metadata:
+      labels:
+        app:  authentication
+    spec:
+      containers:
+      - name:  authentication
+        image: authentication:latest
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "64Mi"
+        env:
+        - name: LDAPREADONLYPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: ldappassword
+        - name: LDAPREADONLYUSERNAME
+          value: "cn=readonly-master,dc=kienast,dc=at"
+        - name: LDAPHOST
+          value: "ldap-service"
+        - name: LDAPPORT
+          value: "389"
+        - name: LDAPBASEDN
+          value: "dc=kienast,dc=at"
+        - name: LDAPDNPATTERN
+          value: "uid="
+        - name: LDAPPASSWORDAttribute
+          value: "userPassword"
+        ports:
+        - containerPort: 8080 #Expose containerport to the pod
+        livenessProbe: #Check that pod is ready
+          httpGet:
+            path: / #path to check
+            port: 8080
+          initialDelaySeconds: 30 #start checking after 30 seconds
+          periodSeconds: 30 #check every 30 seconds
+        readinessProbe: #Check that pod is healthy
+          httpGet:
+            path: / #path to check
+            port: 8080 #port to check
+          initialDelaySeconds: 15 #start checking after 15 seconds
+          periodSeconds: 3 #check every 3 seconds
