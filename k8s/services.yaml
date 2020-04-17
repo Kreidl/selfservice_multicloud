@@ -216,7 +216,7 @@ metadata:
     app:  authentication
 spec:
   ports:
-  - port: 5000
+  - port: 8080
     name:  authentication
     nodePort: 32300
   type: NodePort

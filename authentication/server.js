@@ -1,8 +1,14 @@
-var ldap = require('ldapjs')
-var bodyParser = require('body-parser');
-var express = require('express');
-var assert = require('assert');
-var app = express();
+const ldap = require('ldapjs')
+const bodyParser = require('body-parser');
+const express = require('express');
+const assert = require('assert');
+const app = express();
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
+//Own modules
+const token = require('./modules/token');
+
 
 const APPPORT = process.env.APPPORT;
 const LDAPBASEDN = process.env.LDAPBASEDN;
@@ -17,7 +23,12 @@ const LDAPPASSWORDATTRIBUTE = process.env.LDAPPASSWORDAttribute;
 var client;
 
 
+// enable CORS
+app.use(cors());
+// parse application/json
 app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function (req,res) {
    res.send('Welcome at the authservice');
@@ -36,18 +47,15 @@ app.post('/auth', function (req, res) {
   let searchResponseData
     authenticate(req.body.userId, req.body.password)
     .then(authenticateResponse => {
-            console.log('authenticateResponse', authenticateResponse)
             return new Promise((resolve, reject) => {
               resolve(authenticateResponse)
             });
         })
         .then(searchResponse => {
-            console.log('searchResponsesearchResponse', searchResponse)
             searchResponseData = searchResponse
             return closeConnection()
         })
         .then(closeConnectionResponse => {
-            console.log('ldap connection closed', closeConnectionResponse)
             res.status(200).send(searchResponseData)
         })
         .catch(error => {
@@ -55,10 +63,20 @@ app.post('/auth', function (req, res) {
         })
 
 })
+
+app.post('/verify', function (req, res) {
+  response = token.verifyToken(req.body.token);
+  if(response.error){
+    res.status(404).send(response.message);
+  }else{
+    res.status(200).send(response.message);
+  }
+});
+
+
 function authenticate(userId, password) {
   //console.log(LDAPDNPATTERN+userId)
 
-  console.log("start search");
     return new Promise((resolve, reject) => {
 
       const opts = {
@@ -67,19 +85,15 @@ function authenticate(userId, password) {
         attributes: ['cn']
       };
 
-      console.log("start search in ldap");
 
       client.search(LDAPBASEDN, opts, (err, res) => {
 
         res.on('searchEntry', entry => {
             var dn = entry.object.dn;
-            console.log('dn: ' + dn);
             resolve(dn);
         });
 
         res.on('error', function(err) {
-          console.log(opts.filter);
-          console.error('error: ' + err.message);
           reject(err);
         });
 
@@ -87,15 +101,14 @@ function authenticate(userId, password) {
 
     })
     .then(function(dn) {
-      console.log(dn); // "Success"
       return new Promise((resolve, reject) => {
         client.bind(dn, password, err => {
 
             if (err) {
-              console.log("error");
-                resolve(false)
+                resolve("")
             }
-            resolve(true)
+
+            resolve(token.generateToken(dn))
       });
       });
     }, function(value) {
@@ -107,42 +120,10 @@ function authenticate(userId, password) {
 
 }
 
-/*
-function search(userId) {
-
-    const searchOptions = {
-      filter: '('+LDAPDNPATTERN+userId+')',
-      scope: 'sub',
-      attributes: ['cn']
-    };
-    return new Promise((resolve, reject) => {
-        client.search(LDAPBASEDN, searchOptions, (err, res) => {
-            res.on('searchEntry', entry => {
-                //console.log('searchEntry', entry.object);
-                resolve(entry.object)
-            });
-            res.on('searchReference', referral => {
-                //console.log('referral: ' + referral.uris.join());
-                resolve(referral.uris.join())
-            });
-            res.on('error', err => {
-                //console.error('search error: ' + err.message);
-                reject(err)
-            });
-            res.on('end', result => {
-                //console.log('If not found', result);
-                reject({ message:'User not found'})
-            });
-        });
-    })
-}*/
 
 // unbind after completion of process
 function closeConnection() {
-    console.log('closeConnection')
-    client.unbind(err => {
-        console.log('unbind error', err)
-    });
+    client.unbind(err => {});
 }
 
 

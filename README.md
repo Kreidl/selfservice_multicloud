@@ -21,6 +21,7 @@ stringData:<br/>
     azureTenantId: "YOUR Azure APP Tenant Id"<br/>
     ldapadminpassword: "LDAP Admin PW"<br/>
     ldappassword: "LDAP Password for Readonly user"<br/>
+    JWT_SECRET: "JWTSECRET"
 </pre>
 
 
@@ -50,4 +51,5 @@ Create a new secret and copy the value in the secrets file<br/>
 For this a ldap statefulSet is deployed (see in authentication folder)<br/>
 define the LDAP Domain --> Admin password needs to be in secret<br/>
 Use your production ldap if you have one.<br/>
-Set the environment vars in the authentication service deployments to your production system
+Set the environment vars in the authentication service deployment to your production system<br/>
+You can use a readonly user since it is only reading

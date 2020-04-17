@@ -22,6 +22,8 @@ spec:
           requests:
             memory: "64Mi"
         env:
+        - name: APPPORT
+          value: "8080"
         - name: LDAPREADONLYPASSWORD
           valueFrom:
             secretKeyRef:
@@ -39,6 +41,11 @@ spec:
           value: "uid="
         - name: LDAPPASSWORDAttribute
           value: "userPassword"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: multicloud
+              key: ldappassword
         ports:
         - containerPort: 8080 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready
