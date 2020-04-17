@@ -52,4 +52,10 @@ For this a ldap statefulSet is deployed (see in authentication folder)<br/>
 define the LDAP Domain --> Admin password needs to be in secret<br/>
 Use your production ldap if you have one.<br/>
 Set the environment vars in the authentication service deployment to your production system<br/>
-You can use a readonly user since it is only reading
+You can use a readonly user since it is only reading<br/>
+
+
+## Authorization
+For Authorization the posixGroup in LDAP is used<br/>
+The user will be read from the token and then the uid will be token to see if the user is in the group (memberUid)<br/>
+The groups for AWS and Azure are defined in the deployment

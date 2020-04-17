@@ -11,13 +11,18 @@ const token = require('./modules/token');
 
 
 const APPPORT = process.env.APPPORT;
-const LDAPBASEDN = process.env.LDAPBASEDN;
-const LDAPHOST = process.env.LDAPHOST;
-const LDAPPORT = process.env.LDAPPORT;
 const LDAPREADONLYPASSWORD = process.env.LDAPREADONLYPASSWORD;
 const LDAPREADONLYUSERNAME = process.env.LDAPREADONLYUSERNAME;
-const LDAPDNPATTERN = process.env.LDAPDNPATTERN;
+const LDAPHOST = process.env.LDAPHOST;
+const LDAPPORT = process.env.LDAPPORT;
+const LDAPBASEDN = process.env.LDAPBASEDN;
+const LDAPUSERDNPATTERN = process.env.LDAPUSERDNPATTERN;
+const LDAPGROUPDNPATTERN = process.env.LDAPGROUPDNPATTERN;
+const AWSAUTHORIZEGROUP = process.env.AWSAUTHORIZEGROUP;
+const AZUREAUTHORIZEGROUP = process.env.AZUREAUTHORIZEGROUP;
 const LDAPPASSWORDATTRIBUTE = process.env.LDAPPASSWORDAttribute;
+
+
 
 
 var client;
@@ -37,7 +42,8 @@ app.get('/', function (req,res) {
 app.post('/auth', function (req, res) {
 
   client = ldap.createClient({
-    url: 'ldap://'+LDAPHOST+':'+LDAPPORT
+    url: 'ldap://'+LDAPHOST+':'+LDAPPORT,
+    timeout: '10'
   });
 
   client.bind(LDAPREADONLYUSERNAME, LDAPREADONLYPASSWORD, function(err) {
@@ -56,9 +62,10 @@ app.post('/auth', function (req, res) {
             return closeConnection()
         })
         .then(closeConnectionResponse => {
-            res.status(200).send(searchResponseData)
+              res.status(200).send(searchResponseData);
         })
         .catch(error => {
+          res.status(404).send(searchResponseData);
           return closeConnection()
         })
 
@@ -74,13 +81,79 @@ app.post('/verify', function (req, res) {
 });
 
 
+app.post('/awsauthorize', function (req, res) {
+  response = token.verifyToken(req.body.token);
+  if(response.error){
+    res.status(404).send(response.message);
+  }else{
+    authorize(AWSAUTHORIZEGROUP, response.userId)
+    .then(authorizationResponse => {
+      res.status(200).send(authorizationResponse);
+    })
+    .catch(error => {
+      res.status(404).send();
+    })
+  }
+});
+
+app.post('/azureauthorize', function (req, res) {
+  response = token.verifyToken(req.body.token);
+  if(response.error){
+    res.status(404).send(response.message);
+  }else{
+    authorize(AZUREAUTHORIZEGROUP, response.userId)
+    .then(authorizationResponse => {
+      res.status(200).send(authorizationResponse);
+    })
+    .catch(error => {
+      res.status(404).send();
+    })
+  }
+});
+
+
+function authorize(authorizationGroupName, userId){
+  client = ldap.createClient({
+    url: 'ldap://'+LDAPHOST+':'+LDAPPORT
+  });
+
+  client.bind(LDAPREADONLYUSERNAME, LDAPREADONLYPASSWORD, function(err) {
+    assert.ifError(err);
+  });
+
+  userId = userId.split(",")[0].split("=")[1]
+  return new Promise((resolve, reject) => {
+
+    const opts = {
+      filter: '(&(memberUid='+userId+')('+LDAPGROUPDNPATTERN+authorizationGroupName+'))',
+      scope: 'sub',
+      attributes: ['cn']
+    };
+
+    client.search(LDAPBASEDN, opts, (err, res) => {
+
+      var dn;
+      var entries = [];
+      res.on('searchEntry', entry => {
+          entries.push(entry.object);
+          dn = entry.object.dn;
+          resolve();
+      });
+      res.on('end', function(result) {
+        if(entries.length == 0){
+          reject()
+        }
+      });
+    });
+  })
+}
+
 function authenticate(userId, password) {
-  //console.log(LDAPDNPATTERN+userId)
 
     return new Promise((resolve, reject) => {
 
       const opts = {
-        filter: '('+LDAPDNPATTERN+userId+')',
+        filter: '('+LDAPUSERDNPATTERN+userId+')',
         scope: 'sub',
         attributes: ['cn']
       };
@@ -105,7 +178,7 @@ function authenticate(userId, password) {
         client.bind(dn, password, err => {
 
             if (err) {
-                resolve("")
+                reject()
             }
 
             resolve(token.generateToken(dn))
@@ -113,9 +186,6 @@ function authenticate(userId, password) {
       });
     }, function(value) {
       // not called
-    })
-    .catch(error => {
-
     })
 
 }

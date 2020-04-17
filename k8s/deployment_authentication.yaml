@@ -37,8 +37,14 @@ spec:
           value: "389"
         - name: LDAPBASEDN
           value: "dc=kienast,dc=at"
-        - name: LDAPDNPATTERN
+        - name: LDAPUSERDNPATTERN
           value: "uid="
+        - name: LDAPGROUPDNPATTERN
+          value: "cn="
+        - name: AWSAUTHORIZEGROUP
+          value: "awsgroup"
+        - name: AZUREAUTHORIZEGROUP
+          value: "azuregroup"
         - name: LDAPPASSWORDAttribute
           value: "userPassword"
         - name: JWT_SECRET

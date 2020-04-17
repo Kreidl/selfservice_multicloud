@@ -33,6 +33,7 @@ function verifyToken(token){
 
     return {
       error: false,
+      userId: user.userId,
       message: "valid user."
     };
   });
