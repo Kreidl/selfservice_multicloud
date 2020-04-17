@@ -15,3 +15,5 @@ COPY swagger.yaml /app/
 COPY /aws /app/aws
 
 COPY /azure /app/azure
+
+COPY /authentication /app/authentication

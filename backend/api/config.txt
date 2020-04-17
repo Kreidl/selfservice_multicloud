@@ -10,4 +10,4 @@ azure-instancetype = http://azure-instancetype:80
 azure-network = http://azure-network:80
 azure-resource = http://azure-resource:80
 azure-vm = http://azure-vm:80
-authenticaton = https://authentication:8080
+authentication = http://localhost:32300

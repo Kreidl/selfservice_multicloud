@@ -42,8 +42,7 @@ app.get('/', function (req,res) {
 app.post('/auth', function (req, res) {
 
   client = ldap.createClient({
-    url: 'ldap://'+LDAPHOST+':'+LDAPPORT,
-    timeout: '10'
+    url: 'ldap://'+LDAPHOST+':'+LDAPPORT
   });
 
   client.bind(LDAPREADONLYUSERNAME, LDAPREADONLYPASSWORD, function(err) {
@@ -62,21 +61,22 @@ app.post('/auth', function (req, res) {
             return closeConnection()
         })
         .then(closeConnectionResponse => {
-              res.status(200).send(searchResponseData);
+              res.status(200).json({"token": searchResponseData});
         })
         .catch(error => {
-          res.status(404).send(searchResponseData);
+          res.status(404).json({"token": searchResponseData});
           return closeConnection()
         })
 
 })
 
 app.post('/verify', function (req, res) {
+  console.log(req.body.token);
   response = token.verifyToken(req.body.token);
   if(response.error){
-    res.status(404).send(response.message);
+    res.status(404).json({response});
   }else{
-    res.status(200).send(response.message);
+    res.status(200).json({response});
   }
 });
 
@@ -84,14 +84,14 @@ app.post('/verify', function (req, res) {
 app.post('/awsauthorize', function (req, res) {
   response = token.verifyToken(req.body.token);
   if(response.error){
-    res.status(404).send(response.message);
+    res.status(404).json({response});
   }else{
     authorize(AWSAUTHORIZEGROUP, response.userId)
     .then(authorizationResponse => {
-      res.status(200).send(authorizationResponse);
+      res.status(200).json({"message": authorizationResponse});
     })
     .catch(error => {
-      res.status(404).send();
+      res.status(404).json({"message": null});
     })
   }
 });
@@ -99,14 +99,14 @@ app.post('/awsauthorize', function (req, res) {
 app.post('/azureauthorize', function (req, res) {
   response = token.verifyToken(req.body.token);
   if(response.error){
-    res.status(404).send(response.message);
+    res.status(404).json({response});
   }else{
     authorize(AZUREAUTHORIZEGROUP, response.userId)
     .then(authorizationResponse => {
-      res.status(200).send(authorizationResponse);
+      res.status(200).json({"message": authorizationResponse});
     })
     .catch(error => {
-      res.status(404).send();
+      res.status(404).json({"message": false});
     })
   }
 });
@@ -136,12 +136,12 @@ function authorize(authorizationGroupName, userId){
       var entries = [];
       res.on('searchEntry', entry => {
           entries.push(entry.object);
-          dn = entry.object.dn;
-          resolve();
       });
       res.on('end', function(result) {
         if(entries.length == 0){
           reject()
+        }else{
+          resolve(true);
         }
       });
     });

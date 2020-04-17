@@ -693,6 +693,26 @@ paths:
       responses:
         200:
           description: "Successful stopped VM"
+  /auth/login:
+    post:
+      operationId: "authentication.authenticate.login"
+      tags:
+        - "Authentication"
+      summary: "login"
+      description: "login"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: "Successful logged in"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
 components:
   parameters:
     vmName:
@@ -730,6 +750,18 @@ components:
       schema:
         type: string
   schemas:
+    LoginRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
     VMSmallRequest:
       type: object
       properties:
