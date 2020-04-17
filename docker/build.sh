@@ -1,7 +1,7 @@
 #/bin/#!/usr/bin/env bash
 
 #build Authentication
-docker build -t authenthication:v1 ../authnode
+docker build -t authentication:v1 ../authnode
 #build api
 docker build -t api:v1 ../backend/api
 #build aws-image

@@ -32,3 +32,5 @@ hs_err_pid*
 /aws/aws-vm-service/__pycache__/
 /aws/aws-vpc-service/Models/__pycache__/
 /azure/azure-resource-service/Models/__pycache__/
+
+docker/
