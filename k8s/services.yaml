@@ -23,7 +23,7 @@ metadata:
     app: api
 spec:
   ports:
-  - port: 80
+  - port: 8080
     name: api
     nodePort: 32000
   type: NodePort

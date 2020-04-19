@@ -22,16 +22,16 @@ spec:
           requests:
             memory: "64Mi"
         ports:
-        - containerPort: 80 #Expose containerport to the pod
+        - containerPort: 8080 #Expose containerport to the pod
         livenessProbe: #Check that pod is ready
           httpGet:
             path: / #path to check
-            port: 80
+            port: 8080
           initialDelaySeconds: 30 #start checking after 30 seconds
           periodSeconds: 30 #check every 30 seconds
         readinessProbe: #Check that pod is healthy
           httpGet:
             path: / #path to check
-            port: 80 #port to check
+            port: 8080 #port to check
           initialDelaySeconds: 15 #start checking after 15 seconds
           periodSeconds: 3 #check every 3 seconds
