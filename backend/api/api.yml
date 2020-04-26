@@ -1,14 +1,12 @@
 openapi: "3.0.0"
 info:
-  description: This is the swagger file that goes with our server code
   version: "1.20"
-  title: Swagger REST Article
+  title: Multicloud API
 #produces:
 #  - "application/json"
 #basePath: "/api"
 servers:
   - url: /api
-
 
 # Paths supported by the server application
 paths:
@@ -32,12 +30,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMResponse'
-    get:
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
+    put:
       operationId: "aws.vm.loadAllVM"
       tags:
         - "AWS-vm"
       summary: "Loads All VMs"
       description: "Loads all VMS"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful loaded all VM"
@@ -45,6 +55,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMResponseFullist'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "aws.vm.deleteVM"
       tags:
@@ -56,12 +72,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VMResponse'
+              $ref: '#/components/schemas/VMRequestShort'
       responses:
         200:
           description: "Successful deleted VM"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/vm/{instanceId}:
-    get:
+    post:
       operationId: "aws.vm.getVM"
       tags:
         - "AWS-vm"
@@ -69,6 +91,12 @@ paths:
       description : "Get the VM based on provided instanceId"
       parameters:
         - $ref: '#/components/parameters/instanceId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read VM"
@@ -76,6 +104,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     patch:
       operationId: "aws.vm.stopVM"
       tags:
@@ -84,6 +118,12 @@ paths:
       description: "stop the VM based on provided instanceId"
       parameters:
         - $ref: '#/components/parameters/instanceId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful stopped VM"
@@ -91,6 +131,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/State'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     put:
       operationId: "aws.vm.startVM"
       tags:
@@ -99,6 +145,12 @@ paths:
       description: "Starts the VM based on provided instanceId"
       parameters:
         - $ref: '#/components/parameters/instanceId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful started VM"
@@ -106,6 +158,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/State'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/image:
     post:
       operationId: "aws.image.loadImages"
@@ -126,14 +184,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
 
   /aws/types:
-    get:
+    post:
       operationId: "aws.instancetype.loadInstanceType"
       tags:
         - "AWS-instancetype"
       summary: "The instancetypes supported by aws"
       description: "Read the list of aws instancetypes"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read instancetypes"
@@ -141,8 +211,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceTypeResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/types/{maxMemory}:
-    get:
+    post:
       operationId: "aws.instancetype.loadInstanceTypeWithMemory"
       tags:
         - "AWS-instancetype"
@@ -150,6 +226,12 @@ paths:
       description: "Read the list of aws instancetypes"
       parameters:
         - $ref: '#/components/parameters/maxMemory'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read instancetypes"
@@ -157,6 +239,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceTypeResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/keypair:
     post:
       operationId: "aws.keypair.loadOrCreateKeyPair"
@@ -177,12 +265,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KeyPairResponse'
-    get:
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
+    put:
       operationId: "aws.keypair.getAllKeypairs"
       tags:
         - "AWS-keypair"
       summary: "Loads all Keypairs"
       description: "Loads all Keypairs"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful loaded all keypairs"
@@ -190,6 +290,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KeyPairResponseFullList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "aws.keypair.deleteKeyPair"
       tags:
@@ -205,6 +311,12 @@ paths:
       responses:
         200:
           description: "Successful deleted keypair"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/securitygroup:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroup"
@@ -225,12 +337,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponse'
-    get:
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
+    put:
       operationId: "aws.securitygroup.loadAllSecurityGroups"
       tags:
         - "AWS-securitygroup"
       summary: "Loads all SecurityGroups"
       description: "Loads all SecurityGroupssecuritygroup"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful loaded all SecurityGroups"
@@ -238,6 +362,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponseFullList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "aws.securitygroup.deleteSecurityGroup"
       tags:
@@ -253,6 +383,12 @@ paths:
       responses:
         200:
           description: "Successful deleted securitygroup"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/securitygroupWithAuthorization:
     post:
       operationId: "aws.securitygroup.loadOrCreateSecurityGroupWithAuthorization"
@@ -273,13 +409,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecurityGroupResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /aws/vpc:
-    get:
+    put:
       operationId: "aws.vpc.loadVPCs"
       tags:
         - "AWS-vpc"
       summary: "Load all VPCs in Account"
       description: "Load all VPCs in Account"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read vpcs"
@@ -287,6 +435,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VPCListResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     post:
       operationId: "aws.vpc.createVPC"
       tags:
@@ -306,6 +460,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VPCResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "aws.vpc.deleteVPC"
       tags:
@@ -321,13 +481,25 @@ paths:
       responses:
         200:
           description: "Successful deleted vpc"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/image:
-    get:
+    put:
       operationId: "azure.image.getAllPublishers"
       tags:
         - "AZURE-image"
       summary: "The publishers provided by azure"
       description: "The publishers provided by azure"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read providers"
@@ -335,6 +507,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublisherResponseList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     post:
       operationId: "azure.image.getAllOffersForPub"
       tags:
@@ -354,6 +532,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfferResponseList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     patch:
       operationId: "azure.image.getAllSkusForimage"
       tags:
@@ -373,13 +557,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SkuResponseList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/types:
-    get:
+    post:
       operationId: "azure.instancetype.getAllTypes"
       tags:
         - "AZURE-Instancetypes"
       summary: "The instancetypes provided by azure"
       description: "The instancetypes provided by azure"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read instancetypes"
@@ -387,6 +583,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstanceTypeResponseList'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/network:
     post:
       operationId: "azure.network.createANetwork"
@@ -407,6 +609,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NetworkResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     patch:
       operationId: "azure.network.getAllNetworks"
       tags:
@@ -426,6 +634,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NetworkResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "azure.network.deleteNetwork"
       tags:
@@ -441,6 +655,12 @@ paths:
       responses:
         200:
           description: "Successful deleted Network"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/network/{networkName}:
     patch:
       operationId: "azure.network.getANetwork"
@@ -463,6 +683,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NetworkResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/subnet:
     post:
       operationId: "azure.network.createOrUpdateSubnet"
@@ -483,6 +709,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Subnet'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/nic:
     post:
       operationId: "azure.network.CreateOrUpdateNic"
@@ -503,6 +735,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NICResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     patch:
       operationId: "azure.network.getALLNIC"
       tags:
@@ -522,6 +760,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NICResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/resource:
     post:
       operationId: "azure.resourcegroup.createOrUpdateResourceGroup"
@@ -542,12 +786,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupResponse'
-    get:
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
+    put:
       operationId: "azure.resourcegroup.getAllResourceGroups"
       tags:
         - "AZURE-resourcegroup"
       summary: "Gets all ResourceGroups"
       description: "Gets all ResourceGroups"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         200:
           description: "Successful read ResourceGroups"
@@ -555,6 +811,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupListResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "azure.resourcegroup.deleteResourceGroup"
       tags:
@@ -570,13 +832,25 @@ paths:
       responses:
         200:
           description: "Successful deleted ResourceGroup"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/resource/{groupName}:
-    get:
+    post:
       operationId: "azure.resourcegroup.getAResourceGroup"
       tags:
         - "AZURE-resourcegroup"
       summary: "Get a resourcegroup from azure"
       description: "Get a resourcegroup from azure"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
       parameters:
         - $ref: '#/components/parameters/groupName'
       responses:
@@ -586,6 +860,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceGroupResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/vm:
     post:
       operationId: "azure.vm.createaVM"
@@ -606,6 +886,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AzureVMResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     patch:
       operationId: "azure.vm.getAllVMS"
       tags:
@@ -625,6 +911,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VMListResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     delete:
       operationId: "azure.vm.deleteVM"
       tags:
@@ -640,6 +932,12 @@ paths:
       responses:
         200:
           description: "Successful deleted VM"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
     put:
       operationId: "azure.vm.startVM"
       tags:
@@ -655,6 +953,12 @@ paths:
       responses:
         200:
           description: "Successful started VM"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/vm/{vmName}:
     patch:
       operationId: "azure.vm.getaVM"
@@ -677,6 +981,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AzureVMResponse'
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
   /azure/vm/stop:
     post:
       operationId: "azure.vm.stopVM"
@@ -693,6 +1003,32 @@ paths:
       responses:
         200:
           description: "Successful stopped VM"
+        403:
+          description: "Not authorized"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedResponse'
+  /auth/login:
+    post:
+      operationId: "authentication.authenticate.login"
+      tags:
+        - "Authentication"
+      summary: "login"
+      description: "login"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: "Successful logged in"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
 components:
   parameters:
     vmName:
@@ -730,9 +1066,39 @@ components:
       schema:
         type: string
   schemas:
+    TokenRequest:
+      type: object
+      properties:
+        token:
+          type: string
+    NotAuthorizedResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        status:
+          type: number
+        title:
+          type: string
+        type:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
     VMSmallRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         vmname:
@@ -899,6 +1265,8 @@ components:
     AzureVMRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         vmname:
@@ -922,6 +1290,8 @@ components:
     ResourceGroupRequest:
       type: object
       properties:
+        token:
+          type: string
         groupName:
           type: string
     ResourceGroupListResponse:
@@ -965,6 +1335,8 @@ components:
     NICRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         nicname:
@@ -978,6 +1350,8 @@ components:
     SubnetRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         vnetName:
@@ -989,6 +1363,8 @@ components:
     DeleteNetworkRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         vnetName:
@@ -996,11 +1372,15 @@ components:
     NetworkListRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
     NetworkRequest:
       type: object
       properties:
+        token:
+          type: string
         resourcegroupname:
           type: string
         vnetName:
@@ -1251,11 +1631,15 @@ components:
     OfferRequest:
       type: object
       properties:
+        token:
+          type: string
         publishername:
           type: string
     SkuRequest:
       type: object
       properties:
+        token:
+          type: string
         publishername:
           type: string
         imagename:
@@ -1296,6 +1680,8 @@ components:
     VPCRequest:
       type: object
       properties:
+        token:
+          type: string
         ipaddress:
           type: string
         vpcname:
@@ -1303,6 +1689,8 @@ components:
     VPCIdRequest:
       type: object
       properties:
+        token:
+          type: string
         VpcId:
           type: string
     VPCResponse:
@@ -1373,6 +1761,8 @@ components:
     VMRequest:
       type: object
       properties:
+        token:
+          type: string
         imageId:
           type: string
         instanceType:
@@ -1384,6 +1774,13 @@ components:
           items:
             type: string
         vmname:
+          type: string
+    VMRequestShort:
+      type: object
+      properties:
+        token:
+          type: string
+        instanceId:
           type: string
     VMResponse:
       type: object
@@ -1398,6 +1795,8 @@ components:
     ImageRequest:
       type: object
       properties:
+        token:
+          type: string
         imageId:
           type: string
         imageName:
@@ -2031,6 +2430,8 @@ components:
     KeyPairRequest:
       type: object
       properties:
+        token:
+          type: string
         keypair:
           type: string
     KeyPairResponse:
@@ -2041,11 +2442,15 @@ components:
     SecurityGroupNameRequest:
       type: object
       properties:
+        token:
+          type: string
         groupName:
           type: string
     SecurityGroupRequest:
       type: object
       properties:
+        token:
+          type: string
         groupName:
           type: string
         groupDescription:

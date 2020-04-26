@@ -29,6 +29,8 @@ build:
     context: backend/azure/azure-resource-service
   - image: azure-vm
     context: backend/azure/azure-vm-service
+  - image: authentication
+    context: authentication
 deploy:
   kubectl:
     manifests:

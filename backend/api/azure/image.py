@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -9,6 +10,9 @@ imageURL = config.get('MicroServiceURL', 'azure-image')
 
 #Get all Image Publishers
 def getAllPublishers():
+    content = request.get_json()
+    checkIfAuthorized(content)
+
     try:
         publishers = json.loads(requests.get(imageURL + '/pub').text)
     except Exception:
@@ -19,6 +23,10 @@ def getAllPublishers():
 #Get all Offers from Publisher
 def getAllOffersForPub():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['publishername']:
         try:
             offers = json.loads(requests.patch(imageURL + '/offer',json=content).text)
@@ -31,6 +39,10 @@ def getAllOffersForPub():
 #Get all SKUS from Image
 def getAllSkusForimage():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['publishername'] and content['imagename']:
         try:
             skus = json.loads(requests.patch(imageURL + '/sku',json=content).text)

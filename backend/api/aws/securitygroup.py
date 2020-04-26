@@ -3,6 +3,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -10,6 +11,8 @@ securitygroupURL = config.get('MicroServiceURL', 'aws-securitygroup')
 
 def loadOrCreateSecurityGroup():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['groupName']:
         try:
@@ -24,6 +27,8 @@ def loadOrCreateSecurityGroup():
 def loadOrCreateSecurityGroupWithAuthorization():
     content = request.get_json()
 
+    checkIfAuthorized(content)
+
     if content and content['groupName']:
         try:
             groupId = json.loads(requests.post(securitygroupURL + '/securityGroup',json=content).text)
@@ -36,6 +41,9 @@ def loadOrCreateSecurityGroupWithAuthorization():
 
 
 def loadAllSecurityGroups():
+    content = request.get_json()
+
+    checkIfAuthorized(content)
     try:
         groups = json.loads(requests.get(securitygroupURL + '/securityGroup').text)
         if groups:
@@ -47,6 +55,8 @@ def loadAllSecurityGroups():
 
 def deleteSecurityGroup():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['groupName']:
         try:

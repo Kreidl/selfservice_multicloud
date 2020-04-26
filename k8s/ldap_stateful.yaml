@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ldap
+  namespace: multicloud
+spec:
+  serviceName: ldap-master
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ldap
+  template:
+    metadata:
+      labels:
+        app: ldap
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: ldap
+          image: osixia/openldap:1.3.0
+          resources:
+            limits:
+              memory: "128Mi"
+            requests:
+              memory: "64Mi"
+          ##args: ["--copy-service"]
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: LDAP_LOG_LEVEL
+              value: "1"
+            - name: LDAP_ORGANISATION
+              value: "kienast"
+            - name: LDAP_DOMAIN
+              value: "kienast.at"
+            - name: LDAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: multicloud
+                  key: ldapadminpassword
+            - name: LDAP_TLS_VERIFY_CLIENT
+              value: "try"
+            - name: LDAP_REPLICATION
+              value: "false"
+            #- name: LDAP_REPLICATION_HOSTS
+            #  value: "#PYTHON2BASH:['ldap://ldap-0','ldap:/ldap-1']"
+            #- name: LDAP_REPLICATION_CONFIG_SYNCPROV
+            #  value: "binddn=\"cn=admin,cn=config\" bindmethod=simple credentials=$LDAP_CONFIG_PASSWORD searchbase=\"cn=config\" type=refreshAndPersist retry=\"30 +\" timeout=1"
+            #- name: LDAP_REPLICATION_DB_SYNCPROV
+            #  value: "binddn=\"cn=admin,$LDAP_BASE_DN\" bindmethod=simple credentials=$LDAP_ADMIN_PASSWORD searchbase=\"$LDAP_BASE_DN\" type=refreshAndPersist interval=00:00:00:01 retry=\"60 +\" timeout=1"
+            - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
+              value: "false"
+            - name: LDAP_READONLY_USER
+              value: "true"
+            - name: LDAP_READONLY_USER_USERNAME
+              value: "readonly-master"
+            - name: LDAP_READONLY_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: multicloud
+                  key: ldappassword
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/ldap
+            - name: config
+              mountPath: /etc/ldap/slapd.d
+            - name: certs
+              mountPath: /container/service/slapd/assets/certs
+          securityContext:
+            runAsUser: 0
+          ports:
+            - name: ldap
+              containerPort: 389
+              protocol: TCP
+            - name: ldaps
+              containerPort: 636
+              protocol: TCP
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "hostpath" #name of existing storageclass
+      resources:
+        requests:
+          storage: 1Gi
+  - metadata:
+      name: config
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "hostpath" #name of existing storageclass
+      selector:
+        matchLabels:
+          volume: "conf"
+      resources:
+        requests:
+          storage: 1Gi
+  - metadata:
+      name: certs
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "hostpath" #name of existing storageclass
+      selector:
+        matchLabels:
+          volume: "certs"
+      resources:
+        requests:
+          storage: 1Gi

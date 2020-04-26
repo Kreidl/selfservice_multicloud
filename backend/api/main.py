@@ -7,7 +7,7 @@ app = connexion.App(__name__, specification_dir='./')
 port = 8080
 
 # Read the swagger.yml file to configure the endpoints
-app.add_api('swagger.yaml')
+app.add_api('api.yml')
 
 # add CORS support
 cors = CORS(app.app, resources={r"/api/*": {"origins": "*"}})

@@ -10,8 +10,12 @@ COPY *.py /app/
 
 COPY config.txt /app/
 
-COPY swagger.yaml /app/
+COPY api.yml /app/
 
 COPY /aws /app/aws
 
 COPY /azure /app/azure
+
+COPY /authentication /app/authentication
+
+COPY /util /app/util

@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -9,6 +10,10 @@ vpcURL = config.get('MicroServiceURL', 'aws-vpc')
 
 
 def loadVPCs():
+    content = request.get_json()
+    checkIfAuthorized(content)
+
+
     try:
         vpcs = json.loads(requests.get(vpcURL + '/vpc').text)
         return make_response(jsonify(vpcs))
@@ -17,6 +22,8 @@ def loadVPCs():
 
 def createVPC():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['ipaddress'] and content['vpcname']:
         try:
@@ -28,6 +35,8 @@ def createVPC():
 
 def deleteVPC():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['VpcId']:
         try:
