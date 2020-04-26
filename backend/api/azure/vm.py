@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -11,6 +12,10 @@ vmURL = config.get('MicroServiceURL', 'azure-vm')
 #create VM
 def createaVM():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if (content and content['resourcegroupname'] and content['vmname'] and
     content['username'] and content['password'] and content['vmsize'] and
     content['publishername'] and content['offername'] and content['skuname'] and content['version'] and content['nicid']):
@@ -25,6 +30,10 @@ def createaVM():
 #Get all VMS in resourcegroup
 def getAllVMS():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['resourcegroupname']:
         try:
             vms = json.loads(requests.patch(vmURL + '/vm',json=content).text)
@@ -37,6 +46,7 @@ def getAllVMS():
 #Get a VM
 def getaVM(vmName):
     content = request.get_json()
+    checkIfAuthorized(content)
     if vmName and content and content['resourcegroupname']:
         try:
             vm = json.loads(requests.patch(vmURL + '/vm/'+vmName,json=content).text)
@@ -49,6 +59,10 @@ def getaVM(vmName):
 #Delete VM
 def deleteVM():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['resourcegroupname'] and content['vmname']:
         try:
             vm = json.loads(requests.delete(vmURL + '/vm',json=content).text)
@@ -61,6 +75,10 @@ def deleteVM():
 #start VM
 def startVM():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['resourcegroupname'] and content['vmname']:
         try:
             vm = json.loads(requests.put(vmURL + '/vm',json=content).text)
@@ -73,6 +91,10 @@ def startVM():
 #stop VM
 def stopVM():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['resourcegroupname'] and content['vmname']:
         try:
             vm = json.loads(requests.head(vmURL + '/vm',json=content).text)

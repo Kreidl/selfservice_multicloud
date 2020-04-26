@@ -3,12 +3,16 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
 instancetypeURL = config.get('MicroServiceURL', 'aws-instancetype')
 
 def loadInstanceType(maxMemory=None):
+    content = request.get_json()
+
+    checkIfAuthorized(content)
     try:
         types = json.loads(requests.get(instancetypeURL + '/types').text)
     except Exception:
@@ -17,6 +21,9 @@ def loadInstanceType(maxMemory=None):
     return make_response(jsonify(types))
 
 def loadInstanceTypeWithMemory(maxMemory):
+    content = request.get_json()
+    
+    checkIfAuthorized(content)
     if maxMemory:
         try:
             types = json.loads(requests.get(instancetypeURL + '/types/' + maxMemory).text)

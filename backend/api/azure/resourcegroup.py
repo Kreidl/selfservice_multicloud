@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -11,6 +12,10 @@ resourceURL = config.get('MicroServiceURL', 'azure-resource')
 #CreateResourceGroup
 def createOrUpdateResourceGroup():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['groupName']:
         try:
             resourcegroup = json.loads(requests.post(resourceURL + '/resource',json=content).text)
@@ -23,6 +28,10 @@ def createOrUpdateResourceGroup():
 
 #Get all Resourcegroups
 def getAllResourceGroups():
+    content = request.get_json()
+    checkIfAuthorized(content)
+
+
     try:
         resourcegroup = json.loads(requests.get(resourceURL + '/resource').text)
         return make_response(jsonify(resourcegroup))
@@ -33,6 +42,10 @@ def getAllResourceGroups():
 
 #Get a ResourceGroup
 def getAResourceGroup(groupName):
+    content = request.get_json()
+    checkIfAuthorized(content)
+
+
     if groupName:
         try:
             resourcegroup = json.loads(requests.get(resourceURL + '/resource/'+groupName).text)
@@ -46,6 +59,10 @@ def getAResourceGroup(groupName):
 #Delete ResourceGroup
 def deleteResourceGroup():
     content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if content and content['groupName']:
         try:
             resourcegroup = json.loads(requests.delete(resourceURL + '/resource',json=content).text)

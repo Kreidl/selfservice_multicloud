@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -11,6 +12,8 @@ vmURL = config.get('MicroServiceURL', 'aws-vm')
 def createVM():
     #get the provided json body
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['instanceType'] and content['keyName'] and content['imageId'] and content['vmname']:
         try:
@@ -25,6 +28,10 @@ def createVM():
 
 
 def loadAllVM():
+    content = request.get_json()
+
+    checkIfAuthorized(content)
+
     try:
         instances = json.loads(requests.get(vmURL + '/vm').text)
         if instances:
@@ -36,6 +43,10 @@ def loadAllVM():
 
 
 def getVM(instanceId):
+    content = request.get_json()
+
+    checkIfAuthorized(content)
+
     if instanceId:
         try:
             instance = json.loads(requests.get(vmURL + '/vm/' + instanceId).text)
@@ -48,6 +59,11 @@ def getVM(instanceId):
 
 
 def stopVM(instanceId):
+    content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if instanceId:
         try:
             instance = json.loads(requests.patch(vmURL + '/vm/' + instanceId).text)
@@ -60,6 +76,11 @@ def stopVM(instanceId):
 
 
 def startVM(instanceId):
+    content = request.get_json()
+
+    checkIfAuthorized(content)
+
+
     if instanceId:
         try:
             instance = json.loads(requests.put(vmURL + '/vm/' + instanceId).text)
@@ -73,6 +94,8 @@ def startVM(instanceId):
 def deleteVM():
     #get the provided json body
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['instanceId']:
         try:

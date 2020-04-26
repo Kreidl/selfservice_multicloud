@@ -71,7 +71,6 @@ app.post('/auth', function (req, res) {
 })
 
 app.post('/verify', function (req, res) {
-  console.log(req.body.token);
   response = token.verifyToken(req.body.token);
   if(response.error){
     res.status(404).json({response});

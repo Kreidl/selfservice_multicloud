@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 config = configparser.ConfigParser()
 config.read_file(open(r'config.txt'))
@@ -9,6 +10,8 @@ keypairURL = config.get('MicroServiceURL', 'aws-keypair')
 
 def loadOrCreateKeyPair():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content:
         if "keypair" in content:
@@ -27,6 +30,9 @@ def loadOrCreateKeyPair():
 
 
 def getAllKeypairs():
+    content = request.get_json()
+
+    checkIfAuthorized(content)
     try:
         keypairs = json.loads(requests.get(keypairURL + '/keypair').text)
     except Exception:
@@ -36,6 +42,8 @@ def getAllKeypairs():
 
 def deleteKeyPair():
     content = request.get_json()
+
+    checkIfAuthorized(content)
 
     if content and content['keypair']:
         # call keypair Service to Filter the latest created Image, if nothing found or other error return null on method

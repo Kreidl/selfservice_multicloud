@@ -2,6 +2,7 @@ from flask import jsonify, request, make_response
 import json
 import requests
 import configparser
+from util.AuthenticationCheck import checkIfAuthorized
 
 
 config = configparser.ConfigParser()
@@ -13,23 +14,13 @@ import sys
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, 'authentication/')
 
-from authenticate import verify, checkAuthorization
+
 
 
 def loadImages():
     content = request.get_json()
 
-    if content:
-        if content['token']:
-            verifyResp = verify(content['token']).json
-            if verifyResp['response']['error'] == True:
-                return make_response(jsonify(images=None))
-            else:
-                authorizeResp = checkAuthorization('AWS', content['token']).json
-                if authorizeResp['message'] != True:
-                    return make_response(jsonify(images=None))
-    else:
-        return make_response(jsonify(images=None))
+    checkIfAuthorized(content)
 
     imageId = None
     if "imageId" in content:
