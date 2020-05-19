@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ImageService, ImageRequest, InstancetypeService, SecuritygroupService,
+import { AWSImageService, ImageRequest, AWSInstancetypeService, AWSSecuritygroupService,
   SecurityGroupRequestAuthorizeConfiguration, SecurityGroupRequest,
-  KeypairService, KeyPairRequest, VmService, VMRequest, VpcService, VPCRequest } from '../api/aws/index';
+  AWSKeypairService, KeyPairRequest, AWSVmService, VMRequest, AWSVpcService, VPCRequest } from '../api/index';
 import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-awsvm',
   templateUrl: './awsvm.component.html',
   styleUrls: ['./awsvm.component.css'],
-  providers: [ImageService, InstancetypeService, SecuritygroupService, KeypairService, VmService, VpcService]
+  providers: [AWSImageService, AWSInstancetypeService, AWSSecuritygroupService, AWSKeypairService, AWSVmService, AWSVpcService]
 })
 export class AwsvmComponent implements OnInit {
 
@@ -37,12 +37,12 @@ export class AwsvmComponent implements OnInit {
 
 
 
-  constructor(private imageService: ImageService,
-              private instancetypeService: InstancetypeService,
-              private securitygroupService: SecuritygroupService,
-              private keypairService: KeypairService,
-              private vmService: VmService,
-              private vpcService: VpcService,
+  constructor(private imageService: AWSImageService,
+              private instancetypeService: AWSInstancetypeService,
+              private securitygroupService: AWSSecuritygroupService,
+              private keypairService: AWSKeypairService,
+              private vmService: AWSVmService,
+              private vpcService: AWSVpcService,
               private router: Router,
               private formBuilder: FormBuilder) { }
 
@@ -79,7 +79,7 @@ export class AwsvmComponent implements OnInit {
   }
 
   loadVpc(){
-    this.vpcService.vpcLoadVPCs().subscribe(
+    this.vpcService.awsVpcLoadVPCs().subscribe(
       vpcs => {
         this.vpcs = vpcs.vpcs;
       },
@@ -103,7 +103,7 @@ export class AwsvmComponent implements OnInit {
       vpcname: this.f.vpcname.value
     }
 
-    this.vpcService.vpcCreateVPC(vpcRequest).subscribe(
+    this.vpcService.awsVpcCreateVPC(vpcRequest).subscribe(
       vpc => {
         this.newVMForm.controls['ipaddressvpc'].setValue("");
         this.newVMForm.controls['vpcname'].setValue("");
@@ -128,7 +128,7 @@ export class AwsvmComponent implements OnInit {
       vmname: this.f.vmname.value.toString()
     };
 
-    this.vmService.vmCreateVM(vmRequest).subscribe(
+    this.vmService.awsVmCreateVM(vmRequest).subscribe(
       instance => {
         console.log(instance);
         this.router.navigate(['/awshome']);
@@ -165,7 +165,7 @@ export class AwsvmComponent implements OnInit {
       }
     }
 
-    this.imageService.imageLoadImages(imageRequest).subscribe(
+    this.imageService.awsImageLoadImages(imageRequest).subscribe(
       images => {
         this.images  = images.images;
       },
@@ -206,7 +206,7 @@ export class AwsvmComponent implements OnInit {
     this.typesSearchInfo = true;
 
     if(this.f.maxMemory.value) {
-      this.instancetypeService.instancetypeLoadInstanceTypeWithMemory(this.f.maxMemory.value).subscribe(
+      this.instancetypeService.awsInstancetypeLoadInstanceTypeWithMemory(this.f.maxMemory.value).subscribe(
         types => {
           this.types  = types.types;
         },
@@ -214,7 +214,7 @@ export class AwsvmComponent implements OnInit {
           console.log(error);
         });
     }else {
-      this.instancetypeService.instancetypeLoadInstanceType().subscribe(
+      this.instancetypeService.awsInstancetypeLoadInstanceType().subscribe(
         types => {
           this.types  = types.types;
         },
@@ -237,7 +237,7 @@ export class AwsvmComponent implements OnInit {
           authorizeConfiguration: this.authorizeConfig
         }
 
-        this.securitygroupService.securitygroupLoadOrCreateSecurityGroupWithAuthorization(securityGroup).subscribe(
+        this.securitygroupService.awsSecuritygroupLoadOrCreateSecurityGroupWithAuthorization(securityGroup).subscribe(
           securityGroup => {
             this.groupId = securityGroup.groupId
             //console.log(securityGroup.groupId)
@@ -255,7 +255,7 @@ export class AwsvmComponent implements OnInit {
           vpcId: this.f.vpcId.value,
           authorizeConfiguration: []
         }
-        this.securitygroupService.securitygroupLoadOrCreateSecurityGroup(securityGroup).subscribe(
+        this.securitygroupService.awsSecuritygroupLoadOrCreateSecurityGroup(securityGroup).subscribe(
           securityGroup => {
             this.groupId = securityGroup.groupId
             //console.log(securityGroup.groupId)
@@ -275,7 +275,7 @@ export class AwsvmComponent implements OnInit {
       let keypairRequest: KeyPairRequest ={
         keypair: this.f.keypairInput.value
       }
-      this.keypairService.keypairLoadOrCreateKeyPair(keypairRequest).subscribe(
+      this.keypairService.awsKeypairLoadOrCreateKeyPair(keypairRequest).subscribe(
         keypair => {
           this.keypair = this.f.keypairInput.value;
         },

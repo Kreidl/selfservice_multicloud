@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { VmService, SecuritygroupService, KeypairService} from '../api/aws/index';
+import { AWSVmService, AWSSecuritygroupService, AWSKeypairService} from '../api/index';
 
 @Component({
   selector: 'app-awshome',
   templateUrl: './awshome.component.html',
   styleUrls: ['./awshome.component.css'],
-  providers: [VmService, SecuritygroupService, KeypairService]
+  providers: [AWSVmService, AWSSecuritygroupService, AWSKeypairService]
 })
 export class AwshomeComponent implements OnInit {
 
@@ -13,9 +13,9 @@ export class AwshomeComponent implements OnInit {
   keypairs: any[];
   groups: any[];
 
-  constructor(private vmService: VmService,
-              private securitygroupService: SecuritygroupService,
-              private keypairService: KeypairService) { }
+  constructor(private vmService: AWSVmService,
+              private securitygroupService: AWSSecuritygroupService,
+              private keypairService: AWSKeypairService) { }
 
   ngOnInit() {
     this.loadAllVMs();
@@ -25,7 +25,7 @@ export class AwshomeComponent implements OnInit {
 
 
   loadAllVMs(){
-    this.vmService.vmLoadAllVM().subscribe(
+    this.vmService.awsVmLoadAllVM().subscribe(
       instances => {
         this.vms = instances.instances;
         //console.log(this.vms);
@@ -36,7 +36,7 @@ export class AwshomeComponent implements OnInit {
   }
 
   loadAllSecurityGroups(){
-    this.securitygroupService.securitygroupLoadAllSecurityGroups().subscribe(
+    this.securitygroupService.awsSecuritygroupLoadAllSecurityGroups().subscribe(
       groups => {
         this.groups = groups.groups;
       },
@@ -46,7 +46,7 @@ export class AwshomeComponent implements OnInit {
   }
 
   loadAllKeypairs(){
-    this.keypairService.keypairGetAllKeypairs().subscribe(
+    this.keypairService.awsKeypairGetAllKeypairs().subscribe(
       keypairs => {
         this.keypairs = keypairs.keypairs;
       },
@@ -57,7 +57,7 @@ export class AwshomeComponent implements OnInit {
 
   start(instanceId){
     //vmStartVM instanceId
-    this.vmService.vmStartVM(instanceId).subscribe(
+    this.vmService.awsVmStartVM(instanceId).subscribe(
       instances => {
         this.loadAllVMs();
         //console.log(this.vms);
@@ -69,7 +69,7 @@ export class AwshomeComponent implements OnInit {
 
   stop(instanceId){
     //vmStopVM
-    this.vmService.vmStopVM(instanceId).subscribe(
+    this.vmService.awsVmStopVM(instanceId).subscribe(
       instances => {
         this.loadAllVMs();
         //console.log(this.vms);

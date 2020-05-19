@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  AWS_BASE_PATH: window["env"]["AWS_BASE_PATH"] || "default"
+  BASE_PATH: window["env"]["BASE_PATH"] || "default"
 };

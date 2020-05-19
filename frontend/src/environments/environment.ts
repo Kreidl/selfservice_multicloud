@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  AWS_BASE_PATH: 'http://localhost:32400/api'
+  BASE_PATH: 'http://localhost:32400/api'
 };
 
 /*

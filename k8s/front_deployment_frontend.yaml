@@ -22,7 +22,7 @@ spec:
           requests:
             memory: "64Mi"
         env:
-        - name: AWS_BASE_PATH
+        - name: BASE_PATH
           value: "http://localhost:32000/api"
         ports:
         - containerPort: 80 #Expose containerport to the pod
