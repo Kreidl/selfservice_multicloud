@@ -1,8 +1,6 @@
 # selfservice_multicloud UNDER CONSTRUCTION
 A Self service platform for creating Resources in aws and azure
 
-# Discontinued on GitHub. It will be continued on [Azure DevOps](https://dev.azure.com/lukaskienast0/_git/Selfservice_Multicloud)
-
 ## If you want to contribute feel free to open issue so I can see
 
 ## External things needed
